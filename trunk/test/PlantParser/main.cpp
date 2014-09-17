@@ -6,13 +6,18 @@
 
 int main(int argc, char *argv[])
 {
+   Q_UNUSED(argc);
+   Q_UNUSED(argv);
+
    int failures = 0;
 
    PlantParserTest testPlantParser;
-   failures += QTest::qExec( &testPlantParser, argc, argv);
+   char *args1[] =  { "appName", "-o", "out/testPlantParser.txt" };
+   failures += QTest::qExec( &testPlantParser, 3, args1);
 
    PlantLoaderTest testPalntLoader;
-   failures += QTest::qExec( &testPalntLoader, argc, argv);
+   char *args2[] =  { "appName", "-o", "out/testPalntLoader.txt" };
+   failures += QTest::qExec( &testPalntLoader, 3, args2);
 
    if (failures == 0)
    {

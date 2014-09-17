@@ -6,6 +6,10 @@
 class QGraphicsView;
 class PlantLoader;
 class PlantParser;
+class PlantView;
+
+///////////////////////
+class QGestureEvent;
 
 namespace Ui {
 class MainWindow;
@@ -17,7 +21,7 @@ class MainWindow : public QMainWindow
 
 public:
    explicit MainWindow(PlantParser &plantParser, PlantLoader & plantLoader,
-                       QGraphicsView & plantView, QWidget *parent = 0);
+                       PlantView &plantView, QWidget *parent = 0);
    ~MainWindow();
 
 private slots:
@@ -28,6 +32,9 @@ private:
 
    PlantLoader & m_plantLoader;
    PlantParser & m_plantParser;
+
+private:
+   bool gestureEvent(QGestureEvent *event);
 };
 
 #endif // MAINWINDOW_H

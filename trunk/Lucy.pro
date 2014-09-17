@@ -45,7 +45,8 @@ HEADERS += \
     src/plant/PlantLoader.h \
     src/plant/PlantInfo.h \
     src/GUI/GuiInterfaceQt.h \
-    src/factories/ApplicationFactory.h
+    src/factories/ApplicationFactory.h \
+    src/GUI/PlantView.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -58,5 +59,6 @@ SOURCES += \
     src/plant/PlantLoader.cpp \
     src/plant/PlantInfo.cpp \
     src/GUI/GuiInterfaceQt.cpp \
-    src/factories/ApplicationFactory.cpp
+    src/factories/ApplicationFactory.cpp \
+    src/GUI/PlantView.cpp
 

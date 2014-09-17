@@ -16,8 +16,8 @@ const char PlantParser::TAG_CLOSE_GatewayAddress[] = "<MH200N_ADDRESS-->";
 
 
 PlantParser::PlantParser() :
-   m_currentLineNumber(0),
    m_plantInfo(NULL),
+   m_currentLineNumber(0),
    m_content(NULL),
    m_gatewayPort(0)
 {
