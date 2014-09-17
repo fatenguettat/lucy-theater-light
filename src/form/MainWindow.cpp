@@ -6,12 +6,17 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+#include <QGestureEvent>
+
 #include "PlantParser.h"
 #include "PlantLoader.h"
+#include "PlantView.h"
+
+#include "QMessageBox"
 
 
-MainWindow::MainWindow(PlantParser & plantParser, PlantLoader & plantLoader, QGraphicsView & plantView,
-                       QWidget *parent) :
+MainWindow::MainWindow(PlantParser & plantParser, PlantLoader & plantLoader,
+                       PlantView & plantView, QWidget *parent) :
    QMainWindow(parent),
    ui(new Ui::MainWindow),
    m_plantLoader(plantLoader),
@@ -40,8 +45,8 @@ void MainWindow::on_action_open_plant_file_triggered()
       QFile plantFile(fileName);
       plantFile.open( QIODevice::ReadOnly );
 
-
-      const PlantInfo * plantInfo = m_plantParser.parse( QTextStream( &plantFile));
+      QTextStream stream( &plantFile);
+      const PlantInfo * plantInfo = m_plantParser.parse( stream);
 
       if (m_plantParser.getErrors().size() > 0)
       {
@@ -63,3 +68,4 @@ void MainWindow::on_action_open_plant_file_triggered()
       plantFile.close();
    }
 }
+

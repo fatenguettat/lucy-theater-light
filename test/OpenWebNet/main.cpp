@@ -6,13 +6,18 @@
 
 int main(int argc, char *argv[])
 {
+   Q_UNUSED(argc);
+   Q_UNUSED(argv);
+
    int failures = 0;
 
    tst_OwnInputParser testOwnInputParser;
-   failures += QTest::qExec( &testOwnInputParser, argc, argv);
+   char *args1[] =  { "appName", "-o", "out/testOwnInputParser.txt" };
+   failures += QTest::qExec( &testOwnInputParser, 3, args1);
 
    tst_OwnLink testOwnLink;
-   failures += QTest::qExec( &testOwnLink, argc, argv);
+   char *args2[] =  { "appName", "-o", "out/testOwnLink.txt" };
+   failures += QTest::qExec( &testOwnLink, 3, args2);
 
    if (failures == 0)
    {

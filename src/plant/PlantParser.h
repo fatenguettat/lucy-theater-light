@@ -42,16 +42,15 @@ private:
    static const char TAG_CLOSE_GatewayAddress[];
 
 private:
-   /** stream actually being parsed */
-   QTextStream * m_content;
-
-private:
    /* output containers */
    QStringList m_errorList;
    PlantInfo * m_plantInfo;
 
    /* used to keep track of which line has an error */
    int m_currentLineNumber;
+
+   /** stream actually being parsed */
+   QTextStream * m_content;
 
    /* partial parsed data */
    QString m_plantFilePath;
