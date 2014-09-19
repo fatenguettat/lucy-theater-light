@@ -30,12 +30,24 @@
      <string>&amp;Open</string>
     </property>
     <addaction name="action_open_plant_file"/>
+    <addaction name="action_re_open_last_plant"/>
    </widget>
    <addaction name="menu_Open"/>
   </widget>
   <action name="action_open_plant_file">
    <property name="text">
-    <string>&amp;open plant file</string>
+    <string>&amp;open plant file ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_re_open_last_plant">
+   <property name="text">
+    <string>&amp;re-open last plant</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>

@@ -25,6 +25,8 @@ FORMS    += src/form/MainWindow.ui
 CONFIG += mobility
 MOBILITY =
 
+DEFINES += QT_FORCE_ASSERTS
+
 RESOURCES += \
     res/resources.qrc
 
@@ -46,7 +48,8 @@ HEADERS += \
     src/plant/PlantInfo.h \
     src/GUI/GuiInterfaceQt.h \
     src/factories/ApplicationFactory.h \
-    src/GUI/PlantView.h
+    src/GUI/PlantView.h \
+    src/plant/ApplicationSettings.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -60,5 +63,6 @@ SOURCES += \
     src/plant/PlantInfo.cpp \
     src/GUI/GuiInterfaceQt.cpp \
     src/factories/ApplicationFactory.cpp \
-    src/GUI/PlantView.cpp
+    src/GUI/PlantView.cpp \
+    src/plant/ApplicationSettings.cpp
 
