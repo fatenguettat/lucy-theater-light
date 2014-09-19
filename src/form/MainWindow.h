@@ -7,9 +7,8 @@ class QGraphicsView;
 class PlantLoader;
 class PlantParser;
 class PlantView;
+class ApplicationSettings;
 
-///////////////////////
-class QGestureEvent;
 
 namespace Ui {
 class MainWindow;
@@ -21,20 +20,23 @@ class MainWindow : public QMainWindow
 
 public:
    explicit MainWindow(PlantParser &plantParser, PlantLoader & plantLoader,
-                       PlantView &plantView, QWidget *parent = 0);
+                       PlantView &plantView, ApplicationSettings & settings,
+                       QWidget *parent = 0);
    ~MainWindow();
 
 private slots:
    void on_action_open_plant_file_triggered();
+   void on_action_re_open_last_plant_triggered();
 
 private:
    Ui::MainWindow *ui;
 
    PlantLoader & m_plantLoader;
    PlantParser & m_plantParser;
+   ApplicationSettings & m_settings;
 
 private:
-   bool gestureEvent(QGestureEvent *event);
+   void openPlantFile(const QString &fileName);
 };
 
 #endif // MAINWINDOW_H
