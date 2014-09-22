@@ -4,10 +4,13 @@
 
 #include "PlantInfo.h"
 #include "GuiInterface_IF.h"
+#include "PlantFactory.h"
 
 
-PlantLoader::PlantLoader(GuiInterface_IF & guiinterface) :
-   m_guiInterface(guiinterface)
+PlantLoader::PlantLoader(GuiInterface_IF & guiinterface,
+                         PlantFactory & plantFactory) :
+   m_guiInterface(guiinterface),
+   m_plantFactory(plantFactory)
 {
 }
 
@@ -17,6 +20,8 @@ void PlantLoader::load(const PlantInfo & plantInfo)
 {
    loadPlantLayout(plantInfo);
    loadLightpoints(plantInfo);
+
+   m_plantFactory.buildOwnEngine( plantInfo);
 }
 
 

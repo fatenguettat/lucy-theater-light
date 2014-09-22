@@ -10,6 +10,7 @@ echo "running OpenWebNet tests"
 type out\testOwnInputParser.txt
 type out\testOwnLink.txt
 type out\testOwnFormatter.txt
+type out\testOwnEngine.txt
 
 echo "running Plant Parser tests"
 ..\..\build-allTests-5_3_0_Desktop-Release\PlantParser\release\tst_PlantParserTest.exe

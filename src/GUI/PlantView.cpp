@@ -5,7 +5,6 @@
 
 #include <QScrollBar>
 
-#include "qdebug.h"
 
 PlantView::PlantView(QGraphicsScene *scene) :
    QGraphicsView(scene)
@@ -14,7 +13,6 @@ PlantView::PlantView(QGraphicsScene *scene) :
    setDragMode( QGraphicsView::ScrollHandDrag);
    setInteractive( true);
 }
-
 
 
 bool PlantView::eventFilter(QObject *target, QEvent *event)

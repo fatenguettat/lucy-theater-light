@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 
 #include "ApplicationSettings.h"
+#include "PlantFactory.h"
 #include "PlantView.h"
 #include "mainwindow.h"
 #include "PlantLoader.h"
@@ -20,7 +21,8 @@ MainWindow *ApplicationFactory::buildMainWindow()
    QGraphicsScene  *scene = new QGraphicsScene(NULL);
    PlantView * view = new PlantView( scene);
    GuiInterfaceQt *gui = new GuiInterfaceQt( *scene, *view);
-   PlantLoader  *plantLoader = new PlantLoader( *gui);
+   PlantFactory * plantFactory = new PlantFactory( *gui);
+   PlantLoader  *plantLoader = new PlantLoader( *gui, *plantFactory);
    PlantParser *plantParser = new PlantParser();
    ApplicationSettings *settings = new ApplicationSettings();
 
