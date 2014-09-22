@@ -12,8 +12,8 @@ class Button : public QGraphicsWidget
 {
     Q_OBJECT
 public:
-    Button(const QPixmap &pixmap, QGraphicsItem *parent = 0)
-        : QGraphicsWidget(parent), _pix(pixmap),
+    Button(const QPixmap &pixmap, int index = 0, QGraphicsItem *parent = 0)
+        : QGraphicsWidget(parent), _pix(pixmap), _index(index),
           _highlighted(false)
     {
         setAcceptHoverEvents(true);
@@ -68,12 +68,12 @@ public:
     }
 
 signals:
-    void pressed();
+    void pressed(int);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *)
     {
-        emit pressed();
+        emit pressed(_index);
         update();
     }
 
@@ -85,6 +85,8 @@ protected:
 private:
     QPixmap _pix;
     bool _highlighted;
+    /* identifies this button when it's part of a group. */
+    int _index;
 };
 
 #endif // BUTTON_H

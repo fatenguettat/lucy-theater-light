@@ -6,6 +6,9 @@
 
 #include "PlantInfo.h"
 
+// TODO file version on lux file
+// TODO introduce comments
+
 
 const char PlantParser::TAG_OPEN_PlantFile[] = "<!--PLANT_IMAGE>";
 const char PlantParser::TAG_CLOSE_PlantFile[] = "<PLANT_IMAGE-->";
