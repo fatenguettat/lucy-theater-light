@@ -19,8 +19,14 @@ public:
 public slots:
    virtual void setAsConnected(bool isConnected);
 
+   // Mock functions
+   void setHostIpAddress(const QString & ipAddress);
+   void setPortNumber( quint16 port);
+
 private:
    bool m_isConnected;
+   QString m_hostIp;
+   quint16 m_port;
 };
 
 #endif // MOCKNETWORKUI_H

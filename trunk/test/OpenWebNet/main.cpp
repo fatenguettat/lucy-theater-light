@@ -4,6 +4,8 @@
 #include "tst_OwnInputParser.h"
 #include "tst_OwnLink.h"
 #include "tst_OwnFormatter.h"
+#include "tst_OwnEngine.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +25,11 @@ int main(int argc, char *argv[])
    tst_OwnFormatter testOwnFormatter;
    char *args3[] =  { "appName", "-o", "out/testOwnFormatter.txt" };
    failures += QTest::qExec( &testOwnFormatter, 3, args3);
+
+
+   tst_OwnEngine testOwnEngine;
+   char *args4[] =  { "appName", "-o", "out/testOwnEngine.txt" };
+   failures += QTest::qExec( &testOwnEngine, 3, args4);
 
    if (failures == 0)
    {

@@ -17,10 +17,12 @@ INCLUDEPATH += \
     ./src/GUI \
     ./src/OpenWebNet \
     ./src/plant \
-    ./src/factories
+    ./src/factories \
+    ./src/terminal
 
 
-FORMS    += src/form/MainWindow.ui
+FORMS    += src/form/MainWindow.ui \
+    src/form/MessageViewer.ui
 
 CONFIG += mobility
 MOBILITY =
@@ -51,7 +53,11 @@ HEADERS += \
     src/GUI/PlantView.h \
     src/plant/ApplicationSettings.h \
     src/OpenWebNet/OwnFormatter.h \
-    src/terminal/CabledNetworkUI.h
+    src/terminal/CabledNetworkUI.h \
+    src/GUI/ErrorNotifierQt.h \
+    src/form/MessageViewer.h \
+    src/OpenWebNet/OwnEngine.h \
+    src/factories/PlantFactory.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -68,5 +74,9 @@ SOURCES += \
     src/GUI/PlantView.cpp \
     src/plant/ApplicationSettings.cpp \
     src/OpenWebNet/OwnFormatter.cpp \
-    src/terminal/CabledNetworkUI.cpp
+    src/terminal/CabledNetworkUI.cpp \
+    src/GUI/ErrorNotifierQt.cpp \
+    src/form/MessageViewer.cpp \
+    src/OpenWebNet/OwnEngine.cpp \
+    src/factories/PlantFactory.cpp
 

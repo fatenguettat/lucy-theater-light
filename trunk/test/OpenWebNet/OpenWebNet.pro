@@ -29,7 +29,10 @@ SOURCES +=  main.cpp \
     mock/MockNetworkUi.cpp \
     mock/MockOwnSocket.cpp \
     tst_OwnFormatter.cpp \
-    ../../src/OpenWebNet/OwnFormatter.cpp
+    ../../src/OpenWebNet/OwnFormatter.cpp \
+    tst_OwnEngine.cpp \
+    ../../src/OpenWebNet/OwnEngine.cpp \
+    ../PlantParser/mock/MockGuiInterafce.cpp
 
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -49,13 +52,17 @@ HEADERS += \
     ../../src/OpenWebNet/OwnConstants.h \
     ../../src/GUI/GuiInterface_IF.h \
     tst_OwnFormatter.h \
-    ../../src/OpenWebNet/OwnFormatter.h
+    ../../src/OpenWebNet/OwnFormatter.h \
+    tst_OwnEngine.h \
+    ../../src/OpenWebNet/OwnEngine.h \
+    ../PlantParser/mock/MockGuiInterafce.h
 
 
 
 INCLUDEPATH += ../../src/ \
     ../../src/OpenWebNet/ \
     ../../src/GUI/ \
-    mock
+    mock \
+    ../PlantParser/mock
 
 OTHER_FILES +=
