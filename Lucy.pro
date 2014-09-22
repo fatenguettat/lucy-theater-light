@@ -35,8 +35,8 @@ HEADERS += \
     src/form/MainWindow.h \
     src/GUI/Button.h \
     src/GUI/GuiInterface_IF.h \
-    src/OpenWebNet/ErrorNotifier_IF.h \
-    src/OpenWebNet/NetworkUi_IF.h \
+    src/GUI/ErrorNotifier_IF.h \
+    src/GUI/NetworkUi_IF.h \
     src/OpenWebNet/OwnConstants.h \
     src/OpenWebNet/OwnInputParser.h \
     src/OpenWebNet/OwnLink.h \
@@ -49,7 +49,9 @@ HEADERS += \
     src/GUI/GuiInterfaceQt.h \
     src/factories/ApplicationFactory.h \
     src/GUI/PlantView.h \
-    src/plant/ApplicationSettings.h
+    src/plant/ApplicationSettings.h \
+    src/OpenWebNet/OwnFormatter.h \
+    src/terminal/CabledNetworkUI.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -64,5 +66,7 @@ SOURCES += \
     src/GUI/GuiInterfaceQt.cpp \
     src/factories/ApplicationFactory.cpp \
     src/GUI/PlantView.cpp \
-    src/plant/ApplicationSettings.cpp
+    src/plant/ApplicationSettings.cpp \
+    src/OpenWebNet/OwnFormatter.cpp \
+    src/terminal/CabledNetworkUI.cpp
 

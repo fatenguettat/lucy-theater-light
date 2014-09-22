@@ -27,7 +27,9 @@ SOURCES +=  main.cpp \
     tst_OwnLink.cpp \
     mock/MockErrorNotifier.cpp \
     mock/MockNetworkUi.cpp \
-    mock/MockOwnSocket.cpp
+    mock/MockOwnSocket.cpp \
+    tst_OwnFormatter.cpp \
+    ../../src/OpenWebNet/OwnFormatter.cpp
 
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -38,19 +40,22 @@ HEADERS += \
     ../../src/configuration.h \
     ../../src/OpenWebNet/OwnLink.h \
     tst_OwnLink.h \
-    ../../src/OpenWebNet/NetworkUi_IF.h \
-    ../../src/OpenWebNet/ErrorNotifier_IF.h \
+    ../../src/GUI/NetworkUi_IF.h \
+    ../../src/GUI/ErrorNotifier_IF.h \
     mock/MockErrorNotifier.h \
     mock/MockNetworkUi.h \
     mock/MockOwnSocket.h \
     ../../src/OpenWebNet/OwnSocket_IF.h \
     ../../src/OpenWebNet/OwnConstants.h \
-    ../../src/GUI/GuiInterface_IF.h
+    ../../src/GUI/GuiInterface_IF.h \
+    tst_OwnFormatter.h \
+    ../../src/OpenWebNet/OwnFormatter.h
 
 
 
 INCLUDEPATH += ../../src/ \
     ../../src/OpenWebNet/ \
+    ../../src/GUI/ \
     mock
 
 OTHER_FILES +=

@@ -1,10 +1,13 @@
 #ifndef GUIINTERFACEQT_H
 #define GUIINTERFACEQT_H
 
+#include <QMap>
+
 #include "GuiInterface_IF.h"
 
 class QGraphicsScene;
 class QGraphicsView;
+class Button;
 
 
 class GuiInterfaceQt : public GuiInterface_IF
@@ -22,6 +25,11 @@ public:
 private:
    QGraphicsScene & m_scene;
    QGraphicsView & m_view;
+
+   /* OWN address to graphic button 'switched off' */
+   QMap< int, Button *> m_offButtonTable;
+   /* OWN address to graphic button 'switched on' */
+   QMap< int, Button *> m_onButtonTable;
 };
 
 #endif // GUIINTERFACEQT_H

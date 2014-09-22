@@ -2,10 +2,11 @@
 #define GUIINTERFACE_IF_H
 
 #include <QPointF>
+#include <QObject>
 
-
-class  GuiInterface_IF
+class  GuiInterface_IF : public QObject
 {
+   Q_OBJECT
 public:
    typedef struct
    {
@@ -20,7 +21,7 @@ public:
    } GuiLightPoint;
 
 public:
-   GuiInterface_IF() {}
+   GuiInterface_IF(QObject *parent = 0) : QObject(parent) {}
 
    /*!
     * \brief set the image shown as plant layout. It will be drown with the
@@ -48,6 +49,19 @@ public:
     * \param ownAddress defines light point (Open Web Net address)
     */
    virtual void showAsTurnedOff( int ownAddress) = 0;
+
+signals:
+   /*!
+    * \brief user wants to turn on a light.
+    * \param ownAddress defines light point (Open Web Net address)
+    */
+   void turnOnRequest( int ownAddress);
+
+   /*!
+    * \brief user wants to turn ff a light.
+    * \param ownAddress defines light point (Open Web Net address)
+    */
+   void turnOffRequest( int ownAddress);
 
 };
 
