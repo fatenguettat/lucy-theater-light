@@ -41,6 +41,21 @@ void PlantParserTest::testEmptyFile()
 }
 
 /**
+ * @brief in this version, file format is recognised but not used
+ */
+void PlantParserTest::testFileFormat()
+{
+   QTextStream stream("<!--PLANT_FILE_FORMAT>\n"\
+                      "0.1\n"\
+                      "<PLANT_FILE_FORMAT-->\n");
+
+   m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 0);
+}
+
+/**
  * @brief read plant file name in a correct file.
  */
 void PlantParserTest::testPlantFileName_valid()
@@ -87,7 +102,37 @@ void PlantParserTest::testPlantFileName_MissingClosingTag()
 
    QStringList errors = m_plantParser->getErrors();
    QCOMPARE( errors.size(), 1);
-   QCOMPARE( errors.at(0), QString("line 2: Missing tag <PLANT_IMAGE-->"));
+   QCOMPARE( errors.at(0), QString("line 2: missing closing tag for plant picture"));
+}
+
+void PlantParserTest::testPlantLabel_valid()
+{
+   QTextStream stream("<!--PLANT_NAME>\n"\
+                      "A test plant. Version A.01\n"\
+                      "<PLANT_NAME-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QCOMPARE( info->getPlantLabel(), QString( "A test plant. Version A.01"));
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 0);
+}
+
+void PlantParserTest::testPlantLabel_MissingClosingTag()
+{
+   QTextStream stream("<!--PLANT_NAME>\n"\
+                      "A test plant. Version A.01\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QCOMPARE( info->getPlantLabel(), QString( "A test plant. Version A.01"));
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 1);
+   QCOMPARE( errors.at(0), QString("line 2: missing closing tag for plant name"));
 }
 
 void PlantParserTest::testLighPoint_valid()

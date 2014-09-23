@@ -18,6 +18,7 @@ public:
     * @param gatewayPort refers to OpenWebNet server IP port
     */
    PlantInfo( const QString & plantFilePath,
+              const QString & plantLabel,
               QList<const LightPoint *> lightPoints,
               QString gatewayIpAddress,
               int gatewayPort);
@@ -26,6 +27,12 @@ public:
     * @return full path of image file of the plant, read from last call to \a parse
     */
    QString getPlantFilePath() const;
+
+   /**
+    * @return a string that identifies the name of the plant.
+    *   Usually includes a version number.
+    */
+   QString getPlantLabel() const;
 
    /**
     * @return the list of light points read in the last call to \a parse
@@ -44,6 +51,7 @@ public:
 
 private:
    QString m_plantFilePath;
+   QString m_plantLabel;
    QList<const LightPoint *> m_lightPoints;
    QString m_gatewayIpAddress;
    int m_gatewayPort;

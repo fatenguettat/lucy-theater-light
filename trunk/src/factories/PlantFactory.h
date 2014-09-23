@@ -1,6 +1,8 @@
 #ifndef PLANTFACTORY_H
 #define PLANTFACTORY_H
 
+#include "PlantFactory_IF.h"
+
 class OwnEngine;
 class GuiInterface_IF;
 class PlantInfo;
@@ -8,12 +10,12 @@ class QObject;
 class ErrorNotifier_IF;
 
 
-class PlantFactory
+class PlantFactory : public PlantFactory_IF
 {
 public:
    PlantFactory(GuiInterface_IF &guiInterface, ErrorNotifier_IF &errorNotifier);
 
-   OwnEngine * buildOwnEngine(const PlantInfo &plantInfo);
+   virtual OwnEngine * buildOwnEngine(const PlantInfo &plantInfo);
 
 private:
    GuiInterface_IF & m_guiInterface;

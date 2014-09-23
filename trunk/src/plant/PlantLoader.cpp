@@ -8,7 +8,7 @@
 
 
 PlantLoader::PlantLoader(GuiInterface_IF & guiinterface,
-                         PlantFactory & plantFactory) :
+                         PlantFactory_IF & plantFactory) :
    m_guiInterface(guiinterface),
    m_plantFactory(plantFactory)
 {
@@ -36,6 +36,7 @@ void PlantLoader::loadPlantLayout(const PlantInfo& plantInfo)
    }
 
    m_guiInterface.setPlantLayoutImagePath( fileInfo.absoluteFilePath());
+   m_guiInterface.setPlantLabel( plantInfo.getPlantLabel());
 }
 
 

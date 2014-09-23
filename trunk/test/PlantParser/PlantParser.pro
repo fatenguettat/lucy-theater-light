@@ -26,7 +26,8 @@ SOURCES += tst_PlantParserTest.cpp \
     tst_PlantLoader.cpp \
     ../../src/plant/PlantLoader.cpp \
     ../../src/plant/PlantInfo.cpp \
-    ../../src/OpenWebNet/OwnFormatter.cpp
+    ../../src/OpenWebNet/OwnFormatter.cpp \
+    mock/MockPlantFactory.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -39,8 +40,12 @@ HEADERS += \
     tst_PlantLoader.h \
     ../../src/plant/PlantLoader.h \
     ../../src/plant/PlantInfo.h \
-    ../../src/OpenWebNet/OwnFormatter.h
+    ../../src/OpenWebNet/OwnFormatter.h \
+    mock/MockPlantFactory.h \
+    ../../src/factories/PlantFactory_IF.h
 
 INCLUDEPATH += ../../src/plant \
     ../../src/GUI \
-    mock
+    ../../src/factories \
+    mock \
+    ../OpenWebNet/mock

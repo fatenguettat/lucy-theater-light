@@ -12,6 +12,7 @@ public:
    MockErrorNotifier();
    ~MockErrorNotifier();
 
+   // ErrorNotifier_IF interface
 public:
    /**
     * @brief check wether the notification was expected. In negative case,
@@ -21,6 +22,16 @@ public:
     * @param logType is the severity of the error
     */
    virtual void notifyError(const QString &error, LogType logType);
+
+   /**
+    * @brief this implementation does nothing
+    */
+   virtual void displayAllMessages();
+
+   /**
+    * @brief clear last message
+    */
+   virtual void clear();
 
    /* mock functions */
    QString lastNotificationMessage() {

@@ -6,12 +6,11 @@
 
 #include "PlantInfo.h"
 
-// TODO file version on lux file
-// TODO introduce comments
-
 
 const char PlantParser::TAG_OPEN_PlantFile[] = "<!--PLANT_IMAGE>";
 const char PlantParser::TAG_CLOSE_PlantFile[] = "<PLANT_IMAGE-->";
+const char PlantParser::TAG_OPEN_PlantLabel[] = "<!--PLANT_NAME>";
+const char PlantParser::TAG_CLOSE_PlantLabel[] = "<PLANT_NAME-->";
 const char PlantParser::TAG_OPEN_LightPoints[] = "<!--LIGHT_POINTS>";
 const char PlantParser::TAG_CLOSE_LightPoints[] = "<LIGHT_POINTS-->";
 const char PlantParser::TAG_OPEN_GatewayAddress[] = "<!--MH200N_ADDRESS>";
@@ -35,11 +34,16 @@ const PlantInfo * PlantParser::parse(QTextStream & content)
 
    while (! m_content->atEnd())
    {
+      // TODO make a map
       QString line = readNextLine();
 
       if (line == QString(TAG_OPEN_PlantFile))
       {
          readPlantFilePath();
+      }
+      else if (line == QString(TAG_OPEN_PlantLabel))
+      {
+         readPlantLabel();
       }
       else if (line == QString(TAG_OPEN_LightPoints))
       {
@@ -66,7 +70,7 @@ void PlantParser::createInfoStructure()
       m_plantInfo = NULL;
    }
 
-   m_plantInfo = new PlantInfo( m_plantFilePath, m_lightPoints,
+   m_plantInfo = new PlantInfo( m_plantFilePath, m_plantLabel, m_lightPoints,
                                 m_gatewayIpAddress, m_gatewayPort);
 }
 
@@ -94,7 +98,19 @@ void PlantParser::readPlantFilePath()
 
    if (line != QString(TAG_CLOSE_PlantFile))
    {
-      m_errorList << QObject::tr("line %1: Missing tag <PLANT_IMAGE-->").arg(m_currentLineNumber);
+      m_errorList << QObject::tr("line %1: missing closing tag for plant picture").arg(m_currentLineNumber);
+   }
+}
+
+void PlantParser::readPlantLabel()
+{
+   m_plantLabel = readNextLine();
+
+   QString line = readNextLine();
+
+   if (line != QString(TAG_CLOSE_PlantLabel))
+   {
+      m_errorList << QObject::tr("line %1: missing closing tag for plant name").arg(m_currentLineNumber);
    }
 }
 

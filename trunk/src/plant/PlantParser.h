@@ -36,6 +36,8 @@ public:
 private:
    static const char TAG_OPEN_PlantFile[];
    static const char TAG_CLOSE_PlantFile[];
+   static const char TAG_OPEN_PlantLabel[];
+   static const char TAG_CLOSE_PlantLabel[];
    static const char TAG_OPEN_LightPoints[];
    static const char TAG_CLOSE_LightPoints[];
    static const char TAG_OPEN_GatewayAddress[];
@@ -54,6 +56,7 @@ private:
 
    /* partial parsed data */
    QString m_plantFilePath;
+   QString m_plantLabel;
    QList<const LightPoint *> m_lightPoints;
    QString m_gatewayIpAddress;
    int m_gatewayPort;
@@ -61,6 +64,7 @@ private:
 
 private:
    void readPlantFilePath();
+   void readPlantLabel();
    void readLightPoints();
    void createLightPoint( const QString & line);
    const LightPoint * parseLightPoint( const QString & line);
