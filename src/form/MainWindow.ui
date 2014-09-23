@@ -32,7 +32,14 @@
     <addaction name="action_open_plant_file"/>
     <addaction name="action_re_open_last_plant"/>
    </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionView_log"/>
+   </widget>
    <addaction name="menu_Open"/>
+   <addaction name="menu_View"/>
   </widget>
   <action name="action_open_plant_file">
    <property name="text">
@@ -48,6 +55,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionView_log">
+   <property name="text">
+    <string>view &amp;log</string>
    </property>
   </action>
  </widget>

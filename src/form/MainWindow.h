@@ -8,6 +8,7 @@ class PlantLoader;
 class PlantParser;
 class PlantView;
 class ApplicationSettings;
+class ErrorNotifier_IF;
 
 
 namespace Ui {
@@ -21,12 +22,14 @@ class MainWindow : public QMainWindow
 public:
    explicit MainWindow(PlantParser &plantParser, PlantLoader & plantLoader,
                        PlantView &plantView, ApplicationSettings & settings,
-                       QWidget *parent = 0);
+                       ErrorNotifier_IF &errorNotifier, QWidget *parent = 0);
    ~MainWindow();
 
 private slots:
    void on_action_open_plant_file_triggered();
    void on_action_re_open_last_plant_triggered();
+
+   void on_actionView_log_triggered();
 
 private:
    Ui::MainWindow *ui;
@@ -34,6 +37,7 @@ private:
    PlantLoader & m_plantLoader;
    PlantParser & m_plantParser;
    ApplicationSettings & m_settings;
+   ErrorNotifier_IF & m_messageLogger;
 
 private:
    void openPlantFile(const QString &fileName);
