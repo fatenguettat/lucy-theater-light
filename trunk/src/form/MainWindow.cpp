@@ -11,18 +11,21 @@
 #include "PlantLoader.h"
 #include "PlantView.h"
 #include "PlantInfo.h"
+#include "ErrorNotifier_IF.h"
 #include "ApplicationSettings.h"
 
 #include "QMessageBox"
 
 
 MainWindow::MainWindow(PlantParser & plantParser, PlantLoader & plantLoader,
-                       PlantView & plantView, ApplicationSettings &settings, QWidget *parent) :
+                       PlantView & plantView, ApplicationSettings &settings,
+                       ErrorNotifier_IF &errorNotifier, QWidget *parent) :
    QMainWindow(parent),
    ui(new Ui::MainWindow),
    m_plantLoader(plantLoader),
    m_plantParser(plantParser),
-   m_settings(settings)
+   m_settings(settings),
+   m_messageLogger(errorNotifier)
 {
    ui->setupUi(this);
    setCentralWidget( &plantView);
@@ -93,4 +96,9 @@ void MainWindow::openPlantFile( const QString & fileName)
    }
 
    plantFile.close();
+}
+
+void MainWindow::on_actionView_log_triggered()
+{
+    m_messageLogger.displayAllMessages();
 }

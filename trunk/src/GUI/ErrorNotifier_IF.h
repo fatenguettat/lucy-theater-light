@@ -35,6 +35,17 @@ public:
     * @param logType is the relevance of the message
     */
    virtual void notifyError(const QString & error, LogType logType = SilentLog) = 0;
+
+   /**
+    * @brief force all messages to be shown.
+    *
+    * Children may or may not show all messages at any time. This function
+    * is usually blocking (modal).
+    */
+   virtual void displayAllMessages() = 0;
+
+   /** @brief remove all messages */
+   virtual void clear() = 0;
 };
 
 #endif // ERRORNOTIFIER_IF_H

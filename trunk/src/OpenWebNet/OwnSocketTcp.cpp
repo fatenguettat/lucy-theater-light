@@ -6,7 +6,14 @@ OwnSocketTcp::OwnSocketTcp(QObject *parent) :
    OwnSocket_IF(parent),
    m_socket(new QTcpSocket(this))
 {
+   connect (m_socket, SIGNAL(connected()), this, SIGNAL(connected()) );
+   connect (m_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()) );
+   connect (m_socket, SIGNAL(bytesWritten(qint64)), this, SIGNAL(bytesWritten(qint64)) );
+   connect (m_socket, SIGNAL(readyRead()), this, SIGNAL(readyRead()) );
+   connect (m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
+            this, SIGNAL(error(QAbstractSocket::SocketError)) );
 }
+
 
 OwnSocketTcp::~OwnSocketTcp()
 {

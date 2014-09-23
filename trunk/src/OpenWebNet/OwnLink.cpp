@@ -32,11 +32,13 @@ OwnLink::OwnLink(NetworkUi_IF &networkUi,
             this, SLOT(onOwnMessageReceived(QString)) );
 }
 
+
 void OwnLink::triggerSendMessage(QString &message)
 {
    QStringList list = QStringList(message);
    triggerSendMessageList( list);
 }
+
 
 void OwnLink::triggerSendMessageList(QStringList & messages)
 {
@@ -51,6 +53,7 @@ void OwnLink::triggerSendMessageList(QStringList & messages)
    m_socket.connectToHost( QHostAddress(ipAddress), port);
 }
 
+
 void OwnLink::onSocketConnected()
 {
    m_logger.notifyError( "socket connected");
@@ -58,15 +61,18 @@ void OwnLink::onSocketConnected()
    /* now just wait for ack from server */
 }
 
+
 void OwnLink::onSocketDisconnected()
 {
    m_logger.notifyError( "socket disconnected");
 }
 
+
 void OwnLink::onBytesWritten(qint64 numBytes)
 {
    m_logger.notifyError( QString("written %1 bytes").arg(numBytes));
 }
+
 
 void OwnLink::onReadyRead()
 {
@@ -78,6 +84,7 @@ void OwnLink::onReadyRead()
    }
 }
 
+
 void OwnLink::onSocketError( QAbstractSocket::SocketError errCode)
 {
    m_logger.notifyError( QString("Socket error: %1").arg(errCode));
@@ -85,6 +92,7 @@ void OwnLink::onSocketError( QAbstractSocket::SocketError errCode)
    /* reset socket */
    m_socket.close();
 }
+
 
 void OwnLink::onOwnMessageReceived(QString message)
 {
@@ -99,6 +107,7 @@ void OwnLink::onOwnMessageReceived(QString message)
       m_logger.notifyError( QString("received unexpected message: %1").arg(message));
    }
 }
+
 
 void OwnLink::sendNextMessage()
 {

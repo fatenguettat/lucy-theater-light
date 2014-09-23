@@ -10,6 +10,7 @@
 #include "PlantParser.h"
 #include "GuiInterfaceQt.h"
 #include "PlantView.h"
+#include "ErrorNotifierQt.h"
 
 
 ApplicationFactory::ApplicationFactory()
@@ -21,10 +22,14 @@ MainWindow *ApplicationFactory::buildMainWindow()
    QGraphicsScene  *scene = new QGraphicsScene(NULL);
    PlantView * view = new PlantView( scene);
    GuiInterfaceQt *gui = new GuiInterfaceQt( *scene, *view);
-   PlantFactory * plantFactory = new PlantFactory( *gui);
+   ErrorNotifier_IF *errorNotifier = new ErrorNotifierQt( NULL);
+   PlantFactory * plantFactory = new PlantFactory( *gui, *errorNotifier);
    PlantLoader  *plantLoader = new PlantLoader( *gui, *plantFactory);
    PlantParser *plantParser = new PlantParser();
    ApplicationSettings *settings = new ApplicationSettings();
 
-   return  new MainWindow( *plantParser, *plantLoader, *view, *settings);
+   MainWindow * mainWindow = new MainWindow( *plantParser, *plantLoader, *view,
+                                             *settings, *errorNotifier);
+
+   return  mainWindow;
 }
