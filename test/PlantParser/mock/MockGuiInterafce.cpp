@@ -27,7 +27,13 @@ void MockGuiInterafce::showAsTurnedOff(int ownAddress)
    m_lightStatusTable[ownAddress] = LIGHT_OFF;
 }
 
+void MockGuiInterafce::setPlantLabel(const QString &label)
+{
+   m_layoutLabel = label;
+}
+
 MockGuiInterafce::LightStatus MockGuiInterafce::getLightStatus(int ownAddress)
 {
    return m_lightStatusTable.value( ownAddress, LIGHT_NOT_SET);
 }
+

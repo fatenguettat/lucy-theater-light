@@ -32,6 +32,13 @@ public:
    virtual void setPlantLayoutImagePath( const QString & fullPath) = 0;
 
    /*!
+    * \brief set a brief description of the plant that UI may show somewhere.
+    *   Usually a version identification is included
+    * \param label is a string
+    */
+   virtual void setPlantLabel( const QString & label) = 0;
+
+   /*!
     * \brief draw a lightpoint image at the given \p position. The image is drawn in turned-off,
     *   (use \a showAsTurnedOn or \a showAsTurnedOff to change display state).
     * \param GuilightPoint defines the light to be added

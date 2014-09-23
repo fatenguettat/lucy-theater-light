@@ -6,6 +6,8 @@
 class PlantLoader;
 class PlantInfo;
 class MockGuiInterafce;
+class MockPlantFactory;
+
 
 
 class PlantLoaderTest : public QObject
@@ -23,6 +25,7 @@ private Q_SLOTS:
    void testInit();
    void testPlantLayout();
    void testPlantLayoutInvalid();
+   void testPlantLabel();
    void testLightPoints();
 
 private:
@@ -30,6 +33,7 @@ private:
 
    PlantInfo *m_plantInfo;
    MockGuiInterafce *m_guiInterface;
+   MockPlantFactory *m_plantFactory;
 };
 
 #endif // PLANTLOADERTEST_H

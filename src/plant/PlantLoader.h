@@ -3,20 +3,20 @@
 
 class PlantInfo;
 class GuiInterface_IF;
-class PlantFactory;
+class PlantFactory_IF;
 
 
 class PlantLoader
 {
 public:
    PlantLoader( GuiInterface_IF & guiinterface,
-                PlantFactory & plantFactory);
+                PlantFactory_IF & plantFactory);
 
    void load( const PlantInfo & plantInfo);
 
 private:
    GuiInterface_IF & m_guiInterface;
-   PlantFactory & m_plantFactory;
+   PlantFactory_IF & m_plantFactory;
 
 private:
    void loadPlantLayout(const PlantInfo& plantInfo);

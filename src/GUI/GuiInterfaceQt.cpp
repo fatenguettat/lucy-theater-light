@@ -22,6 +22,13 @@ void GuiInterfaceQt::setPlantLayoutImagePath(const QString &fullPath)
 }
 
 
+void GuiInterfaceQt::setPlantLabel(const QString &label)
+{
+   // on ANDROID this is lost
+   m_view.topLevelWidget()->setWindowTitle( label);
+}
+
+
 void GuiInterfaceQt::addLightPoint(const GuiLightPoint & lightPoint)
 {
    int ownAddress = lightPoint.ownAddress;
@@ -71,3 +78,6 @@ void GuiInterfaceQt::showAsTurnedOff(int ownAddress)
    lightOn->setVisible( false);
    lightOff->setVisible( true);
 }
+
+
+

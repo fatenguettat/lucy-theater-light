@@ -28,6 +28,7 @@ public:
    virtual void addLightPoint( const GuiLightPoint & lightPoint);
    virtual void showAsTurnedOn( int ownAddress);
    virtual void showAsTurnedOff( int ownAddress);
+   virtual void setPlantLabel( const QString & label);
 
    // mock function
    QString getPlantLayoutPath()
@@ -42,8 +43,14 @@ public:
 
    LightStatus getLightStatus( int ownAddress);
 
+   QString getPlantLabel()
+   {
+      return m_layoutLabel;
+   }
+
 private:
    QString m_layoutPath;
+   QString m_layoutLabel;
    QList<GuiLightPoint> m_lightsList;
    QMap<int, LightStatus> m_lightStatusTable;
 };

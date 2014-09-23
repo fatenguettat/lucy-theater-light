@@ -5,6 +5,7 @@
 #include "PlantLoader.h"
 #include "PlantInfo.h"
 #include "MockGuiInterafce.h"
+#include "MockPlantFactory.h"
 
 
 PlantLoaderTest::PlantLoaderTest(QObject *parent) :
@@ -15,13 +16,15 @@ PlantLoaderTest::PlantLoaderTest(QObject *parent) :
 void PlantLoaderTest::init()
 {
    m_guiInterface = new MockGuiInterafce();
-   m_plantLoader = new PlantLoader( *m_guiInterface);
+   m_plantFactory = new MockPlantFactory();
+   m_plantLoader = new PlantLoader( *m_guiInterface, *m_plantFactory);
 }
 
 void PlantLoaderTest::cleanup()
 {
-   delete m_guiInterface;
    delete m_plantLoader;
+   delete m_plantFactory;
+   delete m_guiInterface;
 }
 
 void PlantLoaderTest::testInit()
@@ -33,7 +36,7 @@ void PlantLoaderTest::testPlantLayout()
 {
    QString filePath = PROJECT_PATH"res/plant.png";
 
-   m_plantInfo = new PlantInfo( filePath,
+   m_plantInfo = new PlantInfo( filePath, "test plant",
                                 QList<const LightPoint *>(),
                                 "127.0.0.1", 20000);
 
@@ -50,7 +53,7 @@ void PlantLoaderTest::testPlantLayoutInvalid()
 
    QString filePath = "C:/this/does/not/exist.png";
 
-   m_plantInfo = new PlantInfo( filePath,
+   m_plantInfo = new PlantInfo( filePath, "test plant",
                                 QList<const LightPoint *>(),
                                 "127.0.0.1", 20000);
 
@@ -69,6 +72,21 @@ void PlantLoaderTest::testPlantLayoutInvalid()
    delete m_plantInfo;
 }
 
+void PlantLoaderTest::testPlantLabel()
+{
+   QString filePath = PROJECT_PATH"res/plant.png";
+
+   m_plantInfo = new PlantInfo( filePath, "test plant description",
+                                QList<const LightPoint *>(),
+                                "127.0.0.1", 20000);
+
+   m_plantLoader->load( *m_plantInfo);
+
+   QCOMPARE( m_guiInterface->getPlantLabel(), QString("test plant description"));
+
+   delete m_plantInfo;
+}
+
 void PlantLoaderTest::testLightPoints()
 {
    QList<const LightPoint *> lightSet;
@@ -76,7 +94,7 @@ void PlantLoaderTest::testLightPoints()
    lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), 11);
    lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), 12);
 
-   m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",
+   m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
                                 "127.0.0.1", 20000);
 

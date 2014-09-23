@@ -57,7 +57,8 @@ HEADERS += \
     src/GUI/ErrorNotifierQt.h \
     src/form/MessageViewer.h \
     src/OpenWebNet/OwnEngine.h \
-    src/factories/PlantFactory.h
+    src/factories/PlantFactory.h \
+    src/factories/PlantFactory_IF.h
 
 SOURCES += \
     src/form/MainWindow.cpp \

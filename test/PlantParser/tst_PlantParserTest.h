@@ -18,9 +18,12 @@ public slots:
 
 private Q_SLOTS:
    void testEmptyFile();
+   void testFileFormat();
    void testPlantFileName_valid();
    void testPlantFileName_invalidPlantImage();
    void testPlantFileName_MissingClosingTag();
+   void testPlantLabel_valid();
+   void testPlantLabel_MissingClosingTag();
    void testLighPoint_valid();
    void testLighPoint_threeValid();
    void testLighPoint_MissingClosingTag();

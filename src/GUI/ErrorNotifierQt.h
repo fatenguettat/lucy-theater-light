@@ -6,7 +6,6 @@
 
 class QWidget;
 
-// TODO there is much in this class that may be tested.
 
 /**
  * @brief The ErrorNotifierQt class implements a notification system tought
