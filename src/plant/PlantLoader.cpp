@@ -18,6 +18,9 @@ PlantLoader::PlantLoader(GuiInterface_IF & guiinterface,
 
 void PlantLoader::load(const PlantInfo & plantInfo)
 {
+   // TODO all clear operations, including OWN engine, should be here
+   m_guiInterface.clear();
+
    loadPlantLayout(plantInfo);
    loadLightpoints(plantInfo);
 

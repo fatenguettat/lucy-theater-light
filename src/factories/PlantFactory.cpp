@@ -35,5 +35,5 @@ OwnEngine *PlantFactory::buildOwnEngine(const PlantInfo & plantInfo)
 
    /* formatter is never distroyed, but it has only static members. */
 
-   return  new OwnEngine( m_guiInterface, *network, *ownLink, *formatter);
+   return  new OwnEngine( m_guiInterface, *network, *ownLink, *formatter, parent);
 }

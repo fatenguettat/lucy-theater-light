@@ -35,7 +35,6 @@ RESOURCES += \
 HEADERS += \
     src/configuration.h \
     src/form/MainWindow.h \
-    src/GUI/Button.h \
     src/GUI/GuiInterface_IF.h \
     src/GUI/ErrorNotifier_IF.h \
     src/GUI/NetworkUi_IF.h \
@@ -58,7 +57,8 @@ HEADERS += \
     src/form/MessageViewer.h \
     src/OpenWebNet/OwnEngine.h \
     src/factories/PlantFactory.h \
-    src/factories/PlantFactory_IF.h
+    src/factories/PlantFactory_IF.h \
+    src/GUI/LightButton.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -79,5 +79,6 @@ SOURCES += \
     src/GUI/ErrorNotifierQt.cpp \
     src/form/MessageViewer.cpp \
     src/OpenWebNet/OwnEngine.cpp \
-    src/factories/PlantFactory.cpp
+    src/factories/PlantFactory.cpp \
+    src/GUI/LightButton.cpp
 

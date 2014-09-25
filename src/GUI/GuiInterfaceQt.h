@@ -7,7 +7,7 @@
 
 class QGraphicsScene;
 class QGraphicsView;
-class Button;
+class LightButton;
 
 
 class GuiInterfaceQt : public GuiInterface_IF
@@ -22,15 +22,14 @@ public:
    virtual void addLightPoint(const GuiLightPoint &lightPoint);
    virtual void showAsTurnedOn(int ownAddress);
    virtual void showAsTurnedOff(int ownAddress);
+   virtual void clear();
 
 private:
    QGraphicsScene & m_scene;
    QGraphicsView & m_view;
 
-   /* OWN address to graphic button 'switched off' */
-   QMap< int, Button *> m_offButtonTable;
-   /* OWN address to graphic button 'switched on' */
-   QMap< int, Button *> m_onButtonTable;
+   /* OWN address to graphic button */
+   QMap< int, LightButton *> m_lightButtonTable;
 };
 
 #endif // GUIINTERFACEQT_H

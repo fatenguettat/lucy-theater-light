@@ -37,3 +37,9 @@ MockGuiInterafce::LightStatus MockGuiInterafce::getLightStatus(int ownAddress)
    return m_lightStatusTable.value( ownAddress, LIGHT_NOT_SET);
 }
 
+void MockGuiInterafce::clear()
+{
+   m_layoutPath = QString();
+   m_lightsList.clear();
+}
+
