@@ -3,7 +3,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-#include "Button.h"
+#include "LightButton.h"
 #include "testableAssert.h"
 
 
@@ -33,51 +33,41 @@ void GuiInterfaceQt::addLightPoint(const GuiLightPoint & lightPoint)
 {
    int ownAddress = lightPoint.ownAddress;
 
-   Button *lightOff = new Button( QPixmap(":/images/images/lightOff.png"), ownAddress);
-   Button *lightOn = new Button( QPixmap(":/images/images/lightOn.png"), ownAddress);
+   LightButton *light = new LightButton( ownAddress);
+   light->setState( LightButton::LIGHT_UNKNOWN);
 
-   m_scene.addItem( lightOff);
-   m_scene.addItem( lightOn);
+   m_scene.addItem( light);
 
-   connect (lightOff, SIGNAL(pressed(int)), this, SIGNAL(turnOnRequest(int)) );
-   connect (lightOn, SIGNAL(pressed(int)), this, SIGNAL(turnOffRequest(int)) );
+   // WARNING !!!!  make the correct request
+   connect (light, SIGNAL(pressed(int)), this, SIGNAL(turnOnRequest(int)) );
 
-   lightOff->moveBy( m_scene.width() * lightPoint.position.x(),
-                     m_scene.height() * lightPoint.position.y());
-   lightOn->moveBy( m_scene.width() * lightPoint.position.x(),
-                    m_scene.height() * lightPoint.position.y());
+   light->moveBy( m_scene.width() * lightPoint.position.x(),
+                  m_scene.height() * lightPoint.position.y());
 
-   m_offButtonTable.insert( ownAddress, lightOff);
-   m_onButtonTable.insert( ownAddress, lightOn);
-
-   showAsTurnedOn( ownAddress);
+   m_lightButtonTable.insert( ownAddress, light);
 }
 
 
 void GuiInterfaceQt::showAsTurnedOn(int ownAddress)
 {
-   Button *lightOn = m_onButtonTable[ownAddress];
-   Button *lightOff = m_offButtonTable[ownAddress];
+   LightButton *light = m_lightButtonTable[ownAddress];
+   T_ASSERT( light != NULL);
 
-   T_ASSERT( lightOn != NULL);
-   T_ASSERT( lightOff != NULL);
-
-   lightOn->setVisible( true);
-   lightOff->setVisible( false);
+   light->setState(LightButton::LIGHT_ON);
 }
 
 
 void GuiInterfaceQt::showAsTurnedOff(int ownAddress)
 {
-   Button *lightOn = m_onButtonTable[ownAddress];
-   Button *lightOff = m_offButtonTable[ownAddress];
+   LightButton *light = m_lightButtonTable[ownAddress];
+   T_ASSERT( light != NULL);
 
-   T_ASSERT( lightOn != NULL);
-   T_ASSERT( lightOff != NULL);
-
-   lightOn->setVisible( false);
-   lightOff->setVisible( true);
+   light->setState(LightButton::LIGHT_OFF);
 }
 
 
-
+void GuiInterfaceQt::clear()
+{
+   m_scene.clear();
+   m_lightButtonTable.clear();
+}

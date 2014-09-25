@@ -29,6 +29,7 @@ public:
    virtual void showAsTurnedOn( int ownAddress);
    virtual void showAsTurnedOff( int ownAddress);
    virtual void setPlantLabel( const QString & label);
+   virtual void clear();
 
    // mock function
    QString getPlantLayoutPath()

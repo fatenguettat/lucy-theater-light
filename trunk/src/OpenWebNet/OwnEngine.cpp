@@ -21,6 +21,7 @@ OwnEngine::OwnEngine(GuiInterface_IF & guiInterface, NetworkUi_IF & networkInter
             this, SLOT(onLightPointRequestOff(int)) );
 }
 
+
 void OwnEngine::onLightPointRequestOn(int ownAddress)
 {
    QString message = m_ownFormatter.lightOn(ownAddress);

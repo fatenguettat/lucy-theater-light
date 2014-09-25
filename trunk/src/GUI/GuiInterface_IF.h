@@ -57,6 +57,12 @@ public:
     */
    virtual void showAsTurnedOff( int ownAddress) = 0;
 
+   /*!
+    * \brief to be called when user wants to load another plant.
+    *  All display data related to previous plant are deleted
+    */
+   virtual void clear() = 0;
+
 signals:
    /*!
     * \brief user wants to turn on a light.

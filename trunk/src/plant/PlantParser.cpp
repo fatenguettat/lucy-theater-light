@@ -17,6 +17,7 @@ const char PlantParser::TAG_OPEN_GatewayAddress[] = "<!--MH200N_ADDRESS>";
 const char PlantParser::TAG_CLOSE_GatewayAddress[] = "<MH200N_ADDRESS-->";
 
 
+
 PlantParser::PlantParser() :
    m_plantInfo(NULL),
    m_currentLineNumber(0),
@@ -34,7 +35,7 @@ const PlantInfo * PlantParser::parse(QTextStream & content)
 
    while (! m_content->atEnd())
    {
-      // TODO make a map
+      /* if-else cascade is ugly, but nothing better has proved to work */
       QString line = readNextLine();
 
       if (line == QString(TAG_OPEN_PlantFile))

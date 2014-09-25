@@ -23,7 +23,8 @@ OwnSocketTcp::~OwnSocketTcp()
 
 void OwnSocketTcp::connectToHost(const QHostAddress &address, quint16 port)
 {
-   // TODO for sequential call, chocke all previous pending operation
+   /* for sequential call, choke all previous pending operation */
+   m_socket->abort();
 
    m_socket->connectToHost( address, port);
 }

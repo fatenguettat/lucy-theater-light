@@ -2,11 +2,11 @@
 #define PLANTPARSER_H
 
 #include <QStringList>
+#include <QMap>
 #include "LightPoint.h"
 
 class PlantInfo;
 class QTextStream;
-
 
 
 class PlantParser
@@ -30,7 +30,6 @@ public:
     * Every call to \a parse resets the errors related to previous call.
     */
    QStringList & getErrors();
-
 
    /* constants */
 private:
@@ -61,15 +60,14 @@ private:
    QString m_gatewayIpAddress;
    int m_gatewayPort;
 
-
 private:
    void readPlantFilePath();
    void readPlantLabel();
    void readLightPoints();
+   void readGatewayAddress();
    void createLightPoint( const QString & line);
    const LightPoint * parseLightPoint( const QString & line);
    void extractLightInfo( const QStringList & argumentList, QPointF *position, int *ownAddress);
-   void readGatewayAddress();
    void createInfoStructure();
    void extractGatewayArguments(QStringList arguments);
    void checkGatewayIpAddress();

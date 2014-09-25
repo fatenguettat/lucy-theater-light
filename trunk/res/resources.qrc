@@ -2,5 +2,6 @@
     <qresource prefix="/images">
         <file>images/lightOff.png</file>
         <file>images/lightOn.png</file>
+        <file>images/lightUnknown.png</file>
     </qresource>
 </RCC>
