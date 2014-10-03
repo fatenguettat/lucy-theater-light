@@ -22,7 +22,8 @@ INCLUDEPATH += \
 
 
 FORMS    += src/form/MainWindow.ui \
-    src/form/MessageViewer.ui
+    src/form/MessageViewer.ui \
+    src/form/LightPanel.ui
 
 CONFIG += mobility
 MOBILITY =
@@ -31,6 +32,10 @@ DEFINES += QT_FORCE_ASSERTS
 
 RESOURCES += \
     res/resources.qrc
+
+RC_FILE = resources/exe_icon.rc
+
+TRANSLATIONS = res/translations/lucy_it.ts
 
 HEADERS += \
     src/configuration.h \
@@ -58,7 +63,8 @@ HEADERS += \
     src/OpenWebNet/OwnEngine.h \
     src/factories/PlantFactory.h \
     src/factories/PlantFactory_IF.h \
-    src/GUI/LightButton.h
+    src/GUI/LightButton.h \
+    src/form/LightPanel.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -80,5 +86,9 @@ SOURCES += \
     src/form/MessageViewer.cpp \
     src/OpenWebNet/OwnEngine.cpp \
     src/factories/PlantFactory.cpp \
-    src/GUI/LightButton.cpp
+    src/GUI/LightButton.cpp \
+    src/form/LightPanel.cpp
+
+OTHER_FILES += \
+    TBD.txt
 

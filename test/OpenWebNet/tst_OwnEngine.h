@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-class MockGuiInterafce;
 
 class OwnEngine;
 class MockNetworkUi;
@@ -26,12 +25,17 @@ public slots:
 
 private Q_SLOTS:
    void testInit();
+   void testAddPoint();
    void testTurnOnSingleLight();
    void testTurnOffSingleLight();
+   void testRequestStatus();
+   void testTurnOffAll();
+   void testTurnOnAll();
+   void testSequenceCompleteForOn();
+   void testSequenceCompleteForOff();
 
 private:
-   OwnEngine *m_ownEgine;
-   MockGuiInterafce *m_mockGui;
+   OwnEngine *m_ownEngine;
    MockNetworkUi *m_network;
    MockOwnSocket *m_socket;
    MockErrorNotifier *m_errorNotifier;

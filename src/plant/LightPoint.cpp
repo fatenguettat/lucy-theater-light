@@ -9,6 +9,21 @@ LightPoint::LightPoint( const QString & description,
 {
 }
 
+LightPoint::LightPoint() :
+   m_description("pippo"),
+   m_position(QPointF(0.3,0.4)),
+   m_ownAddress(55)
+{
+
+}
+
+LightPoint::LightPoint(const LightPoint &other) :
+   m_description(other.description()),
+   m_position(other.position()),
+   m_ownAddress(other.ownAddress())
+{
+}
+
 QString LightPoint::description() const
 {
    return m_description;

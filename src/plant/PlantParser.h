@@ -13,6 +13,7 @@ class PlantParser
 {
 public:
    PlantParser();
+   ~PlantParser();
 
    /**
     * @brief read the \p content of a text stream and extrapolates info
@@ -61,6 +62,7 @@ private:
    int m_gatewayPort;
 
 private:
+   void clearParseData();
    void readPlantFilePath();
    void readPlantLabel();
    void readLightPoints();

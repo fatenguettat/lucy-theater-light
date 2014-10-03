@@ -11,8 +11,15 @@ class MockPlantFactory : public PlantFactory_IF
 {
 public:
    MockPlantFactory();
+   ~MockPlantFactory() {}
 
-   virtual OwnEngine * buildOwnEngine(const PlantInfo &plantInfo);
+   // PlantFactory_IF interface
+public:
+   virtual GuiInterface_IF *buildGuiInterafce(OwnEngine *);
+   virtual void destroyGuiInterface(GuiInterface_IF * guiIf);
+
+   virtual OwnEngine *buildOwnEngine(const PlantInfo &plantInfo);
+   virtual void destroyOwnEngine(OwnEngine *ownEngine);
 };
 
 #endif // MOCKPLANTFACTORY_H

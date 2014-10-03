@@ -1,7 +1,7 @@
 #include <QtTest>
 #include <stdio.h>
 
-#include "tst_PlantParserTest.h"
+#include "tst_plantparser.h"
 #include "tst_PlantLoader.h"
 
 int main(int argc, char *argv[])
@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
    char *args1[] =  { "appName", "-o", "out/testPlantParser.txt" };
    failures += QTest::qExec( &testPlantParser, 3, args1);
 
-   PlantLoaderTest testPalntLoader;
-   char *args2[] =  { "appName", "-o", "out/testPalntLoader.txt" };
-   failures += QTest::qExec( &testPalntLoader, 3, args2);
+   PlantLoaderTest testPlantLoader;
+   char *args2[] =  { "appName", "-o", "out/testPlantLoader.txt" };
+   failures += QTest::qExec( &testPlantLoader, 3, args2);
 
    if (failures == 0)
    {

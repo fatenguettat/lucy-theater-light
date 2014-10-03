@@ -2,6 +2,7 @@
 
 #include <QtTest>
 #include <QAbstractSocket>
+#include <QSignalSpy>
 
 #include "OwnConstants.h"
 #include "OwnLink.h"
@@ -13,7 +14,7 @@
 
 tst_OwnLink::tst_OwnLink(QObject *parent) :
    QObject(parent),
-   ownLink(NULL),
+   m_ownLink(NULL),
    m_parser(NULL),
    m_networkUserInterface(NULL),
    m_socket(NULL),
@@ -29,19 +30,19 @@ void tst_OwnLink::init()
    m_parser = new OwnInputParser(this);
    m_errorNotifier = new MockErrorNotifier();
 
-   ownLink = new OwnLink( *m_networkUserInterface, *m_socket,
+   m_ownLink = new OwnLink( *m_networkUserInterface, *m_socket,
                           *m_parser, *m_errorNotifier, this);
 }
 
 void tst_OwnLink::cleanup()
 {
-   delete ownLink;
+   delete m_ownLink;
    delete m_errorNotifier;
    delete m_parser;
    delete m_socket;
    delete m_networkUserInterface;
 
-   ownLink = NULL;
+   m_ownLink = NULL;
    m_errorNotifier = NULL;
    m_parser = NULL;
    m_socket = NULL;
@@ -50,7 +51,7 @@ void tst_OwnLink::cleanup()
 
 void tst_OwnLink::testInit()
 {
-   QVERIFY( ownLink != NULL);
+   QVERIFY( m_ownLink != NULL);
 }
 
 /**
@@ -66,7 +67,7 @@ void tst_OwnLink::sendTurnOn()
 {
    try
    {
-      ownLink->triggerSendMessage(QString("*1*1*0##"));
+      m_ownLink->triggerSendMessage(QString("*1*1*0##"));
       QVERIFY( m_socket->isConnectionActive());
       m_socket->makeIncomingData(own::ACK_STRING);
       m_socket->verifyOutgoingData( own::COMMAND_SESSION_STRING);
@@ -85,7 +86,7 @@ void tst_OwnLink::sendTurnOn()
 
 void tst_OwnLink::unexpectedMessage()
 {
-   ownLink->triggerSendMessage(QString("*1*1*0##"));
+   m_ownLink->triggerSendMessage(QString("*1*1*0##"));
    m_socket->makeIncomingData(own::ACK_STRING);
    m_socket->verifyOutgoingData( own::COMMAND_SESSION_STRING);
 
@@ -97,6 +98,35 @@ void tst_OwnLink::unexpectedMessage()
 
    /* connection remains active */
    QVERIFY( m_socket->isConnectionActive());
+}
+
+void tst_OwnLink::messageOnSequenceComplete()
+{
+   QSignalSpy sequenceCompleteListener( m_ownLink, SIGNAL(sequenceComplete()) );
+
+   m_ownLink->triggerSendMessage(QString("*1*1*0##"));
+   m_socket->makeIncomingData(own::ACK_STRING);
+   m_socket->verifyOutgoingData( own::COMMAND_SESSION_STRING);
+
+   m_socket->makeIncomingData(own::ACK_STRING);
+   m_socket->verifyOutgoingData( "*1*1*0##");
+
+   m_socket->makeIncomingData(own::ACK_STRING);
+   QCOMPARE( sequenceCompleteListener.size(), 1);
+}
+
+void tst_OwnLink::noMessageOnSequenceError()
+{
+   QSignalSpy sequenceCompleteListener( m_ownLink, SIGNAL(sequenceComplete()) );
+
+   m_ownLink->triggerSendMessage(QString("*1*1*0##"));
+   m_socket->makeIncomingData(own::ACK_STRING);
+   m_socket->verifyOutgoingData( own::COMMAND_SESSION_STRING);
+
+   /* terminated unexpected message */
+   m_socket->makeIncomingData("????##");
+
+   QCOMPARE( sequenceCompleteListener.size(), 0);
 }
 
 

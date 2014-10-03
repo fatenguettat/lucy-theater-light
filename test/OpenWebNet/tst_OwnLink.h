@@ -28,9 +28,11 @@ private Q_SLOTS:
    void testInit();
    void sendTurnOn();
    void unexpectedMessage();
+   void messageOnSequenceComplete();
+   void noMessageOnSequenceError();
 
 private:
-   OwnLink *ownLink;
+   OwnLink *m_ownLink;
 
    OwnInputParser *m_parser;
    NetworkUi_IF *m_networkUserInterface;

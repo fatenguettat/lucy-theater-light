@@ -3,8 +3,10 @@
 #include <QApplication>
 
 #include "OwnEngine.h"
-#include "GuiInterface_IF.h"
+#include "GuiInterfaceQt.h"
 #include "PlantInfo.h"
+#include "PlantView.h"
+#include "LightPanel.h"
 #include "CabledNetworkUI.h"
 #include "OwnSocketTcp.h"
 #include "OwnInputParser.h"
@@ -13,18 +15,15 @@
 #include "OwnFormatter.h"
 
 
-PlantFactory::PlantFactory(GuiInterface_IF & guiInterface,
-                           ErrorNotifier_IF &errorNotifier):
-   m_guiInterface( guiInterface),
+PlantFactory::PlantFactory(PlantView &view, ErrorNotifier_IF &errorNotifier):
    m_errorLogger(errorNotifier),
-   parent(new QObject())
+   m_view(view)
 {
 }
 
-OwnEngine *PlantFactory::buildOwnEngine(const PlantInfo & plantInfo)
+OwnEngine *PlantFactory::buildOwnEngine(const PlantInfo &plantInfo)
 {
-   delete parent; /* this also deletes eventual children */
-   parent = new QObject();
+   QObject *parent = new QObject();
 
    CabledNetworkUI *network = new CabledNetworkUI( plantInfo.getGatewayIpAddress(),
                                                    plantInfo.getGatewayIpPort(), parent);
@@ -32,8 +31,31 @@ OwnEngine *PlantFactory::buildOwnEngine(const PlantInfo & plantInfo)
    OwnInputParser *ownParser = new OwnInputParser(parent);
    OwnLink *ownLink = new OwnLink( *network, *socket, *ownParser, m_errorLogger, parent);
    OwnFormatter *formatter = new OwnFormatter();
-
    /* formatter is never distroyed, but it has only static members. */
 
-   return  new OwnEngine( m_guiInterface, *network, *ownLink, *formatter, parent);
+   return  new OwnEngine( *network, *ownLink, *formatter, parent);
 }
+
+void PlantFactory::destroyOwnEngine(OwnEngine *ownEngine)
+{
+   /* this deletes all objects created with engine, that
+    * are all children of the same parent. */
+   delete ownEngine->parent();
+   ownEngine = NULL;
+}
+
+
+GuiInterface_IF *PlantFactory::buildGuiInterafce( OwnEngine *engine)
+{
+   LightPanel *panel = new LightPanel(m_view.parentWidget());
+   return new GuiInterfaceQt( *engine, *m_view.scene(), m_view, *panel);
+}
+
+void PlantFactory::destroyGuiInterface(GuiInterface_IF *guiIf)
+{
+   // TODO is panel deleted ?
+   guiIf->clear();
+   delete guiIf;
+}
+
+

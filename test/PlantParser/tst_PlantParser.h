@@ -1,5 +1,5 @@
-#ifndef TST_PLANTPARSERTEST_H
-#define TST_PLANTPARSERTEST_H
+#ifndef PlantParserTestTEST_H
+#define PlantParserTestTEST_H
 
 #include <QObject>
 
@@ -37,9 +37,10 @@ private Q_SLOTS:
    void testGateway_BadIpAddress2();
    void testGateway_MissingPort();
    void testGateway_BadPort();
+   void testTwoParseConsequtive();
 
 private:
    PlantParser *m_plantParser;
 };
 
-#endif // TST_PLANTPARSERTEST_H
+#endif // PlantParserTestTEST_H

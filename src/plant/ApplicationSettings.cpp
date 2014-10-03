@@ -32,3 +32,17 @@ QString ApplicationSettings::getLastPlantPath()
 
    return filePath;
 }
+
+void ApplicationSettings::setLanguage(ApplicationSettings::Language language)
+{
+   QSettings setting( COMPANY_TAG, PRODUCT_TAG);
+   setting.setValue( "language", language);
+}
+
+ApplicationSettings::Language ApplicationSettings::language()
+{
+   QSettings setting( COMPANY_TAG, PRODUCT_TAG);
+   Language language = (Language)(setting.value( "language", NATIVE).toInt());
+
+   return language;
+}

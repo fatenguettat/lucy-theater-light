@@ -14,6 +14,10 @@ PlantInfo::PlantInfo( const QString &plantFilePath,
 {
 }
 
+PlantInfo::~PlantInfo()
+{
+}
+
 QString PlantInfo::getPlantFilePath() const
 {
    return m_plantFilePath;

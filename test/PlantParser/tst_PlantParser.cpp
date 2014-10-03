@@ -1,4 +1,4 @@
-#include "tst_PlantParserTest.h"
+#include "tst_plantparser.h"
 
 #include <QString>
 #include <QtTest>
@@ -325,5 +325,29 @@ void PlantParserTest::testGateway_BadPort()
    QStringList errors = m_plantParser->getErrors();
    QCOMPARE( errors.size(), 1);
    QCOMPARE( errors.at(0), QString("line 2: bad value for gateway port [192.168.1.40   xxxx]"));
+}
+
+void PlantParserTest::testTwoParseConsequtive()
+{
+   QString content("<!--LIGHT_POINTS>\n"\
+                   "\"Sala 01\" 0.3 0.5 11\n"\
+                   "\"Hall main\" 0.0   1    13\n"\
+                   "\"Service room\" 0.0001 0.9999 99\n"\
+                   "<LIGHT_POINTS-->\n");
+
+   QTextStream stream1(&content);
+   QTextStream stream2(&content);
+
+   const PlantInfo *info;
+
+   /* parse file twice. Second parse must reset the first */
+   info = m_plantParser->parse( stream1);
+   info = m_plantParser->parse( stream2);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 0);
+
+   QList<const LightPoint *> lightPoints = info->getLightPoints();
+   QCOMPARE( lightPoints.size(), 3);
 }
 

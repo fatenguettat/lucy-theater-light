@@ -12,8 +12,7 @@ int main(int argc, char *argv[])
    int failures = 0;
 
    tst_CabledNetworkUI testCabledNetworkUI;
-   char *args1[] =  { "appName", "-o", "out/testCabledNetworkUI.txt" };
-   failures += QTest::qExec( &testCabledNetworkUI, 3, args1);
+   failures += QTest::qExec( &testCabledNetworkUI, argc, argv);
 
    if (failures == 0)
    {

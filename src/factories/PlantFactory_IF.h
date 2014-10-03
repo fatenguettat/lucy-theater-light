@@ -3,6 +3,7 @@
 
 class OwnEngine;
 class PlantInfo;
+class GuiInterface_IF;
 
 /**
  * @brief The PlantFactory_IF class only exists to allow mocking
@@ -14,6 +15,10 @@ public:
    PlantFactory_IF () {}
 
    virtual OwnEngine * buildOwnEngine(const PlantInfo &plantInfo) = 0;
+   virtual void destroyOwnEngine(OwnEngine *ownEngine) = 0;
+
+   virtual GuiInterface_IF *buildGuiInterafce(OwnEngine *) = 0;
+   virtual void destroyGuiInterface( GuiInterface_IF *) = 0;
 };
 
 #endif // PLANT_FACTORY_INTERFACE_H

@@ -123,5 +123,7 @@ void OwnLink::sendNextMessage()
    {
       m_logger.notifyError("All strings sent. Disconnecting ... ");
       m_socket.disconnectFromHost();
+
+      emit sequenceComplete();
    }
 }

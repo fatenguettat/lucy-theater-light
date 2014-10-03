@@ -51,5 +51,6 @@ void OwnSocketTcp::write(QByteArray data)
 
 void OwnSocketTcp::close()
 {
+   m_socket->abort();
    m_socket->close();
 }
