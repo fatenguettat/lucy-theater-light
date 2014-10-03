@@ -28,6 +28,12 @@ GuiInterfaceQt::GuiInterfaceQt( OwnEngine &ownEngine,
    /* listen for events from engine */
    connect( &m_ownEngine, SIGNAL(lightPointAdded(const LightPoint*)),
             this, SLOT(addLightPoint(const LightPoint*)) );
+   connect( &m_ownEngine, SIGNAL(lightOnAcked(int)),
+            this, SLOT(showAsTurnedOn(int)) );
+   connect( &m_ownEngine, SIGNAL(lightOffAcked(int)),
+            this, SLOT(showAsTurnedOff(int)) );
+   connect( &m_ownEngine, SIGNAL(lightLevelAcked(int,own::LIGHT_LEVEL)),
+            this, SLOT(showAsLevel(int,own::LIGHT_LEVEL)) );
 }
 
 
@@ -87,6 +93,15 @@ void GuiInterfaceQt::showAsUnknownState(int ownAddress)
    T_ASSERT( light != NULL);
 
    light->setState(LightButton::LIGHT_UNKNOWN);
+}
+
+void GuiInterfaceQt::showAsLevel(int ownAddress, own::LIGHT_LEVEL /*level*/)
+{
+   LightButton *light = m_lightButtonTable[ownAddress];
+   T_ASSERT( light != NULL);
+
+   // TODO maybe use icon overlay?
+   light->setState(LightButton::LIGHT_ON);
 }
 
 
