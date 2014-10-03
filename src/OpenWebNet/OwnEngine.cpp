@@ -13,7 +13,10 @@ OwnEngine::OwnEngine( NetworkUi_IF & networkInterface,
    QObject(parent),
    m_networkInterface(networkInterface),
    m_ownLink(ownLink),
-   m_ownFormatter(ownformatter)
+   m_ownFormatter(ownformatter),
+   m_pendingAction(ACTION_NONE),
+   m_pendingActionWhere(-1),
+   m_pendingActionLevel(own::LEVEL_100)
 {
    connect( &m_ownLink, SIGNAL(sequenceComplete()),
             this, SLOT(onSequenceComplete()));
@@ -28,6 +31,9 @@ void OwnEngine::addLightPoint(const LightPoint & point)
 
 void OwnEngine::lightPointRequestOn(int ownAddress)
 {
+   m_pendingAction = ACTION_LIGHT_ON;
+   m_pendingActionWhere = ownAddress;
+
    QString message = m_ownFormatter.lightOn(ownAddress);
    m_ownLink.triggerSendMessage( message);
 
@@ -46,6 +52,9 @@ void OwnEngine::lightPointRequestOn(int ownAddress)
 
 void OwnEngine::lightPointRequestOff(int ownAddress)
 {
+   m_pendingAction = ACTION_LIGHT_OFF;
+   m_pendingActionWhere = ownAddress;
+
    QString message = m_ownFormatter.lightOff(ownAddress);
    m_ownLink.triggerSendMessage( message);
 
@@ -64,6 +73,10 @@ void OwnEngine::lightPointRequestOff(int ownAddress)
 
 void OwnEngine::lightPointRequestLevel(int ownAddress, own::LIGHT_LEVEL level)
 {
+   m_pendingAction = ACTION_SET_LEVEL;
+   m_pendingActionWhere = ownAddress;
+   m_pendingActionLevel = level;
+
    QString message = m_ownFormatter.lightLevel(ownAddress, level);
    m_ownLink.triggerSendMessage( message);
 
@@ -97,6 +110,26 @@ void OwnEngine::clearPlant()
 
 void OwnEngine::onSequenceComplete()
 {
-   emit lightOnAcked(11);
+   switch (m_pendingAction)
+   {
+   case ACTION_LIGHT_ON:
+      emit lightOnAcked( m_pendingActionWhere);
+      break;
+
+   case ACTION_LIGHT_OFF:
+      emit lightOffAcked( m_pendingActionWhere);
+      break;
+
+   case ACTION_SET_LEVEL:
+      emit lightLevelAcked( m_pendingActionWhere, m_pendingActionLevel);
+      break;
+
+   default:
+   case ACTION_NONE:
+      break;
+   }
+
+   m_pendingAction = ACTION_NONE;
+   m_pendingActionWhere = -1;
 }
 

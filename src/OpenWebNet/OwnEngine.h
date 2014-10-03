@@ -77,6 +77,9 @@ signals:
    /** notification that request to change level has been triggered */
    void lightLevelRequestStarted( int ownAddress);
 
+   /** notification that sequence to change level has completed succesfully */
+   void lightLevelAcked( int ownAddress, own::LIGHT_LEVEL level);
+
    /** notification that request to turn off has been triggered */
    void lightStatusRequestStarted( int ownAddress);
 
@@ -84,11 +87,23 @@ signals:
    void plantCleared();
 
 private:
+   typedef enum
+   {
+      ACTION_NONE = 0,
+      ACTION_LIGHT_ON,
+      ACTION_LIGHT_OFF,
+      ACTION_SET_LEVEL
+   } Action;
+
+private:
    NetworkUi_IF  & m_networkInterface;
    OwnLink  & m_ownLink;
    OwnFormatter  & m_ownFormatter;
 
    QList<const LightPoint *> m_lightTable;
+   Action m_pendingAction;
+   int m_pendingActionWhere;
+   own::LIGHT_LEVEL m_pendingActionLevel;
 
 private:
    static const int OWN_GLOBAL_ADDRESS=0;

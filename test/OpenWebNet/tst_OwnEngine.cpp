@@ -155,7 +155,7 @@ void tst_OwnEngine::testSequenceCompleteForOn()
 void tst_OwnEngine::testSequenceCompleteForOff()
 {
    QSignalSpy sequenceOffAckSpy( m_ownEngine, SIGNAL(lightOffAcked(int)));
-   LightPoint light1( "light 1", QPointF(0.1, 0.1), 11);
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), 13);
 
    m_ownEngine->addLightPoint( light1);
 
@@ -166,3 +166,21 @@ void tst_OwnEngine::testSequenceCompleteForOff()
    QCOMPARE(sequenceOffAckSpy.size(), 1);
    QCOMPARE(sequenceOffAckSpy.at(0).at(0).toInt(), 13);
 }
+
+void tst_OwnEngine::testSequenceCompleteForLevel()
+{
+   QSignalSpy sequenceLevelAckSpy( m_ownEngine, SIGNAL(lightLevelAcked(int, own::LIGHT_LEVEL)) );
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), 12);
+
+   m_ownEngine->addLightPoint( light1);
+
+   m_ownEngine->lightPointRequestLevel( 12, own::LEVEL_40);
+   /* suppose sequence completes well */
+   emit m_ownLink->sequenceComplete();
+
+   QCOMPARE(sequenceLevelAckSpy.size(), 1);
+   QCOMPARE(sequenceLevelAckSpy.at(0).at(0).toInt(), 12);
+   /* own::LIGHT_LEVEL is converted bad in QVariant */
+}
+
+// TODO test probe status

@@ -33,6 +33,7 @@ private Q_SLOTS:
    void testTurnOnAll();
    void testSequenceCompleteForOn();
    void testSequenceCompleteForOff();
+   void testSequenceCompleteForLevel();
 
 private:
    OwnEngine *m_ownEngine;

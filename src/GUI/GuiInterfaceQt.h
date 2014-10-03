@@ -25,11 +25,14 @@ public:
 public:
    virtual void setPlantLayoutImagePath(const QString &fullPath);
    virtual void setPlantLabel(const QString &label);
+   virtual void clear();
+public slots:
    virtual void addLightPoint(const LightPoint *lightPoint);
    virtual void showAsTurnedOn(int ownAddress);
    virtual void showAsTurnedOff(int ownAddress);
    virtual void showAsUnknownState( int ownAddress);
-   virtual void clear();
+   virtual void showAsLevel( int ownAddress, own::LIGHT_LEVEL level);
+
 
 public slots:
    /* callback from main plant */

@@ -34,6 +34,7 @@ public:
     */
    virtual void setPlantLabel( const QString & label) = 0;
 
+public slots:
    /*!
     * \brief show light icon at given address as turned on.
     * \param ownAddress defines light point (Open Web Net address)
@@ -55,19 +56,26 @@ public:
    virtual void showAsUnknownState( int ownAddress) = 0;
 
    /*!
-    * \brief to be called when user wants to load another plant.
-    *  All display data related to previous plant are deleted
+    * \brief show that a light point has been applied a given level
+    * \param ownAddress defines light point (Open Web Net address)
+    * \param level (see type for details)
     */
-   // TODO plan to remove this if lifetime changes
-   virtual void clear() = 0;
+   virtual void showAsLevel( int ownAddress, own::LIGHT_LEVEL level) = 0;
 
-public slots:
    /*!
     * \brief draw a lightpoint image at the given \p position. The image is drawn in turned-off,
     *   (use \a showAsTurnedOn or \a showAsTurnedOff to change display state).
     * \param GuilightPoint defines the light to be added
     */
    virtual void addLightPoint( const LightPoint * lightPoint) = 0;
+
+public:
+   /*!
+    * \brief to be called when user wants to load another plant.
+    *  All display data related to previous plant are deleted
+    */
+   // TODO plan to remove this if lifetime changes
+   virtual void clear() = 0;
 
 };
 
