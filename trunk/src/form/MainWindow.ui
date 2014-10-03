@@ -38,15 +38,30 @@
     </property>
     <addaction name="actionView_log"/>
    </widget>
+   <widget class="QMenu" name="menu_Commands">
+    <property name="title">
+     <string>&amp;Commands</string>
+    </property>
+    <addaction name="action_Shut_everything_off"/>
+    <addaction name="action_Check_light_status"/>
+   </widget>
+   <widget class="QMenu" name="menu_Language">
+    <property name="title">
+     <string>&amp;Language</string>
+    </property>
+    <addaction name="action_Locale"/>
+   </widget>
    <addaction name="menu_Open"/>
    <addaction name="menu_View"/>
+   <addaction name="menu_Commands"/>
+   <addaction name="menu_Language"/>
   </widget>
   <action name="action_open_plant_file">
    <property name="text">
     <string>&amp;open plant file ...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string notr="true">Ctrl+O</string>
    </property>
   </action>
   <action name="action_re_open_last_plant">
@@ -54,12 +69,36 @@
     <string>&amp;re-open last plant</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string notr="true">Ctrl+R</string>
    </property>
   </action>
   <action name="actionView_log">
    <property name="text">
     <string>view &amp;log</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+M</string>
+   </property>
+  </action>
+  <action name="action_Shut_everything_off">
+   <property name="text">
+    <string>&amp;Shut everything off</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+0</string>
+   </property>
+  </action>
+  <action name="action_Check_light_status">
+   <property name="text">
+    <string>&amp;Check light status</string>
+   </property>
+  </action>
+  <action name="action_Locale">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Locale</string>
    </property>
   </action>
  </widget>

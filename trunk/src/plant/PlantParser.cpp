@@ -26,10 +26,18 @@ PlantParser::PlantParser() :
 {
 }
 
+PlantParser::~PlantParser()
+{
+   if (m_plantInfo != NULL)
+   {
+      delete m_plantInfo;
+      m_plantInfo = NULL;
+   }
+}
+
 const PlantInfo * PlantParser::parse(QTextStream & content)
 {
-   m_errorList.clear();
-   m_currentLineNumber = 0;
+   clearParseData();
 
    m_content = &content;
 
@@ -60,6 +68,19 @@ const PlantInfo * PlantParser::parse(QTextStream & content)
    createInfoStructure();
 
    return m_plantInfo;
+}
+
+void PlantParser::clearParseData()
+{
+   m_errorList.clear();
+   m_currentLineNumber = 0;
+
+   for (int i=0; i < m_lightPoints.size(); i++)
+   {
+      delete m_lightPoints.at(i);
+   }
+
+   m_lightPoints.clear();
 }
 
 void PlantParser::createInfoStructure()

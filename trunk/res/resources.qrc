@@ -3,5 +3,9 @@
         <file>images/lightOff.png</file>
         <file>images/lightOn.png</file>
         <file>images/lightUnknown.png</file>
+        <file>images/panelDone.png</file>
+    </qresource>
+    <qresource prefix="/translations">
+        <file>translations/lucy_it.qm</file>
     </qresource>
 </RCC>

@@ -4,4 +4,6 @@ CONFIG   += ordered
 SUBDIRS = \
     OpenWebNet \
     PlantParser \
-    Terminal
+    Terminal \
+    QtGui
+

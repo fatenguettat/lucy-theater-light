@@ -6,6 +6,10 @@
 
 #include "LightPoint.h"
 
+/**
+ * @brief The PlantInfo class is a structured class that holds info about a
+ *  plant configuration. Data are passed to constructor and can not be modified.
+ */
 class PlantInfo
 {
 public:
@@ -22,6 +26,8 @@ public:
               QList<const LightPoint *> lightPoints,
               QString gatewayIpAddress,
               int gatewayPort);
+
+   ~PlantInfo();
 
    /**
     * @return full path of image file of the plant, read from last call to \a parse

@@ -1,0 +1,7 @@
+Required for release:
+1. Change Icon on ACK of a given request
+2. 'Group' concept and management
+
+Desiderata:
+3. Ask status for all lights
+4. Step-Light

@@ -5,6 +5,7 @@
 
 class PlantLoader;
 class PlantInfo;
+class OwnEngine;
 class MockGuiInterafce;
 class MockPlantFactory;
 
@@ -26,12 +27,17 @@ private Q_SLOTS:
    void testPlantLayout();
    void testPlantLayoutInvalid();
    void testPlantLabel();
-   void testLightPoints();
+   void testLightPointsToEngine();
+   void testReload();
+   void testUnload();
+   void testLoadSignal();
+   void testUnloadSignal();
 
 private:
    PlantLoader *m_plantLoader;
 
    PlantInfo *m_plantInfo;
+   OwnEngine *m_ownEngine;
    MockGuiInterafce *m_guiInterface;
    MockPlantFactory *m_plantFactory;
 };

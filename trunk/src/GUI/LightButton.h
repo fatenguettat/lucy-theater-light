@@ -19,6 +19,7 @@ public:
 
 public:
    LightButton( int index, QGraphicsItem *parent = 0);
+   ~LightButton() {}
 
    QRectF boundingRect() const;
    QPainterPath shape() const;

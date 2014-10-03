@@ -5,30 +5,53 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
-
+#include <QTranslator>
+#include <QMessageBox>
 
 #include "PlantParser.h"
 #include "PlantLoader.h"
 #include "PlantView.h"
 #include "PlantInfo.h"
+
+#include "PlantFactory.h"
+#include "OwnEngine.h"
+#include "GuiInterface_IF.h"
+
 #include "ErrorNotifier_IF.h"
 #include "ApplicationSettings.h"
+#include "OwnConstants.h"
 
-#include "QMessageBox"
+// TODO would be nice not to have plant factory here and delegate all to a specific class
+
 
 
 MainWindow::MainWindow(PlantParser & plantParser, PlantLoader & plantLoader,
-                       PlantView & plantView, ApplicationSettings &settings,
+                       PlantView & plantView, PlantFactory & plantFactory,
+                       ApplicationSettings &settings,
                        ErrorNotifier_IF &errorNotifier, QWidget *parent) :
    QMainWindow(parent),
    ui(new Ui::MainWindow),
+   m_translator(new QTranslator(this)),
    m_plantLoader(plantLoader),
    m_plantParser(plantParser),
+   m_plantFactory(plantFactory),
    m_settings(settings),
-   m_messageLogger(errorNotifier)
+   m_messageLogger(errorNotifier),
+   m_ownEngine(NULL),
+   m_guiInterface(NULL)
 {
    ui->setupUi(this);
    setCentralWidget( &plantView);
+
+   /* these actions only apply when a plant is loaded */
+   ui->action_Shut_everything_off->setEnabled( false);
+   ui->action_Check_light_status->setEnabled( false);
+
+   connect( &plantLoader, SIGNAL(plantLoaded(bool)),
+            this, SLOT(onPlantLoaded(bool)) );
+
+   qApp->installTranslator(m_translator);
+   loadApplicationLanguage();
 }
 
 MainWindow::~MainWindow()
@@ -91,14 +114,87 @@ void MainWindow::openPlantFile( const QString & fileName)
    }
    else
    {
-      m_plantLoader.load( *plantInfo);
+      if (m_guiInterface)
+      {
+         m_plantFactory.destroyGuiInterface(m_guiInterface);
+      }
+
+      if (m_ownEngine)
+      {
+         m_plantFactory.destroyOwnEngine( m_ownEngine);
+      }
+
+      m_ownEngine = m_plantFactory.buildOwnEngine( *plantInfo);
+      m_guiInterface = m_plantFactory.buildGuiInterafce( m_ownEngine);
+
+      m_plantLoader.load( *plantInfo, m_guiInterface, m_ownEngine);
       m_settings.setLastPlantPath( fileName);
    }
 
    plantFile.close();
 }
 
+
 void MainWindow::on_actionView_log_triggered()
 {
-    m_messageLogger.displayAllMessages();
+   m_messageLogger.displayAllMessages();
+}
+
+
+void MainWindow::on_action_Shut_everything_off_triggered()
+{
+   if (m_ownEngine)
+   {
+      m_ownEngine->lightPointRequestOff( own::GLOBAL_WHERE);
+   }
+}
+
+
+void MainWindow::on_action_Check_light_status_triggered()
+{
+   if (m_ownEngine)
+   {
+      m_ownEngine->lightPointProbeStatus( own::GLOBAL_WHERE);
+   }
+}
+
+
+void MainWindow::loadApplicationLanguage()
+{
+   ApplicationSettings::Language storedLanguage;
+   storedLanguage = m_settings.language();
+   bool isLocaleSelected = (storedLanguage == ApplicationSettings::LOCALE);
+
+   ui->action_Locale->setChecked( isLocaleSelected);
+   on_action_Locale_triggered( isLocaleSelected);
+}
+
+
+void MainWindow::on_action_Locale_triggered(bool checked)
+{
+   if( checked )
+   {
+      // retranslate to local language
+      m_translator->load( "lucy_it", ":/translations/translations" );
+      m_settings.setLanguage( ApplicationSettings::LOCALE);
+   }
+   else
+   {
+      // retranslate to native language.
+      m_translator->load( QString(), QString() );
+      m_settings.setLanguage( ApplicationSettings::NATIVE);
+   }
+
+   ui->retranslateUi( this );
+}
+
+void MainWindow::onPlantLoaded(bool loadOk)
+{
+   ui->action_Shut_everything_off->setEnabled( loadOk);
+   ui->action_Check_light_status->setEnabled( loadOk);
+
+   if (!loadOk)
+   {
+      m_ownEngine = NULL;
+   }
 }

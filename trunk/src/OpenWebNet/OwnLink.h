@@ -50,6 +50,11 @@ signals:
     */
    void error();
 
+   /**
+    * @brief emitted when the last ACK of a sequence has been succesfully received.
+    */
+   void sequenceComplete();
+
 private:
    OwnSocket_IF & m_socket;
    NetworkUi_IF & m_networkUi;

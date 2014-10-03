@@ -4,22 +4,18 @@
 #include <QPointF>
 #include <QObject>
 
+#include "OwnConstants.h"
+
+class LightPoint;
+
+
+/**
+ * @brief The GuiInterface_IF class holds interfaces for all commands directed
+ *   to GUI and signals incoming from user action through GUI.
+ */
 class  GuiInterface_IF : public QObject
 {
    Q_OBJECT
-public:
-   typedef struct
-   {
-      /*! location of light icon.
-       * Must be in range (0,0) to (1,1) and located where the icon is drawn in
-       * the plant. Point (0,0) is upper-left corner, (1,1) is lower right.*/
-      QPointF position;
-
-      /*! Open Web Net address associated with this light */
-      int ownAddress;
-
-   } GuiLightPoint;
-
 public:
    GuiInterface_IF(QObject *parent = 0) : QObject(parent) {}
 
@@ -39,13 +35,6 @@ public:
    virtual void setPlantLabel( const QString & label) = 0;
 
    /*!
-    * \brief draw a lightpoint image at the given \p position. The image is drawn in turned-off,
-    *   (use \a showAsTurnedOn or \a showAsTurnedOff to change display state).
-    * \param GuilightPoint defines the light to be added
-    */
-   virtual void addLightPoint( const GuiLightPoint & lightPoint) = 0;
-
-   /*!
     * \brief show light icon at given address as turned on.
     * \param ownAddress defines light point (Open Web Net address)
     */
@@ -58,23 +47,27 @@ public:
    virtual void showAsTurnedOff( int ownAddress) = 0;
 
    /*!
+    * \brief show light icon at given address as unknown. This is the normal
+    *   state on startup and when a command has been issue but there is no feedback
+    *   of result.
+    * \param ownAddress defines light point (Open Web Net address)
+    */
+   virtual void showAsUnknownState( int ownAddress) = 0;
+
+   /*!
     * \brief to be called when user wants to load another plant.
     *  All display data related to previous plant are deleted
     */
+   // TODO plan to remove this if lifetime changes
    virtual void clear() = 0;
 
-signals:
+public slots:
    /*!
-    * \brief user wants to turn on a light.
-    * \param ownAddress defines light point (Open Web Net address)
+    * \brief draw a lightpoint image at the given \p position. The image is drawn in turned-off,
+    *   (use \a showAsTurnedOn or \a showAsTurnedOff to change display state).
+    * \param GuilightPoint defines the light to be added
     */
-   void turnOnRequest( int ownAddress);
-
-   /*!
-    * \brief user wants to turn ff a light.
-    * \param ownAddress defines light point (Open Web Net address)
-    */
-   void turnOffRequest( int ownAddress);
+   virtual void addLightPoint( const LightPoint * lightPoint) = 0;
 
 };
 

@@ -15,34 +15,37 @@ public:
    {
       LIGHT_NOT_SET = 0,
       LIGHT_ON,
-      LIGHT_OFF
+      LIGHT_OFF,
+      LIGHT_UNKNOWN
 
    } LightStatus;
 
 public:
    explicit MockGuiInterafce();
+   ~MockGuiInterafce() {}
 
    // GuiInterface_IF interface
 public:
    virtual void setPlantLayoutImagePath(const QString &fullPath);
-   virtual void addLightPoint( const GuiLightPoint & lightPoint);
+   virtual void addLightPoint( const LightPoint * lightPoint);
    virtual void showAsTurnedOn( int ownAddress);
    virtual void showAsTurnedOff( int ownAddress);
+   virtual void showAsUnknownState( int ownAddress);
    virtual void setPlantLabel( const QString & label);
    virtual void clear();
 
    // mock function
-   QString getPlantLayoutPath()
+   QString mockGetPlantLayoutPath()
    {
       return m_layoutPath;
    }
 
-   QList<GuiLightPoint> getLightPointList()
+   QList<LightPoint> & mockGetLightPointList()
    {
       return m_lightsList;
    }
 
-   LightStatus getLightStatus( int ownAddress);
+   LightStatus mockGetLightStatus( int ownAddress);
 
    QString getPlantLabel()
    {
@@ -52,7 +55,7 @@ public:
 private:
    QString m_layoutPath;
    QString m_layoutLabel;
-   QList<GuiLightPoint> m_lightsList;
+   QList<LightPoint> m_lightsList;
    QMap<int, LightStatus> m_lightStatusTable;
 };
 

@@ -6,23 +6,26 @@
 class OwnEngine;
 class GuiInterface_IF;
 class PlantInfo;
-class QObject;
+class PlantView;
 class ErrorNotifier_IF;
 
 
 class PlantFactory : public PlantFactory_IF
 {
 public:
-   PlantFactory(GuiInterface_IF &guiInterface, ErrorNotifier_IF &errorNotifier);
+   PlantFactory( PlantView & view, ErrorNotifier_IF &errorNotifier);
 
-   virtual OwnEngine * buildOwnEngine(const PlantInfo &plantInfo);
+   // PlantFactory_IF interface
+public:
+   virtual GuiInterface_IF *buildGuiInterafce(OwnEngine *engine);
+   virtual void destroyGuiInterface(GuiInterface_IF *guiIf);
+
+   virtual OwnEngine *buildOwnEngine(const PlantInfo &plantInfo);
+   virtual void destroyOwnEngine(OwnEngine *ownEngine);
 
 private:
-   GuiInterface_IF & m_guiInterface;
    ErrorNotifier_IF & m_errorLogger;
-
-   /* reference hold to destory last built engine */
-   QObject *parent;
+   PlantView & m_view;
 };
 
 #endif // PLANTFACTORY_H
