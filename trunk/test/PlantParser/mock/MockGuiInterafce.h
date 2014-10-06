@@ -2,7 +2,7 @@
 #define MOCKGUIINTERAFCE_H
 
 #include <QList>
-#include <QMap>
+#include <QHash>
 #include <QString>
 
 #include "GuiInterface_IF.h"
@@ -16,6 +16,7 @@ public:
       LIGHT_NOT_SET = 0,
       LIGHT_ON,
       LIGHT_OFF,
+      LIGHT_MID_LEVEL,
       LIGHT_UNKNOWN
 
    } LightStatus;
@@ -28,9 +29,10 @@ public:
 public:
    virtual void setPlantLayoutImagePath(const QString &fullPath);
    virtual void addLightPoint( const LightPoint * lightPoint);
-   virtual void showAsTurnedOn( int ownAddress);
-   virtual void showAsTurnedOff( int ownAddress);
-   virtual void showAsUnknownState( int ownAddress);
+   virtual void showAsTurnedOn( const own::Where & ownAddress);
+   virtual void showAsTurnedOff( const own::Where & ownAddress);
+   virtual void showAsUnknownState( const own::Where & ownAddress);
+   virtual void showAsLevel( const own::Where & ownAddress, own::LIGHT_LEVEL level);
    virtual void setPlantLabel( const QString & label);
    virtual void clear();
 
@@ -45,7 +47,7 @@ public:
       return m_lightsList;
    }
 
-   LightStatus mockGetLightStatus( int ownAddress);
+   LightStatus mockGetLightStatus( const own::Where & ownAddress);
 
    QString getPlantLabel()
    {
@@ -56,7 +58,7 @@ private:
    QString m_layoutPath;
    QString m_layoutLabel;
    QList<LightPoint> m_lightsList;
-   QMap<int, LightStatus> m_lightStatusTable;
+   QHash<const own::Where, LightStatus> m_lightStatusTable;
 };
 
 #endif // MOCKGUIINTERAFCE_H

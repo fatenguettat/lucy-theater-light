@@ -209,7 +209,8 @@ const LightPoint * PlantParser::parseLightPoint(const QString &line)
 
    extractLightInfo( argumentList, &pos, &ownAddr);
 
-   return new LightPoint( description, pos, ownAddr);
+   // TODO think again when groups are introduced
+   return new LightPoint( description, pos, QString("%1").arg(ownAddr));
 }
 
 void PlantParser::extractLightInfo(const QStringList & argumentList, QPointF *position, int *ownAddress)

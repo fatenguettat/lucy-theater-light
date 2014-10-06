@@ -1,8 +1,8 @@
 #include "LightPoint.h"
 
-LightPoint::LightPoint( const QString & description,
+LightPoint::LightPoint(const QString & description,
                         const QPointF & position,
-                        int ownAddress) :
+                        const own::Where &ownAddress) :
    m_description(description),
    m_position(position),
    m_ownAddress(ownAddress)
@@ -34,7 +34,7 @@ QPointF LightPoint::position() const
    return m_position;
 }
 
-int LightPoint::ownAddress() const
+own::Where LightPoint::ownAddress() const
 {
    return m_ownAddress;
 }

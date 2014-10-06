@@ -52,7 +52,7 @@ void tst_OwnEngine::testInit()
 void tst_OwnEngine::testAddPoint()
 {
    QSignalSpy addSignalSpy( m_ownEngine, SIGNAL(lightPointAdded(const LightPoint*)) );
-   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), 11);
+   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), "11");
    m_ownEngine->addLightPoint( *light);
 
    QCOMPARE( addSignalSpy.size(), 1);
@@ -60,14 +60,14 @@ void tst_OwnEngine::testAddPoint()
 
 void tst_OwnEngine::testTurnOnSingleLight()
 {
-   QSignalSpy turnOnSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(int)) );
+   QSignalSpy turnOnSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(own::Where)) );
 
-   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), 11);
+   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), "11");
    m_ownEngine->addLightPoint( *light);
-   m_ownEngine->lightPointRequestOn( 11);
+   m_ownEngine->lightPointRequestOn( "11");
 
    QCOMPARE( turnOnSpy.size(), 1);
-   QCOMPARE( turnOnSpy.at(0).at(0).toInt(), 11);
+   QCOMPARE( turnOnSpy.at(0).at(0).toString(), QString("11"));
 
    // TODO voglio anche verificare cosa ha mandato al link
 
@@ -76,14 +76,14 @@ void tst_OwnEngine::testTurnOnSingleLight()
 
 void tst_OwnEngine::testTurnOffSingleLight()
 {
-   QSignalSpy turnOffSpy( m_ownEngine, SIGNAL(lightOffRequestStarted(int)) );
+   QSignalSpy turnOffSpy( m_ownEngine, SIGNAL(lightOffRequestStarted(own::Where)) );
 
-   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), 11);
+   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), "11");
    m_ownEngine->addLightPoint( *light);
-   m_ownEngine->lightPointRequestOff( 11);
+   m_ownEngine->lightPointRequestOff( "11");
 
    QCOMPARE( turnOffSpy.size(), 1);
-   QCOMPARE( turnOffSpy.at(0).at(0).toInt(), 11);
+   QCOMPARE( turnOffSpy.at(0).at(0).toString(), QString("11"));
 
    delete light;
 }
@@ -91,95 +91,96 @@ void tst_OwnEngine::testTurnOffSingleLight()
 
 void tst_OwnEngine::testRequestStatus()
 {
-   QSignalSpy statusRequestSpy( m_ownEngine, SIGNAL(lightStatusRequestStarted(int)) );
+   QSignalSpy statusRequestSpy( m_ownEngine, SIGNAL(lightStatusRequestStarted(own::Where)) );
 
-   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), 11);
+   LightPoint *light = new LightPoint("light 1", QPointF(0.1,0.1), "11");
    m_ownEngine->addLightPoint( *light);
-   m_ownEngine->lightPointProbeStatus( 11);
+   m_ownEngine->lightPointProbeStatus( "11");
 
    QCOMPARE( statusRequestSpy.size(), 1);
-   QCOMPARE( statusRequestSpy.at(0).at(0).toInt(), 11);
+   QCOMPARE( statusRequestSpy.at(0).at(0).toString(), QString("11"));
 
    delete light;
 }
 
 void tst_OwnEngine::testTurnOffAll()
 {
-   QSignalSpy turnOffSpy( m_ownEngine, SIGNAL(lightOffRequestStarted(int)) );
+   QSignalSpy turnOffSpy( m_ownEngine, SIGNAL(lightOffRequestStarted(own::Where)) );
 
-   LightPoint light1( "light 1", QPointF(0.1, 0.1), 11);
-   LightPoint light2( "light 2", QPointF(0.1, 0.1), 12);
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), "11");
+   LightPoint light2( "light 2", QPointF(0.1, 0.1), "12");
 
    m_ownEngine->addLightPoint( light1);
    m_ownEngine->addLightPoint( light2);
 
-   m_ownEngine->lightPointRequestOff( 0);
+   m_ownEngine->lightPointRequestOff( own::GLOBAL_WHERE);
 
    QCOMPARE( turnOffSpy.size(), 2);
-   QCOMPARE( turnOffSpy.at(0).at(0).toInt(), 11);
-   QCOMPARE( turnOffSpy.at(1).at(0).toInt(), 12);
+   QCOMPARE( turnOffSpy.at(0).at(0).toString(), QString("11"));
+   QCOMPARE( turnOffSpy.at(1).at(0).toString(), QString("12"));
 }
 
 void tst_OwnEngine::testTurnOnAll()
 {
-   QSignalSpy turnOnSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(int)) );
+   QSignalSpy turnOnSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(own::Where)) );
 
-   LightPoint light1( "light 1", QPointF(0.1, 0.1), 11);
-   LightPoint light2( "light 2", QPointF(0.1, 0.1), 12);
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), "11");
+   LightPoint light2( "light 2", QPointF(0.1, 0.1), "12");
 
    m_ownEngine->addLightPoint( light1);
    m_ownEngine->addLightPoint( light2);
 
-   m_ownEngine->lightPointRequestOn( 0);
+   m_ownEngine->lightPointRequestOn( own::GLOBAL_WHERE);
 
    QCOMPARE( turnOnSpy.size(), 2);
-   QCOMPARE( turnOnSpy.at(0).at(0).toInt(), 11);
-   QCOMPARE( turnOnSpy.at(1).at(0).toInt(), 12);
+   QCOMPARE( turnOnSpy.at(0).at(0).toString(), QString("11"));
+   QCOMPARE( turnOnSpy.at(1).at(0).toString(), QString("12"));
 }
 
 void tst_OwnEngine::testSequenceCompleteForOn()
 {
-   QSignalSpy sequenceOnAckSpy( m_ownEngine, SIGNAL(lightOnAcked(int)));
-   LightPoint light1( "light 1", QPointF(0.1, 0.1), 11);
+   QSignalSpy sequenceOnAckSpy( m_ownEngine, SIGNAL(lightOnAcked(own::Where)) );
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), "11");
 
    m_ownEngine->addLightPoint( light1);
 
-   m_ownEngine->lightPointRequestOn( 11);
+   m_ownEngine->lightPointRequestOn( "11");
    /* suppose sequence completes well */
    emit m_ownLink->sequenceComplete();
 
    QCOMPARE(sequenceOnAckSpy.size(), 1);
-   QCOMPARE(sequenceOnAckSpy.at(0).at(0).toInt(), 11);
+   QCOMPARE(sequenceOnAckSpy.at(0).at(0).toString(), QString("11"));
 }
 
 void tst_OwnEngine::testSequenceCompleteForOff()
 {
-   QSignalSpy sequenceOffAckSpy( m_ownEngine, SIGNAL(lightOffAcked(int)));
-   LightPoint light1( "light 1", QPointF(0.1, 0.1), 13);
+   QSignalSpy sequenceOffAckSpy( m_ownEngine, SIGNAL(lightOffAcked(own::Where)) );
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), "13");
 
    m_ownEngine->addLightPoint( light1);
 
-   m_ownEngine->lightPointRequestOff( 13);
+   m_ownEngine->lightPointRequestOff( "13");
    /* suppose sequence completes well */
    emit m_ownLink->sequenceComplete();
 
    QCOMPARE(sequenceOffAckSpy.size(), 1);
-   QCOMPARE(sequenceOffAckSpy.at(0).at(0).toInt(), 13);
+   QCOMPARE(sequenceOffAckSpy.at(0).at(0).toString(), QString("13"));
 }
 
 void tst_OwnEngine::testSequenceCompleteForLevel()
 {
-   QSignalSpy sequenceLevelAckSpy( m_ownEngine, SIGNAL(lightLevelAcked(int, own::LIGHT_LEVEL)) );
-   LightPoint light1( "light 1", QPointF(0.1, 0.1), 12);
+   QSignalSpy sequenceLevelAckSpy( m_ownEngine,
+                                   SIGNAL(lightLevelAcked(own::Where,own::LIGHT_LEVEL)) );
+   LightPoint light1( "light 1", QPointF(0.1, 0.1), "12");
 
    m_ownEngine->addLightPoint( light1);
 
-   m_ownEngine->lightPointRequestLevel( 12, own::LEVEL_40);
+   m_ownEngine->lightPointRequestLevel( "12", own::LEVEL_40);
    /* suppose sequence completes well */
    emit m_ownLink->sequenceComplete();
 
    QCOMPARE(sequenceLevelAckSpy.size(), 1);
-   QCOMPARE(sequenceLevelAckSpy.at(0).at(0).toInt(), 12);
+   QCOMPARE(sequenceLevelAckSpy.at(0).at(0).toString(), QString("12"));
    /* own::LIGHT_LEVEL is converted bad in QVariant */
 }
 

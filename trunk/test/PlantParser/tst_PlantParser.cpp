@@ -151,7 +151,7 @@ void PlantParserTest::testLighPoint_valid()
    QCOMPARE( lightPoints.size(), 1);
    QCOMPARE( lightPoints.at(0)->description(), QString("Sala 01"));
    QCOMPARE( lightPoints.at(0)->position(), QPointF( 0.3, 0.5));
-   QCOMPARE( lightPoints.at(0)->ownAddress(), 11);
+   QCOMPARE( lightPoints.at(0)->ownAddress(), QString("11"));
 }
 
 void PlantParserTest::testLighPoint_threeValid()

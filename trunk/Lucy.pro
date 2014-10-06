@@ -23,7 +23,9 @@ INCLUDEPATH += \
 
 FORMS    += src/form/MainWindow.ui \
     src/form/MessageViewer.ui \
-    src/form/LightPanel.ui
+#    src/form/LightPanel.ui
+
+
 
 CONFIG += mobility
 MOBILITY =
@@ -64,7 +66,9 @@ HEADERS += \
     src/factories/PlantFactory.h \
     src/factories/PlantFactory_IF.h \
     src/GUI/LightButton.h \
-    src/form/LightPanel.h
+    src/form/LightPanel.h \
+    src/GUI/Button.h \
+    src/GUI/Slider.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -87,7 +91,9 @@ SOURCES += \
     src/OpenWebNet/OwnEngine.cpp \
     src/factories/PlantFactory.cpp \
     src/GUI/LightButton.cpp \
-    src/form/LightPanel.cpp
+    src/form/LightPanel.cpp \
+    src/GUI/Button.cpp \
+    src/GUI/Slider.cpp
 
 OTHER_FILES += \
     TBD.txt

@@ -1,25 +1,25 @@
 #include "LightButton.h"
 
-/** this is a main value from which all dimensions are calculated */
-#define SIZE   40
+#include <QPainter>
 
 QPixmap *LightButton::m_pixmapOn = NULL;
 QPixmap *LightButton::m_pixmapOff = NULL;
 QPixmap *LightButton::m_pixmapUnknown = NULL;
 
 
-LightButton::LightButton( int index, QGraphicsItem *parent)
-   : QGraphicsWidget(parent),
-     m_index(index),
+LightButton::LightButton(const own::Where &index, QGraphicsItem *parent)
+   : Button(parent),
+     m_where(index),
      m_state(LIGHT_UNKNOWN)
 {
    setAcceptHoverEvents(true);
    setCacheMode(DeviceCoordinateCache);
 }
 
+#if 0
 QRectF LightButton::boundingRect() const
 {
-   return QRectF(-SIZE, -SIZE, SIZE, SIZE);
+   return QRectF(-m_size, -m_size, m_size, m_size);
 }
 
 QPainterPath LightButton::shape() const
@@ -28,6 +28,7 @@ QPainterPath LightButton::shape() const
    path.addEllipse(boundingRect());
    return path;
 }
+#endif
 
 void LightButton::setState(LightState state)
 {
@@ -35,27 +36,12 @@ void LightButton::setState(LightState state)
    update();
 }
 
-void LightButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
+void LightButton::paint(QPainter *painter,
+                        const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-   bool down = option->state & QStyle::State_Sunken;
-   QRectF r = boundingRect();
-   QLinearGradient grad(r.topLeft(), r.bottomRight());
-   grad.setColorAt(down ? 1 : 0, option->state & QStyle::State_MouseOver ? Qt::white : Qt::lightGray);
 
-   grad.setColorAt(down ? 0 : 0.5, Qt::darkGray);
-
-   painter->setPen(Qt::darkGray);
-   painter->setBrush(grad);
-   painter->drawEllipse(r);
-   grad.setColorAt(down ? 1 : 0, Qt::darkGray);
-   grad.setColorAt(down ? 0 : 1, Qt::lightGray);
-   painter->setPen(Qt::NoPen);
-   painter->setBrush(grad);
-   if (down)
-   {
-      painter->translate(2, 2);
-   }
-   painter->drawEllipse(r.adjusted(5, 5, -5, -5));
+   /* draw base of button */
+   Button::paint( painter, option, widget);
 
    const QPixmap *pixmap;
    ensureIconsAreCreated();
@@ -73,20 +59,19 @@ void LightButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
       pixmap = m_pixmapUnknown;
    }
 
-   painter->drawPixmap( -(SIZE/2) -(pixmap->width()/2),
-                        -(SIZE/2) - (pixmap->height()/2), *pixmap);
+   painter->drawPixmap( -(m_size/2) + (pixmap->width()*3./4.),
+                        -(m_size/2) + (pixmap->height()*3./4.), *pixmap);
 }
 
-void LightButton::mousePressEvent(QGraphicsSceneMouseEvent *)
+
+void LightButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *ev)
 {
-   emit pressed(m_index);
-   update();
+   Button::mouseReleaseEvent( ev);
+
+   /* hit is complete when user releases */
+   emit hit(m_where);
 }
 
-void LightButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
-{
-   update();
-}
 
 void LightButton::ensureIconsAreCreated()
 {

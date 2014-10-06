@@ -4,7 +4,7 @@
 #include <QPointF>
 #include <QObject>
 
-#include "OwnConstants.h"
+#include "OwnTypes.h"
 
 class LightPoint;
 
@@ -39,13 +39,13 @@ public slots:
     * \brief show light icon at given address as turned on.
     * \param ownAddress defines light point (Open Web Net address)
     */
-   virtual void showAsTurnedOn( int ownAddress) = 0;
+   virtual void showAsTurnedOn( const own::Where & ownAddress) = 0;
 
    /*!
     * \brief show light icon at given address as turned off.
     * \param ownAddress defines light point (Open Web Net address)
     */
-   virtual void showAsTurnedOff( int ownAddress) = 0;
+   virtual void showAsTurnedOff( const own::Where & ownAddress) = 0;
 
    /*!
     * \brief show light icon at given address as unknown. This is the normal
@@ -53,14 +53,14 @@ public slots:
     *   of result.
     * \param ownAddress defines light point (Open Web Net address)
     */
-   virtual void showAsUnknownState( int ownAddress) = 0;
+   virtual void showAsUnknownState( const own::Where & ownAddress) = 0;
 
    /*!
     * \brief show that a light point has been applied a given level
     * \param ownAddress defines light point (Open Web Net address)
     * \param level (see type for details)
     */
-   virtual void showAsLevel( int ownAddress, own::LIGHT_LEVEL level) = 0;
+   virtual void showAsLevel( const own::Where & ownAddress, own::LIGHT_LEVEL level) = 0;
 
    /*!
     * \brief draw a lightpoint image at the given \p position. The image is drawn in turned-off,

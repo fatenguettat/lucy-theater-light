@@ -6,6 +6,8 @@
 
 #include <QObject>
 
+#include "OwnTypes.h"
+
 /**
  * @brief The LightPoint class is a structured class that holds
  * one light point in a plant graph.
@@ -17,7 +19,7 @@ class LightPoint
 public:
    LightPoint( const QString & description,
                const QPointF & position,
-               int ownAddress);
+               const own::Where & ownAddress);
 
    /* These are needed for 'Q_DECLARE_METATYPE' macro,
     * but are highly deprecated. */
@@ -28,12 +30,12 @@ public:
 
    QString description() const;
    QPointF position() const;
-   int ownAddress() const;
+   own::Where ownAddress() const;
 
 private:
    QString m_description;
    QPointF m_position;
-   int m_ownAddress;
+   own::Where m_ownAddress;
 };
 
 Q_DECLARE_METATYPE(const LightPoint *)

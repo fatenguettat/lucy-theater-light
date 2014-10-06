@@ -4,11 +4,14 @@
 #include <QDialog>
 #include <QMap>
 
-#include "OwnConstants.h"
+#include "OwnTypes.h"
 
 namespace Ui {
 class LightPanel;
 }
+
+class QGraphicsTextItem;
+
 
 class LightPanel : public QDialog
 {
@@ -18,21 +21,25 @@ public:
    explicit LightPanel(QWidget *parent = 0);
    ~LightPanel();
 
+   /**
+    * @brief set the label shown in upper part of panel
+    * @param label (html form) should hold info of current light point
+    */
+   void setHtmlLabel(const QString & label);
+
 signals:
    void requestTurnOn();
    void requestTurnOff();
    void requestSetLevel(own::LIGHT_LEVEL);
 
-private slots:
-   void on_applyLevelButton_clicked();
-   void on_onButton_clicked();
-   void on_offButton_clicked();
-   void on_doneButton_clicked();
-
 private:
-   Ui::LightPanel *ui;
    /** translate UI slider values into own levels */
    QMap<int, own::LIGHT_LEVEL> m_sliderToLevelTable;
+   QGraphicsTextItem *m_captionItem;
+
+private slots:
+   void onExitButtonClicked();
+   void onApplyLevelButtonClicked();
 
 private:
    void initLevelMap();

@@ -48,9 +48,13 @@ private:
    GuiInterfaceQt *m_gui;
 };
 
+Q_DECLARE_METATYPE(own::Where)
+
 QtGuiTest::QtGuiTest()
 {
+   qRegisterMetaType<own::Where>("own::Where");
 }
+
 
 void QtGuiTest::init()
 {
@@ -94,7 +98,7 @@ void QtGuiTest::testInit()
 
 void QtGuiTest::testLinkEngineGui()
 {
-   LightPoint point("light 1", QPointF(0.1,0.1), 11);
+   LightPoint point("light 1", QPointF(0.1,0.1), "11");
 
    m_ownEngine->addLightPoint( point);
 
@@ -102,7 +106,7 @@ void QtGuiTest::testLinkEngineGui()
    {
       /* if GUI received the notification of the new light,
        * no exception will be thrown. */
-      m_gui->showAsTurnedOn( 11);
+      m_gui->showAsTurnedOn( "11");
    }
    catch( QString & err)
    {
@@ -115,18 +119,18 @@ void QtGuiTest::testLinkGuiEngineOn()
 {
    try
    {
-      QSignalSpy turnOnReqSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(int)) );
+      QSignalSpy turnOnReqSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(own::Where)) );
 
-      LightPoint point("light 1", QPointF(0.1,0.1), 11);
+      LightPoint point("light 1", QPointF(0.1,0.1), "11");
       m_ownEngine->addLightPoint( point);
 
       m_panel->mockArmAction( MockLightPanel::ACTION_PUSH_ON);
 
       /* user presses light 11 button */
-      m_gui->onLightButtonPressed( 11);
+      m_gui->onLightButtonPressed( "11");
 
       QCOMPARE( turnOnReqSpy.size(), 1);
-      QCOMPARE( turnOnReqSpy.at(0).at(0).toInt(), 11);
+      QCOMPARE( turnOnReqSpy.at(0).at(0).toString(), QString("11"));
    }
    catch (QString &err)
    {

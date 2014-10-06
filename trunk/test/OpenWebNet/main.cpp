@@ -6,11 +6,17 @@
 #include "tst_OwnFormatter.h"
 #include "tst_OwnEngine.h"
 
+#include "OwnTypes.h"
+
+Q_DECLARE_METATYPE(own::Where)
+
 
 int main(int argc, char *argv[])
 {
    Q_UNUSED(argc);
    Q_UNUSED(argv);
+
+   qRegisterMetaType<own::Where>("own::Where");
 
    int failures = 0;
 

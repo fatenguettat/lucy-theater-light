@@ -1,6 +1,7 @@
 #include "ApplicationSettings.h"
 
 #include <QSettings>
+#include <QStandardPaths>
 
 #include "testableAssert.h"
 
@@ -28,7 +29,8 @@ void ApplicationSettings::setLastPlantPath(const QString &plantPath)
 
 QString ApplicationSettings::getLastPlantPath()
 {
-   QString filePath = m_setting->value( LAST_FILE_TAG, QString()).toString();
+   QString defaultPath = QStandardPaths::standardLocations( QStandardPaths::DocumentsLocation).at(0);
+   QString filePath = m_setting->value( LAST_FILE_TAG, defaultPath).toString();
 
    return filePath;
 }

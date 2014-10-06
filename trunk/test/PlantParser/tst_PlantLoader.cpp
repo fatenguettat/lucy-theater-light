@@ -106,8 +106,8 @@ void PlantLoaderTest::testLightPointsToEngine()
 {
    QList<const LightPoint *> lightSet;
 
-   lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), 11);
-   lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), 12);
+   lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), "11");
+   lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), "12");
 
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
@@ -121,12 +121,12 @@ void PlantLoaderTest::testLightPointsToEngine()
    QCOMPARE( addLightSpy.size(), 2);
    const LightPoint *lightCheck = addLightSpy.at(0).at(0).value<const LightPoint *>();
    QCOMPARE( lightCheck->description(), QString("light 1") );
-   QCOMPARE( lightCheck->ownAddress(), 11);
+   QCOMPARE( lightCheck->ownAddress(), QString("11"));
    QCOMPARE( lightCheck->position(), QPointF(0.1, 0.2));
 
    lightCheck = addLightSpy.at(1).at(0).value<const LightPoint *>();
    QCOMPARE( lightCheck->description(), QString("light 2") );
-   QCOMPARE( lightCheck->ownAddress(), 12);
+   QCOMPARE( lightCheck->ownAddress(), QString("12"));
    QCOMPARE( lightCheck->position(), QPointF(0.3, 0.4));
 
    m_plantFactory->destroyOwnEngine( m_ownEngine);
@@ -139,8 +139,8 @@ void PlantLoaderTest::testReload()
 {
    QList<const LightPoint *> lightSet;
 
-   lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), 11);
-   lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), 12);
+   lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), "11");
+   lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), "12");
 
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
@@ -165,8 +165,8 @@ void PlantLoaderTest::testUnload()
 {
    QList<const LightPoint *> lightSet;
 
-   lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), 11);
-   lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), 12);
+   lightSet << new LightPoint("light 1", QPointF(0.1, 0.2), "11");
+   lightSet << new LightPoint("light 2", QPointF(0.3, 0.4), "12");
 
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,

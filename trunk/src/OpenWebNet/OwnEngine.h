@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QList>
 
-#include "OwnConstants.h"
+#include "OwnTypes.h"
 
 
 class NetworkUi_IF;
@@ -29,25 +29,25 @@ public:
     * @brief trigger a request to turn a light on
     * @param ownAddress
     */
-   void lightPointRequestOn( int ownAddress);
+   void lightPointRequestOn( const own::Where & ownAddress);
 
    /**
     * @brief trigger a request to turn a light off
     * @param ownAddress
     */
-   void lightPointRequestOff( int ownAddress);
+   void lightPointRequestOff(const own::Where & ownAddress);
 
    /**
     * @brief trigger a request to set the level of a light
     * @param ownAddress
     * @param level (see type definition for details)
     */
-   void lightPointRequestLevel( int ownAddress, own::LIGHT_LEVEL level);
+   void lightPointRequestLevel(const own::Where & ownAddress, own::LIGHT_LEVEL level);
 
    /**
     * @brief trigger a request for a light status
     */
-   void lightPointProbeStatus(int ownAddress);
+   void lightPointProbeStatus( const own::Where & ownAddress);
 
    /**
     * @brief to be called when a new plant must be loaded,
@@ -63,25 +63,25 @@ signals:
    void lightPointAdded( const LightPoint * point );
 
    /** notification that request to turn on has been triggered */
-   void lightOnRequestStarted( int ownAddress);
+   void lightOnRequestStarted( const own::Where & ownAddress) const;
 
    /** notification that sequence to turn on has completed succesfully */
-   void lightOnAcked( int ownAddress);
+   void lightOnAcked( const own::Where &  ownAddress) const;
 
    /** notification that request to turn off has been triggered */
-   void lightOffRequestStarted( int ownAddress);
+   void lightOffRequestStarted( const own::Where &  ownAddress) const;
 
    /** notification that sequence to turn off has completed succesfully */
-   void lightOffAcked( int ownAddress);
+   void lightOffAcked( const own::Where &  ownAddress) const;
 
    /** notification that request to change level has been triggered */
-   void lightLevelRequestStarted( int ownAddress);
+   void lightLevelRequestStarted( const own::Where &  ownAddress) const;
 
    /** notification that sequence to change level has completed succesfully */
-   void lightLevelAcked( int ownAddress, own::LIGHT_LEVEL level);
+   void lightLevelAcked( const own::Where &  ownAddress, own::LIGHT_LEVEL level) const;
 
    /** notification that request to turn off has been triggered */
-   void lightStatusRequestStarted( int ownAddress);
+   void lightStatusRequestStarted( const own::Where &  ownAddress) const;
 
    /** notification that all current data about plant are outdated */
    void plantCleared();
@@ -102,7 +102,7 @@ private:
 
    QList<const LightPoint *> m_lightTable;
    Action m_pendingAction;
-   int m_pendingActionWhere;
+   own::Where m_pendingActionWhere;
    own::LIGHT_LEVEL m_pendingActionLevel;
 
 private:
