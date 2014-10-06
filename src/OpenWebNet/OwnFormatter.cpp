@@ -1,58 +1,47 @@
 #include "OwnFormatter.h"
 
-const QMap<own::LIGHT_LEVEL, int> OwnFormatter::m_LevelLookupTable = initLevelTable();
+/** const values of level to integer-identifier table */
+const QHash<own::LIGHT_LEVEL, int> OwnFormatter::m_LevelLookupTable = initLevelTable();
+
 
 OwnFormatter::OwnFormatter()
 {
 }
 
-QString OwnFormatter::lightOn(int ownAddress)
+QString OwnFormatter::lightOn(const own::Where & ownAddress)
 {
    return QString("*1*1*%1##").arg( ownAddress);
 }
 
-QString OwnFormatter::lightOff(int ownAddress)
+QString OwnFormatter::lightOff( const own::Where ownAddress)
 {
    return QString("*1*0*%1##").arg( ownAddress);
 }
 
-QString OwnFormatter::lightLevel(int ownAddress, own::LIGHT_LEVEL level)
+QString OwnFormatter::lightLevel( const own::Where & ownAddress, own::LIGHT_LEVEL level)
 {
    return QString("*1*%1*%2##").
          arg( m_LevelLookupTable[level]).
          arg(ownAddress);
 }
 
-QString OwnFormatter::lightLevelSlow(int ownAddress, own::LIGHT_LEVEL level)
+QString OwnFormatter::lightLevelSlow(const own::Where & ownAddress, own::LIGHT_LEVEL level)
 {
    return QString("*1*%1#3*%2##").
          arg( m_LevelLookupTable[level]).
          arg(ownAddress);
 }
 
-QString OwnFormatter::lightLevelGroup(int group, own::LIGHT_LEVEL level)
-{
-   return QString("*1*%1*#%2##").
-         arg( m_LevelLookupTable[level]).
-         arg(group);
-}
 
-QString OwnFormatter::lightLevelGroupSlow(int group, own::LIGHT_LEVEL level)
-{
-   return QString("*1*%1#3*#%2##").
-         arg( m_LevelLookupTable[level]).
-         arg(group);
-}
-
-QString OwnFormatter::askForLightStatus(int ownAddress)
+QString OwnFormatter::askForLightStatus( const own::Where & ownAddress)
 {
    return QString("*#1*%1##").arg( ownAddress);
 }
 
 
-QMap<own::LIGHT_LEVEL, int> OwnFormatter::initLevelTable()
+QHash<own::LIGHT_LEVEL, int> OwnFormatter::initLevelTable()
 {
-   QMap<own::LIGHT_LEVEL, int> levelTable;
+   QHash<own::LIGHT_LEVEL, int> levelTable;
 
    levelTable.insert( own::LEVEL_20, 2);
    levelTable.insert( own::LEVEL_30, 3);

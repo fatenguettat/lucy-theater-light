@@ -1,45 +1,86 @@
 #include "LightPanel.h"
-#include "ui_LightPanel.h"
 
-#include <QCommonStyle>
+//#include <QCommonStyle>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsTextItem>
+#include <QGraphicsGridLayout>
+#include <QGridLayout>
+
+#include "Button.h"
+#include "Slider.h"
+
 
 LightPanel::LightPanel(QWidget *parent) :
-   QDialog(parent),
-   ui(new Ui::LightPanel)
+   QDialog(parent)
 {
-   ui->setupUi(this);
-
-   setWindowFlags(Qt::Tool);
+   // TODO !!!!   qui non va bene un cazzo.
+   //    Gli oggetti creati vanno distrutti correttamente.
+   setWindowFlags(Qt::ToolTip);
    setWindowTitle(tr("Light Panel"));
 
-   QCommonStyle style;
-   ui->applyLevelButton->setIcon( style.standardIcon(QStyle::SP_ArrowRight));
-   ui->onButton->setIcon( QPixmap(":/images/images/lightOn.png"));
-   ui->offButton->setIcon( QPixmap(":/images/images/lightOff.png"));
-   ui->doneButton->setIcon( QPixmap(":/images/images/panelDone.png"));
+   QGraphicsScene *scene = new QGraphicsScene( 0, 0, 400., 300.);
+   QGraphicsView *view = new QGraphicsView( scene, this);
+
+   this->setLayout(new QGridLayout(this));
+   this->layout()->addWidget( view);
+
+   QGraphicsWidget *captionBox = new QGraphicsWidget(NULL);
+   m_captionItem = new QGraphicsTextItem(captionBox);
+   Slider *levelSlider = new Slider(NULL);
+   Button *exitButton = new Button(NULL);
+   Button *onButton = new Button(NULL);
+   Button *offButton = new Button(NULL);
+   Button *applyLevelButton = new Button(NULL);
+   scene->addItem(captionBox);
+   scene->addItem(levelSlider);
+   scene->addItem(exitButton);
+   scene->addItem(onButton);
+   scene->addItem(offButton);
+   scene->addItem(applyLevelButton);
+
+   setHtmlLabel("<h1>ciao</h1><h2>ciao</h2><h3>ciao</h3>");
+
+   QGraphicsGridLayout *layout = new QGraphicsGridLayout;
+   layout->addItem(captionBox, 0, 0, 1, 3);
+   layout->addItem(exitButton, 1, 0, 1, 1);
+   layout->addItem(onButton, 1, 1, 1, 1);
+   layout->addItem(offButton, 2, 0, 1, 1);
+   layout->addItem(applyLevelButton, 2, 1, 1, 1);
+   layout->addItem(levelSlider, 3, 0, 1, 3);
+
+   QGraphicsWidget *form = new QGraphicsWidget;
+   form->setLayout(layout);
+   scene->addItem(form);
+
+   connect (exitButton, SIGNAL(hit()), this, SLOT(onExitButtonClicked()) );
+   connect (onButton, SIGNAL(hit()), this, SIGNAL(requestTurnOn()) );
+   connect (offButton, SIGNAL(hit()), this, SIGNAL(requestTurnOff()) );
+   connect (applyLevelButton, SIGNAL(hit()), this, SLOT(onApplyLevelButtonClicked()) );
 
    initLevelMap();
 }
 
 LightPanel::~LightPanel()
 {
-   delete ui;
+   //   delete ui;
 }
 
-void LightPanel::on_applyLevelButton_clicked()
+void LightPanel::setHtmlLabel(const QString &label)
 {
-   own::LIGHT_LEVEL level = m_sliderToLevelTable.value( ui->levelSlider->value(), own::LEVEL_100);
+   m_captionItem->setHtml(label);
+}
+
+void LightPanel::onExitButtonClicked()
+{
+   done(0);
+}
+
+void LightPanel::onApplyLevelButtonClicked()
+{
+   // TODO read value from slider and send it
+   own::LIGHT_LEVEL level = own::LEVEL_30;
    emit requestSetLevel( level);
-}
-
-void LightPanel::on_onButton_clicked()
-{
-   emit requestTurnOn();
-}
-
-void LightPanel::on_offButton_clicked()
-{
-   emit requestTurnOff();
 }
 
 void LightPanel::initLevelMap()
@@ -55,8 +96,3 @@ void LightPanel::initLevelMap()
    m_sliderToLevelTable.insert(100, own::LEVEL_100);
 }
 
-
-void LightPanel::on_doneButton_clicked()
-{
-   done(0);
-}

@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="it_IT">
 <context>
+    <name>GuiInterfaceQt</name>
+    <message>
+        <location filename="../../src/GUI/GuiInterfaceQt.cpp" line="123"/>
+        <source>Light Point %1</source>
+        <translation>Punto Luce %1</translation>
+    </message>
+</context>
+<context>
     <name>LightPanel</name>
     <message>
         <location filename="../../src/form/LightPanel.ui" line="14"/>
@@ -17,8 +25,12 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="14"/>
         <source>MainWindow</source>
+        <translation type="vanished">Impianto</translation>
+    </message>
+    <message>
+        <location filename="../../src/form/MainWindow.ui" line="14"/>
+        <source>Plant</source>
         <translation>Impianto</translation>
     </message>
     <message>
@@ -37,64 +49,72 @@
         <translation>&amp;Comandi</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="54"/>
+        <location filename="../../src/form/MainWindow.ui" line="50"/>
+        <source>&amp;Language</source>
+        <translation>&amp;Lingua</translation>
+    </message>
+    <message>
+        <location filename="../../src/form/MainWindow.ui" line="61"/>
         <source>&amp;open plant file ...</source>
         <translation>&amp;Apri impianto ...</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="57"/>
-        <source>Ctrl+O</source>
-        <translation>Ctrl+O</translation>
+        <location filename="../../src/form/MainWindow.ui" line="101"/>
+        <source>&amp;Locale</source>
+        <translation>&amp;Locale</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="62"/>
+        <source>Ctrl+O</source>
+        <translation type="vanished">Ctrl+O</translation>
+    </message>
+    <message>
+        <location filename="../../src/form/MainWindow.ui" line="69"/>
         <source>&amp;re-open last plant</source>
         <translation>&amp;riapri l&apos;ultimo impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="65"/>
         <source>Ctrl+R</source>
-        <translation>Ctrl+R</translation>
+        <translation type="vanished">Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="70"/>
+        <location filename="../../src/form/MainWindow.ui" line="77"/>
         <source>view &amp;log</source>
         <translation>visualizza &amp;Messaggi di sistema</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="75"/>
+        <location filename="../../src/form/MainWindow.ui" line="85"/>
         <source>&amp;Shut everything off</source>
         <translation>&amp;Spegni tutto l&apos;impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="80"/>
+        <location filename="../../src/form/MainWindow.ui" line="93"/>
         <source>&amp;Check light status</source>
         <translation>&amp;Controlla stato luci</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="65"/>
+        <location filename="../../src/form/MainWindow.cpp" line="88"/>
         <source>can not re-open</source>
         <translation>Impossibile riaprire l&apos;impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="66"/>
+        <location filename="../../src/form/MainWindow.cpp" line="89"/>
         <source>There is no plant in history.
 Please select one.</source>
         <translation>Non ci sono impianti già utilizzati.
 Per favore selezionarne uno.</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="86"/>
+        <location filename="../../src/form/MainWindow.cpp" line="109"/>
         <source>plant file errors</source>
         <translation>errori nel file di impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="87"/>
+        <location filename="../../src/form/MainWindow.cpp" line="110"/>
         <source>&lt;b&gt;The following errors have been found in file:&lt;/b&gt;&lt;br&gt; %1&lt;br&gt;&lt;br&gt;</source>
         <translation>&lt;b&gt;Il file contiene i seguenti errori:&lt;/b&gt;&lt;br&gt; %1&lt;br&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="90"/>
+        <location filename="../../src/form/MainWindow.cpp" line="113"/>
         <source>
 
 please check file and reload</source>
@@ -124,68 +144,68 @@ Controllare il file e riaprirlo</translation>
         <translation>Attenzione</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="45"/>
+        <location filename="../../src/form/MainWindow.cpp" line="68"/>
         <source>Open plant file</source>
         <translation>Apri file di impianto</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="95"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="116"/>
         <source>line %1: File can&apos;t be found: %2</source>
         <translation>linea %1: Impossibile trovare il file: %2</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="102"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="123"/>
         <source>line %1: missing closing tag for plant picture</source>
         <translation>linea %1: manca la tag di chiusura per l&apos;immagine dell&apos;impianto</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="114"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="135"/>
         <source>line %1: missing closing tag for plant name</source>
         <translation>linea %1: manca la tag di chiusura del nome dell&apos;impianto</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="145"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="166"/>
         <source>line %1: missing closing tag for light points</source>
         <translation>linea %1: manca la tag di chiusura per i punti luce</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="175"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="196"/>
         <source>line %1: Description or arguments missing</source>
         <translation>linea %1: manca la descrizione o alcuni parametri del punto luce</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="183"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="204"/>
         <source>line %1: Not enough arguments for light point</source>
         <translation>linea %1: mancano alcuni parametri per il punto luce</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="207"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="229"/>
         <source>One or more arguments are not valid numbers</source>
         <translation>Uno o più parametri non sono corretti</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="212"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="234"/>
         <source>line %1: Light coordinates are not in range (0,0) - (1,1)</source>
         <translation>linea %1: le coordinate del punto luce devono essere tra (0,0) ed (1,1)</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="244"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="266"/>
         <source>line %1: Not enough arguments for gateway address</source>
         <translation>linea %1: mancano alcuni parametri per l&apos;indirizzo del gateway</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="253"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="275"/>
         <source>line %1: bad value for gateway port</source>
         <translation>linea %1: valore illegale per la porta del gateway</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="265"/>
-        <location filename="../../src/plant/PlantParser.cpp" line="274"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="287"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="296"/>
         <source>line %1: Bad ip address</source>
         <translation>linea %1: indirizzo IP non valido</translation>
     </message>
     <message>
-        <location filename="../../src/plant/PlantParser.cpp" line="284"/>
+        <location filename="../../src/plant/PlantParser.cpp" line="306"/>
         <source>line %1: Missing tag &lt;MH200N_ADDRESS--&gt;</source>
         <translation>linea %1: manca la tag di chiusura dell&apos;indirizzo IP del gateway</translation>
     </message>

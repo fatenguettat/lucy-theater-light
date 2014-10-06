@@ -1,7 +1,9 @@
-Required for release:
-1. 'Group' concept and management
+Required for desktop release:
+- 'Group' concept and management
+
 
 Desiderata:
-- think how to signal light level
+- slight regulation on/off by automation
+- think how to show light level on GUI
 - Ask status for all lights
 - Step-Light

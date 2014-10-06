@@ -38,7 +38,7 @@ void PlantLoader::unload()
    T_ASSERT( m_guiInterface != NULL);
    T_ASSERT( m_ownEngine != NULL);
 
-   m_guiInterface->clear(); // TODO secondo me si spacca tutto.
+   m_guiInterface->clear();
    m_ownEngine->clearPlant();
 
    emit plantLoaded(false);

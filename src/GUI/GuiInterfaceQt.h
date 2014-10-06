@@ -1,7 +1,7 @@
 #ifndef GUIINTERFACEQT_H
 #define GUIINTERFACEQT_H
 
-#include <QMap>
+#include <QHash>
 
 #include "GuiInterface_IF.h"
 
@@ -27,16 +27,16 @@ public:
    virtual void setPlantLabel(const QString &label);
    virtual void clear();
 public slots:
-   virtual void addLightPoint(const LightPoint *lightPoint);
-   virtual void showAsTurnedOn(int ownAddress);
-   virtual void showAsTurnedOff(int ownAddress);
-   virtual void showAsUnknownState( int ownAddress);
-   virtual void showAsLevel( int ownAddress, own::LIGHT_LEVEL level);
+   virtual void addLightPoint( const LightPoint *lightPoint);
+   virtual void showAsTurnedOn( const own::Where &  ownAddress);
+   virtual void showAsTurnedOff( const own::Where & ownAddress);
+   virtual void showAsUnknownState( const own::Where & ownAddress);
+   virtual void showAsLevel( const own::Where & ownAddress, own::LIGHT_LEVEL level);
 
 
 public slots:
    /* callback from main plant */
-   void onLightButtonPressed(int ownAddress);
+   void onLightButtonPressed(const own::Where & ownAddress);
 
 private slots:
    /* callbacks from light panel */
@@ -51,10 +51,10 @@ private:
    LightPanel &m_lightPanel;
 
    /* OWN address for current operation */
-   int m_currentOwnAddr;
+   own::Where m_currentOwnAddr;
 
    /* OWN address to graphic button */
-   QMap< int, LightButton *> m_lightButtonTable;
+   QHash< const own::Where, LightButton *> m_lightButtonTable;
 };
 
 #endif // GUIINTERFACEQT_H

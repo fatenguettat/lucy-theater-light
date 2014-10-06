@@ -1,12 +1,12 @@
 #ifndef LIGHT_BUTTON_H
 #define LIGHT_BUTTON_H
 
-#include <QGraphicsWidget>
-#include <QStyleOptionGraphicsItem>
-#include <QPainter>
+
+#include "OwnTypes.h"
+#include "Button.h"
 
 
-class LightButton : public QGraphicsWidget
+class LightButton : public Button
 {
    Q_OBJECT
 public:
@@ -18,27 +18,25 @@ public:
    } LightState;
 
 public:
-   LightButton( int index, QGraphicsItem *parent = 0);
+   LightButton( const own::Where & index, QGraphicsItem *parent = 0);
    ~LightButton() {}
 
-   QRectF boundingRect() const;
-   QPainterPath shape() const;
    void setState(LightState state);
-   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *);
+   virtual void paint(QPainter *painter,
+                      const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 signals:
-   void pressed(int);
+   void hit(const own::Where &);
 
 protected:
-   void mousePressEvent(QGraphicsSceneMouseEvent *);
-   void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
+   virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
 
 private:
    static QPixmap *m_pixmapOn;
    static QPixmap *m_pixmapOff;
    static QPixmap *m_pixmapUnknown;
 
-   int m_index;  /** identifies this button when it's part of a group. */
+   own::Where m_where;
    LightState m_state;
 
 private:

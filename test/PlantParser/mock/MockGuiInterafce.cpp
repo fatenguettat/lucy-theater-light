@@ -21,21 +21,26 @@ void MockGuiInterafce::addLightPoint(const LightPoint *lightPoint)
 }
 
 
-void MockGuiInterafce::showAsTurnedOn(int ownAddress)
+void MockGuiInterafce::showAsTurnedOn(const own::Where & ownAddress)
 {
    m_lightStatusTable.insert(ownAddress, LIGHT_ON);
 }
 
 
-void MockGuiInterafce::showAsTurnedOff(int ownAddress)
+void MockGuiInterafce::showAsTurnedOff(const own::Where & ownAddress)
 {
    m_lightStatusTable.insert(ownAddress, LIGHT_OFF);
 }
 
 
-void MockGuiInterafce::showAsUnknownState(int ownAddress)
+void MockGuiInterafce::showAsUnknownState(const own::Where & ownAddress)
 {
    m_lightStatusTable.insert(ownAddress, LIGHT_UNKNOWN);
+}
+
+void MockGuiInterafce::showAsLevel(const own::Where &ownAddress, own::LIGHT_LEVEL /*level*/)
+{
+   m_lightStatusTable.insert(ownAddress, LIGHT_MID_LEVEL);
 }
 
 
@@ -45,7 +50,7 @@ void MockGuiInterafce::setPlantLabel(const QString &label)
 }
 
 
-MockGuiInterafce::LightStatus MockGuiInterafce::mockGetLightStatus(int ownAddress)
+MockGuiInterafce::LightStatus MockGuiInterafce::mockGetLightStatus(const own::Where &ownAddress)
 {
    return m_lightStatusTable.value( ownAddress, LIGHT_NOT_SET);
 }

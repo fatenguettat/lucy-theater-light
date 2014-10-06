@@ -1,10 +1,12 @@
 #include "OwnEngine.h"
 
+#include "OwnConstants.h"
 #include "GuiInterface_IF.h"
 #include "NetworkUi_IF.h"
 #include "OwnLink.h"
 #include "OwnFormatter.h"
 #include "LightPoint.h"
+
 
 
 OwnEngine::OwnEngine( NetworkUi_IF & networkInterface,
@@ -15,7 +17,7 @@ OwnEngine::OwnEngine( NetworkUi_IF & networkInterface,
    m_ownLink(ownLink),
    m_ownFormatter(ownformatter),
    m_pendingAction(ACTION_NONE),
-   m_pendingActionWhere(-1),
+   m_pendingActionWhere(""),
    m_pendingActionLevel(own::LEVEL_100)
 {
    connect( &m_ownLink, SIGNAL(sequenceComplete()),
@@ -29,7 +31,7 @@ void OwnEngine::addLightPoint(const LightPoint & point)
 }
 
 
-void OwnEngine::lightPointRequestOn(int ownAddress)
+void OwnEngine::lightPointRequestOn(const own::Where & ownAddress)
 {
    m_pendingAction = ACTION_LIGHT_ON;
    m_pendingActionWhere = ownAddress;
@@ -50,7 +52,7 @@ void OwnEngine::lightPointRequestOn(int ownAddress)
    }
 }
 
-void OwnEngine::lightPointRequestOff(int ownAddress)
+void OwnEngine::lightPointRequestOff(const own::Where & ownAddress)
 {
    m_pendingAction = ACTION_LIGHT_OFF;
    m_pendingActionWhere = ownAddress;
@@ -71,7 +73,7 @@ void OwnEngine::lightPointRequestOff(int ownAddress)
    }
 }
 
-void OwnEngine::lightPointRequestLevel(int ownAddress, own::LIGHT_LEVEL level)
+void OwnEngine::lightPointRequestLevel(const own::Where & ownAddress, own::LIGHT_LEVEL level)
 {
    m_pendingAction = ACTION_SET_LEVEL;
    m_pendingActionWhere = ownAddress;
@@ -93,7 +95,7 @@ void OwnEngine::lightPointRequestLevel(int ownAddress, own::LIGHT_LEVEL level)
    }
 }
 
-void OwnEngine::lightPointProbeStatus(int ownAddress)
+void OwnEngine::lightPointProbeStatus(const own::Where & ownAddress)
 {
    QString message = m_ownFormatter.askForLightStatus( ownAddress);
    m_ownLink.triggerSendMessage( message);
@@ -130,6 +132,6 @@ void OwnEngine::onSequenceComplete()
    }
 
    m_pendingAction = ACTION_NONE;
-   m_pendingActionWhere = -1;
+   m_pendingActionWhere.clear();
 }
 

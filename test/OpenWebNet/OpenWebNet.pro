@@ -63,7 +63,8 @@ HEADERS += \
     tst_OwnEngine.h \
     ../../src/OpenWebNet/OwnEngine.h \
     ../PlantParser/mock/MockGuiInterafce.h \
-    ../../src/plant/LightPoint.h
+    ../../src/plant/LightPoint.h \
+    ../../src/OpenWebNet/OwnTypes.h
 
 
 
