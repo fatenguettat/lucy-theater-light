@@ -110,6 +110,24 @@ void OwnEngine::clearPlant()
    emit plantCleared();
 }
 
+QString OwnEngine::getLightDescription(const own::Where &ownAddress)
+{
+   QString description("");
+   bool found = false;
+
+   // TODO if lights were ordered by ownAddress, a binary search would be possible
+   for (int i = 0; (i < m_lightTable.size()) && (! found); i++)
+   {
+      if (m_lightTable.at(i)->ownAddress() == ownAddress)
+      {
+         found = true;
+         description = m_lightTable.at(i)->description();
+      }
+   }
+
+   return description;
+}
+
 void OwnEngine::onSequenceComplete()
 {
    switch (m_pendingAction)

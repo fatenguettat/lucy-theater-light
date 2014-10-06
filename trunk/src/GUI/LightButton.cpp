@@ -16,33 +16,14 @@ LightButton::LightButton(const own::Where &index, QGraphicsItem *parent)
    setCacheMode(DeviceCoordinateCache);
 }
 
-#if 0
-QRectF LightButton::boundingRect() const
-{
-   return QRectF(-m_size, -m_size, m_size, m_size);
-}
-
-QPainterPath LightButton::shape() const
-{
-   QPainterPath path;
-   path.addEllipse(boundingRect());
-   return path;
-}
-#endif
-
 void LightButton::setState(LightState state)
 {
    m_state = state;
    update();
 }
 
-void LightButton::paint(QPainter *painter,
-                        const QStyleOptionGraphicsItem *option, QWidget *widget)
+const QPixmap & LightButton::getIcon()
 {
-
-   /* draw base of button */
-   Button::paint( painter, option, widget);
-
    const QPixmap *pixmap;
    ensureIconsAreCreated();
 
@@ -59,8 +40,7 @@ void LightButton::paint(QPainter *painter,
       pixmap = m_pixmapUnknown;
    }
 
-   painter->drawPixmap( -(m_size/2) + (pixmap->width()*3./4.),
-                        -(m_size/2) + (pixmap->height()*3./4.), *pixmap);
+   return *pixmap;
 }
 
 

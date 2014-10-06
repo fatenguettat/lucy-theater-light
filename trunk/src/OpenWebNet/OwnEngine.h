@@ -55,6 +55,12 @@ public:
     */
    void clearPlant();
 
+   /**
+    * @return the description for a lightpoint, given it'a 'WHERE' param
+    * @param ownAddress identifies light point
+    */
+   QString getLightDescription( const own::Where & ownAddress);
+
 signals:
    /**
     * @brief notification of a new light point

@@ -19,7 +19,7 @@ LightPanel::LightPanel(QWidget *parent) :
    setWindowFlags(Qt::ToolTip);
    setWindowTitle(tr("Light Panel"));
 
-   QGraphicsScene *scene = new QGraphicsScene( 0, 0, 400., 300.);
+   QGraphicsScene *scene = new QGraphicsScene( 0, 0, 300., 250.);
    QGraphicsView *view = new QGraphicsView( scene, this);
 
    this->setLayout(new QGridLayout(this));
@@ -39,8 +39,6 @@ LightPanel::LightPanel(QWidget *parent) :
    scene->addItem(offButton);
    scene->addItem(applyLevelButton);
 
-   setHtmlLabel("<h1>ciao</h1><h2>ciao</h2><h3>ciao</h3>");
-
    QGraphicsGridLayout *layout = new QGraphicsGridLayout;
    layout->addItem(captionBox, 0, 0, 1, 3);
    layout->addItem(exitButton, 1, 0, 1, 1);
@@ -49,7 +47,8 @@ LightPanel::LightPanel(QWidget *parent) :
    layout->addItem(applyLevelButton, 2, 1, 1, 1);
    layout->addItem(levelSlider, 3, 0, 1, 3);
 
-   QGraphicsWidget *form = new QGraphicsWidget;
+   QGraphicsWidget *form = new QGraphicsWidget(NULL);
+   form->setGeometry( 5., 5., 290., 240.);
    form->setLayout(layout);
    scene->addItem(form);
 
@@ -63,7 +62,6 @@ LightPanel::LightPanel(QWidget *parent) :
 
 LightPanel::~LightPanel()
 {
-   //   delete ui;
 }
 
 void LightPanel::setHtmlLabel(const QString &label)

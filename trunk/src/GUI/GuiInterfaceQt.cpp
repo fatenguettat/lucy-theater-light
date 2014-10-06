@@ -117,7 +117,7 @@ void GuiInterfaceQt::onLightButtonPressed( const own::Where & ownAddress)
    m_currentOwnAddr = ownAddress;
 
    QString label = QString("<b>%1: </b><br/>%2").
-                   arg(ownAddress).arg("");
+                   arg(ownAddress).arg(m_ownEngine.getLightDescription(ownAddress));
    m_lightPanel.setHtmlLabel(label);
 
    m_lightPanel.exec();
