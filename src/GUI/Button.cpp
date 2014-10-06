@@ -5,6 +5,7 @@
 
 #define DEFAULT_SIZE   40
 
+
 Button::Button(QGraphicsItem *parent) :
    QGraphicsWidget(parent),
    m_size(DEFAULT_SIZE)
@@ -47,6 +48,11 @@ void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
       painter->translate(2, 2);
    }
    painter->drawEllipse(r.adjusted(5, 5, -5, -5));
+
+   // draw icon
+   const QPixmap & icon = getIcon();
+   painter->drawPixmap( -(m_size/2) + (icon.width()*3./4.),
+                        -(m_size/2) + (icon.height()*3./4.), icon);
 }
 
 void Button::setSize(int size)
@@ -63,5 +69,16 @@ void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
 {
    emit hit();
    update();
+}
+
+const QPixmap &Button::getIcon()
+{
+   static QPixmap *nullPixmap = NULL;
+   if (nullPixmap == NULL)
+   {
+      nullPixmap = new QPixmap();
+   }
+
+   return *nullPixmap;
 }
 

@@ -35,6 +35,8 @@ private Q_SLOTS:
    void testSequenceCompleteForOff();
    void testSequenceCompleteForLevel();
 
+   // TODO test getLightDescription
+
 private:
    OwnEngine *m_ownEngine;
    MockNetworkUi *m_network;

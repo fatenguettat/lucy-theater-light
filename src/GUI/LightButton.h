@@ -22,8 +22,7 @@ public:
    ~LightButton() {}
 
    void setState(LightState state);
-   virtual void paint(QPainter *painter,
-                      const QStyleOptionGraphicsItem *option, QWidget *widget);
+   virtual const QPixmap & getIcon();
 
 signals:
    void hit(const own::Where &);

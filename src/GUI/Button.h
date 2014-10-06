@@ -24,6 +24,12 @@ protected:
    virtual void mousePressEvent(QGraphicsSceneMouseEvent *);
    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
 
+   /**
+    * @brief this function must be reimplemented by children to return correct icon.
+    * @return a void pixmap in default implementation.
+    */
+   virtual const QPixmap & getIcon();
+
 protected:
    /** this is a main value from which all dimensions are calculated */
    int m_size;
