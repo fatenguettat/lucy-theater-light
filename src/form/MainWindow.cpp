@@ -60,6 +60,24 @@ MainWindow::~MainWindow()
 }
 
 
+void MainWindow::showEvent(QShowEvent *event)
+{
+   QMainWindow::showEvent( event);
+
+   /* This seems to be the only way to open a plant on startup.
+    * It is not really good */
+   static bool firstTime = true;
+
+   if (firstTime)
+   {
+      firstTime = false;
+
+      /* On startup, load default plant */
+      openPlantFile(":/defaultPlant/defaultPlant/defaultPlant.lux");
+   }
+}
+
+
 void MainWindow::on_action_open_plant_file_triggered()
 {
    QString fileName;
@@ -70,7 +88,13 @@ void MainWindow::on_action_open_plant_file_triggered()
 
    if (fileName != QString())
    {
-      openPlantFile(fileName);
+      bool plantOpen;
+      plantOpen = openPlantFile(fileName);
+
+      if (plantOpen)
+      {
+         m_settings.setLastPlantPath( fileName);
+      }
    }
 }
 
@@ -78,21 +102,24 @@ void MainWindow::on_action_open_plant_file_triggered()
 void MainWindow::on_action_re_open_last_plant_triggered()
 {
    QString lastPlant = m_settings.getLastPlantPath();
+   bool loaded = false;
 
    if (lastPlant != QString())
    {
-      openPlantFile(lastPlant);
+      loaded = openPlantFile(lastPlant);
    }
-   else
+
+   if (lastPlant == QString() || (! loaded))
    {
       QMessageBox::warning( this, tr("can not re-open"),
                             tr("There is no plant in history.\nPlease select one."));
    }
 }
 
-void MainWindow::openPlantFile( const QString & fileName)
+bool MainWindow::openPlantFile( const QString & fileName)
 {
    // TODO make apposite class
+   bool loaded = false;
    QFile plantFile(fileName);
    plantFile.open( QIODevice::ReadOnly );
 
@@ -128,10 +155,12 @@ void MainWindow::openPlantFile( const QString & fileName)
       m_guiInterface = m_plantFactory.buildGuiInterafce( m_ownEngine);
 
       m_plantLoader.load( *plantInfo, m_guiInterface, m_ownEngine);
-      m_settings.setLastPlantPath( fileName);
+      loaded = true;
    }
 
    plantFile.close();
+
+   return loaded;
 }
 
 
@@ -198,3 +227,4 @@ void MainWindow::onPlantLoaded(bool loadOk)
       m_ownEngine = NULL;
    }
 }
+

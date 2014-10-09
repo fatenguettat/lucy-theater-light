@@ -8,12 +8,14 @@ class GuiInterface_IF;
 class PlantInfo;
 class PlantView;
 class ErrorNotifier_IF;
+class LightPanel;
 
 
 class PlantFactory : public PlantFactory_IF
 {
 public:
    PlantFactory( PlantView & view, ErrorNotifier_IF &errorNotifier);
+   ~PlantFactory();
 
    // PlantFactory_IF interface
 public:
@@ -26,6 +28,7 @@ public:
 private:
    ErrorNotifier_IF & m_errorLogger;
    PlantView & m_view;
+   LightPanel * m_panel;
 };
 
 #endif // PLANTFACTORY_H

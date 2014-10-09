@@ -11,6 +11,9 @@ class LightPanel;
 }
 
 class QGraphicsTextItem;
+class QGraphicsWidget;
+class Slider;
+class PrivatePanelIcons;
 
 
 class LightPanel : public QDialog
@@ -36,6 +39,12 @@ private:
    /** translate UI slider values into own levels */
    QMap<int, own::LIGHT_LEVEL> m_sliderToLevelTable;
    QGraphicsTextItem *m_captionItem;
+   Slider *m_levelSlider;
+
+   /** parent of all created objects. Kept to delate at the end. */
+   QGraphicsWidget *m_root;
+
+   PrivatePanelIcons *m_iconSet;
 
 private slots:
    void onExitButtonClicked();
@@ -43,6 +52,7 @@ private slots:
 
 private:
    void initLevelMap();
+   QSize choosePanelSize();
 };
 
 #endif // LIGHTPANEL_H

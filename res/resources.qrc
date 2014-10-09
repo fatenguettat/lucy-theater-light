@@ -3,9 +3,14 @@
         <file>images/lightOff.png</file>
         <file>images/lightOn.png</file>
         <file>images/lightUnknown.png</file>
+        <file>images/apply.png</file>
         <file>images/panelDone.png</file>
     </qresource>
     <qresource prefix="/translations">
         <file>translations/lucy_it.qm</file>
+    </qresource>
+    <qresource prefix="/defaultPlant">
+        <file>defaultPlant/defaultPlant.lux</file>
+        <file>defaultPlant/defaultPlant.png</file>
     </qresource>
 </RCC>

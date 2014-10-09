@@ -47,7 +47,7 @@ void GuiInterfaceQt::setPlantLayoutImagePath(const QString &fullPath)
 
 void GuiInterfaceQt::setPlantLabel(const QString &label)
 {
-   //TODO on ANDROID this is lost
+   /* show plant label on window title (when available) */
    m_view.topLevelWidget()->setWindowTitle( label);
 }
 

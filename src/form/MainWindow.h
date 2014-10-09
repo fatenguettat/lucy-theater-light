@@ -31,6 +31,10 @@ public:
                        ErrorNotifier_IF &errorNotifier, QWidget *parent = 0);
    ~MainWindow();
 
+   // QWidget interface
+protected:
+   virtual void showEvent(QShowEvent *event);
+
 private slots:
    void on_action_open_plant_file_triggered();
    void on_action_re_open_last_plant_triggered();
@@ -59,7 +63,7 @@ private:
    GuiInterface_IF *m_guiInterface;
 
 private:
-   void openPlantFile(const QString &fileName);
+   bool openPlantFile(const QString &fileName);
    void loadApplicationLanguage();
 };
 

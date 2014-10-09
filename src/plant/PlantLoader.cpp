@@ -49,7 +49,6 @@ void PlantLoader::loadPlantLayout(const PlantInfo& plantInfo)
 {
    QFileInfo fileInfo(plantInfo.getPlantFilePath());
 
-   // TODO exceptions should be an internal mechanism
    if (! fileInfo.exists())
    {
       throw QString("unable to load file: ") + fileInfo.absoluteFilePath();

@@ -1,5 +1,4 @@
 Required for desktop release:
-- Light panel must be operative
 - 'Group' concept and management
 
 
