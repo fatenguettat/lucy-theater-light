@@ -8,7 +8,8 @@
 
 Button::Button(QGraphicsItem *parent) :
    QGraphicsWidget(parent),
-   m_size(DEFAULT_SIZE)
+   m_size(DEFAULT_SIZE),
+   m_icon(NULL)
 {
    setAcceptHoverEvents(true);
    setCacheMode(DeviceCoordinateCache);
@@ -43,6 +44,7 @@ void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
    grad.setColorAt(down ? 0 : 1, Qt::lightGray);
    painter->setPen(Qt::NoPen);
    painter->setBrush(grad);
+
    if (down)
    {
       painter->translate(2, 2);
@@ -51,13 +53,20 @@ void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
    // draw icon
    const QPixmap & icon = getIcon();
-   painter->drawPixmap( -(m_size/2) + (icon.width()*3./4.),
-                        -(m_size/2) + (icon.height()*3./4.), icon);
+
+   // TODO scaling each time is waste of resources.
+   //   Should be done on 'setSize' only.
+   painter->drawPixmap( m_size*1/10, m_size*1/10, icon.scaledToHeight(m_size*8/10));
 }
 
 void Button::setSize(int size)
 {
    m_size = size;
+}
+
+void Button::setDefaultIcon(const QPixmap *icon)
+{
+   m_icon = icon;
 }
 
 void Button::mousePressEvent(QGraphicsSceneMouseEvent *)
@@ -67,18 +76,26 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *)
 
 void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
 {
-   emit hit();
    update();
+   emit hit();
 }
 
 const QPixmap &Button::getIcon()
 {
+   /* ensure default object is created */
    static QPixmap *nullPixmap = NULL;
    if (nullPixmap == NULL)
    {
       nullPixmap = new QPixmap();
    }
 
-   return *nullPixmap;
+   /* if set, return 'm_icon' */
+   const QPixmap * pixmap = nullPixmap;
+   if (m_icon != NULL)
+   {
+      pixmap = m_icon;
+   }
+
+   return *pixmap;
 }
 

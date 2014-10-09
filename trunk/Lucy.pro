@@ -96,5 +96,8 @@ SOURCES += \
     src/GUI/Slider.cpp
 
 OTHER_FILES += \
-    TBD.txt
+    TBD.txt \
+    android/AndroidManifest.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

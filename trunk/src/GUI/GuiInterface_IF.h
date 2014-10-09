@@ -72,9 +72,9 @@ public slots:
 public:
    /*!
     * \brief to be called when user wants to load another plant.
-    *  All display data related to previous plant are deleted
+    *  All display data related to previous plant are deleted. Note that this
+    *  also de-allocates contents not deleted by destructors.
     */
-   // TODO plan to remove this if lifetime changes
    virtual void clear() = 0;
 
 };

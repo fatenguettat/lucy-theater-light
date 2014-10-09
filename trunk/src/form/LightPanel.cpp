@@ -1,54 +1,103 @@
 #include "LightPanel.h"
 
-//#include <QCommonStyle>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 #include <QGraphicsGridLayout>
 #include <QGridLayout>
+#include <QPixmap>
+#include <QApplication>
+#include <QDesktopWidget>
 
 #include "Button.h"
 #include "Slider.h"
+#include "testableAssert.h"
+
+
+/** helper structured class to hold paths of icons */
+class PrivatePanelIcons
+{
+public:
+   PrivatePanelIcons():
+      exitIconPath(":/images/images/panelDone.png"),
+      onIconPath(":/images/images/lightOn.png"),
+      offIconPath(":/images/images/lightOff.png"),
+      applyLevelIconPath(":/images/images/apply.png")
+   {
+   }
+
+   ~PrivatePanelIcons() {}
+
+   QString exitIconPath;
+   QString onIconPath;
+   QString offIconPath;
+   QString applyLevelIconPath;
+};
+
 
 
 LightPanel::LightPanel(QWidget *parent) :
-   QDialog(parent)
+   QDialog(parent),
+   m_iconSet(new PrivatePanelIcons)
 {
-   // TODO !!!!   qui non va bene un cazzo.
-   //    Gli oggetti creati vanno distrutti correttamente.
+   T_ASSERT( parent != NULL);
+
    setWindowFlags(Qt::ToolTip);
    setWindowTitle(tr("Light Panel"));
 
-   QGraphicsScene *scene = new QGraphicsScene( 0, 0, 300., 250.);
+   QSize size = choosePanelSize();
+
+   QGraphicsScene *scene = new QGraphicsScene( 0, 0, size.width() / 2,
+                                               size.height() / 2);
    QGraphicsView *view = new QGraphicsView( scene, this);
 
    this->setLayout(new QGridLayout(this));
    this->layout()->addWidget( view);
 
-   QGraphicsWidget *captionBox = new QGraphicsWidget(NULL);
+   m_root = new QGraphicsWidget(NULL);
+
+   QGraphicsWidget *captionBox = new QGraphicsWidget(m_root);
    m_captionItem = new QGraphicsTextItem(captionBox);
-   Slider *levelSlider = new Slider(NULL);
-   Button *exitButton = new Button(NULL);
-   Button *onButton = new Button(NULL);
-   Button *offButton = new Button(NULL);
-   Button *applyLevelButton = new Button(NULL);
+   m_captionItem->setFont(QFont("MS Sans", 15));
+   m_levelSlider = new Slider(m_root);
+
+   QPixmap *exitIcon = new QPixmap(m_iconSet->exitIconPath);
+   QPixmap *onIcon = new QPixmap(m_iconSet->onIconPath);
+   QPixmap *offIcon = new QPixmap(m_iconSet->offIconPath);
+   QPixmap *applyLevelIcon = new QPixmap(m_iconSet->applyLevelIconPath);
+
+   Button *exitButton = new Button(m_root);
+   Button *onButton = new Button(m_root);
+   Button *offButton = new Button(m_root);
+   Button *applyLevelButton = new Button(m_root);
+
+   exitButton->setDefaultIcon( exitIcon);
+   onButton->setDefaultIcon( onIcon);
+   offButton->setDefaultIcon( offIcon);
+   applyLevelButton->setDefaultIcon( applyLevelIcon);
+
    scene->addItem(captionBox);
-   scene->addItem(levelSlider);
+   scene->addItem(m_levelSlider);
    scene->addItem(exitButton);
    scene->addItem(onButton);
    scene->addItem(offButton);
    scene->addItem(applyLevelButton);
 
+   exitButton->setSize( size.height()/7);
+   onButton->setSize( size.height()/7);
+   offButton->setSize( size.height()/7);
+   applyLevelButton->setSize( size.height()/7);
+
    QGraphicsGridLayout *layout = new QGraphicsGridLayout;
    layout->addItem(captionBox, 0, 0, 1, 3);
-   layout->addItem(exitButton, 1, 0, 1, 1);
-   layout->addItem(onButton, 1, 1, 1, 1);
-   layout->addItem(offButton, 2, 0, 1, 1);
-   layout->addItem(applyLevelButton, 2, 1, 1, 1);
-   layout->addItem(levelSlider, 3, 0, 1, 3);
+   layout->addItem(exitButton, 0, 3, 1, 1);
+   layout->addItem(m_levelSlider, 1, 0, 1, 3);
+   layout->addItem(applyLevelButton, 1, 3, 1, 1);
+   layout->addItem(onButton, 2, 1, 1, 1);
+   layout->addItem(offButton, 2, 2, 1, 1);
 
-   QGraphicsWidget *form = new QGraphicsWidget(NULL);
-   form->setGeometry( 5., 5., 290., 240.);
+   QGraphicsWidget *form = new QGraphicsWidget(m_root);
+   form->setGeometry( scene->sceneRect());
    form->setLayout(layout);
    scene->addItem(form);
 
@@ -62,6 +111,24 @@ LightPanel::LightPanel(QWidget *parent) :
 
 LightPanel::~LightPanel()
 {
+   delete m_root;
+}
+
+QSize LightPanel::choosePanelSize()
+{
+   QSize size = QApplication::desktop()->size();
+
+   if (size.width() > 700)
+   {
+      size.setWidth(700);
+   }
+
+   if (size.height() > 500)
+   {
+      size.setHeight(500);
+   }
+
+   return size;
 }
 
 void LightPanel::setHtmlLabel(const QString &label)
@@ -76,8 +143,8 @@ void LightPanel::onExitButtonClicked()
 
 void LightPanel::onApplyLevelButtonClicked()
 {
-   // TODO read value from slider and send it
-   own::LIGHT_LEVEL level = own::LEVEL_30;
+   own::LIGHT_LEVEL level;
+   level = m_sliderToLevelTable.value( m_levelSlider->value(), own::LEVEL_20);
    emit requestSetLevel( level);
 }
 

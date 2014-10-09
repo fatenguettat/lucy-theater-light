@@ -17,8 +17,14 @@
 
 PlantFactory::PlantFactory(PlantView &view, ErrorNotifier_IF &errorNotifier):
    m_errorLogger(errorNotifier),
-   m_view(view)
+   m_view(view),
+   m_panel(NULL)
 {
+}
+
+PlantFactory::~PlantFactory()
+{
+   delete m_panel;
 }
 
 OwnEngine *PlantFactory::buildOwnEngine(const PlantInfo &plantInfo)
@@ -47,13 +53,19 @@ void PlantFactory::destroyOwnEngine(OwnEngine *ownEngine)
 
 GuiInterface_IF *PlantFactory::buildGuiInterafce( OwnEngine *engine)
 {
-   LightPanel *panel = new LightPanel(m_view.parentWidget());
-   return new GuiInterfaceQt( *engine, *m_view.scene(), m_view, *panel);
+   /* building the panel in constructor results in runtime error */
+   if (m_panel)
+   {
+      delete m_panel;
+      m_panel = NULL;
+   }
+   m_panel = new LightPanel(&m_view);
+
+   return new GuiInterfaceQt( *engine, *m_view.scene(), m_view, *m_panel);
 }
 
 void PlantFactory::destroyGuiInterface(GuiInterface_IF *guiIf)
 {
-   // TODO is panel deleted ?
    guiIf->clear();
    delete guiIf;
 }
