@@ -8,6 +8,7 @@
 class QGraphicsScene;
 class QGraphicsView;
 class LightButton;
+class LightGroup;
 class LightPanel;
 class OwnEngine;
 
@@ -27,7 +28,8 @@ public:
    virtual void setPlantLabel(const QString &label);
    virtual void clear();
 public slots:
-   virtual void addLightPoint( const LightPoint *lightPoint);
+   virtual void storeLightPoint( const LightPoint *lightPoint);
+   virtual void storeLightGroup( const LightGroup *lightPoint);
    virtual void showAsTurnedOn( const own::Where &  ownAddress);
    virtual void showAsTurnedOff( const own::Where & ownAddress);
    virtual void showAsUnknownState( const own::Where & ownAddress);
@@ -55,6 +57,7 @@ private:
 
    /* OWN address to graphic button */
    QHash< const own::Where, LightButton *> m_lightButtonTable;
+   QHash< const own::Where, LightButton *> m_groupButtonTable;
 };
 
 #endif // GUIINTERFACEQT_H

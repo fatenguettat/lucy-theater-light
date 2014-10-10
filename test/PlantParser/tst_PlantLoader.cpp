@@ -5,6 +5,7 @@
 #include "PlantLoader.h"
 #include "PlantInfo.h"
 #include "OwnEngine.h"
+#include "LightGroup.h"
 #include "MockGuiInterafce.h"
 #include "MockPlantFactory.h"
 
@@ -13,6 +14,7 @@ PlantLoaderTest::PlantLoaderTest(QObject *parent) :
    QObject(parent)
 {
    qRegisterMetaType<const LightPoint *>("const LightPoint *");
+   qRegisterMetaType<const LightGroup *>("const LightGroup *");
 }
 
 void PlantLoaderTest::init()
@@ -45,6 +47,7 @@ void PlantLoaderTest::testPlantLayout()
 
    m_plantInfo = new PlantInfo( filePath, "test plant",
                                 QList<const LightPoint *>(),
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -64,6 +67,7 @@ void PlantLoaderTest::testPlantLayoutInvalid()
 
    m_plantInfo = new PlantInfo( filePath, "test plant",
                                 QList<const LightPoint *>(),
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -90,6 +94,7 @@ void PlantLoaderTest::testPlantLabel()
 
    m_plantInfo = new PlantInfo( filePath, "test plant description",
                                 QList<const LightPoint *>(),
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -111,6 +116,7 @@ void PlantLoaderTest::testLightPointsToEngine()
 
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -135,6 +141,31 @@ void PlantLoaderTest::testLightPointsToEngine()
    delete lightSet.at(0);
 }
 
+
+void PlantLoaderTest::testLightGroupToEngine()
+{
+   QList<const LightGroup *> lightGroupSet;
+   LightPoint node1("all hall", QPointF( .5, .5), "#1");
+   LightPoint node2("all corners", QPointF( .3, .3), "#2");
+
+   lightGroupSet << new LightGroup( node1, QList<own::Where>() << "11" << "12");
+   lightGroupSet << new LightGroup( node2, QList<own::Where>() << "21" << "22" << "23");
+
+   m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
+                                QList<const LightPoint *>(),
+                                lightGroupSet,
+                                "127.0.0.1", 20000);
+
+   m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
+   QSignalSpy addGroupSpy( m_ownEngine, SIGNAL(lightGroupAdded(const LightGroup*)) );
+
+   m_plantLoader->load( *m_plantInfo, m_guiInterface, m_ownEngine);
+
+   QCOMPARE( addGroupSpy.size(), 2);
+   QCOMPARE( addGroupSpy.at(0).at(0).value<const LightGroup*>()->getLightPointList().size(), 2);
+   QCOMPARE( addGroupSpy.at(1).at(0).value<const LightGroup*>()->getLightPointList().size(), 3);
+}
+
 void PlantLoaderTest::testReload()
 {
    QList<const LightPoint *> lightSet;
@@ -144,6 +175,7 @@ void PlantLoaderTest::testReload()
 
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -170,6 +202,7 @@ void PlantLoaderTest::testUnload()
 
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -177,8 +210,10 @@ void PlantLoaderTest::testUnload()
 
    m_plantLoader->load( *m_plantInfo, m_guiInterface, m_ownEngine);
    m_plantLoader->unload();
-// TODO I also want to check that engine has no entries.
+
    QCOMPARE( clearSigSpy.size(), 1);
+   /* engine has no entries */
+   QCOMPARE( m_ownEngine->getLightDescription("11"), QString());
 
    m_plantFactory->destroyOwnEngine( m_ownEngine);
    delete m_plantInfo;
@@ -192,6 +227,7 @@ void PlantLoaderTest::testLoadSignal()
 
    m_plantInfo = new PlantInfo( filePath, "test plant description",
                                 QList<const LightPoint *>(),
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -211,6 +247,7 @@ void PlantLoaderTest::testUnloadSignal()
 
    m_plantInfo = new PlantInfo( filePath, "test plant description",
                                 QList<const LightPoint *>(),
+                                QList<const LightGroup *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);

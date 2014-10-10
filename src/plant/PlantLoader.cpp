@@ -28,7 +28,8 @@ void PlantLoader::load(const PlantInfo & plantInfo,
    m_guiInterface = guiInterface;
 
    loadPlantLayout(plantInfo);
-   loadLightpoints(plantInfo);
+   loadLightPoints(plantInfo);
+   loadLightGroups(plantInfo);
 
    emit plantLoaded(true);
 }
@@ -59,12 +60,21 @@ void PlantLoader::loadPlantLayout(const PlantInfo& plantInfo)
 }
 
 
-void PlantLoader::loadLightpoints(const PlantInfo& plantInfo)
+void PlantLoader::loadLightPoints(const PlantInfo& plantInfo)
 {
    /* lights are loaded to engine only */
    foreach (const LightPoint * light, plantInfo.getLightPoints())
    {
       m_ownEngine->addLightPoint( *light);
+   }
+}
+
+void PlantLoader::loadLightGroups(const PlantInfo &plantInfo)
+{
+   /* lights are loaded to engine only */
+   foreach (const LightGroup * group, plantInfo.getLightGroups())
+   {
+      m_ownEngine->addLightGroup( *group);
    }
 }
 

@@ -26,16 +26,25 @@ public slots:
 private Q_SLOTS:
    void testInit();
    void testAddPoint();
+   void testAddGroup();
    void testTurnOnSingleLight();
    void testTurnOffSingleLight();
    void testRequestStatus();
    void testTurnOffAll();
+   void testTurnOffAllAcked();
    void testTurnOnAll();
+   void testTurnOnAllAcked();
+   void testTurnOnGroup();
+   void testTurnOffGroup();
+   void testSetLevelForGroup();
    void testSequenceCompleteForOn();
    void testSequenceCompleteForOff();
    void testSequenceCompleteForLevel();
+   void testLightDescription();
+   void testLightDescriptionNotFound();
+   void testLightGroupDescription();
 
-   // TODO test getLightDescription
+   // TODO test probe status
 
 private:
    OwnEngine *m_ownEngine;

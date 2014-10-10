@@ -15,7 +15,7 @@ void MockGuiInterafce::setPlantLayoutImagePath(const QString & fullPath)
 }
 
 
-void MockGuiInterafce::addLightPoint(const LightPoint *lightPoint)
+void MockGuiInterafce::storeLightPoint(const LightPoint *lightPoint)
 {
    m_lightsList << *lightPoint;
 }

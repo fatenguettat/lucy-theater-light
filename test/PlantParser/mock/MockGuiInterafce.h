@@ -28,7 +28,7 @@ public:
    // GuiInterface_IF interface
 public:
    virtual void setPlantLayoutImagePath(const QString &fullPath);
-   virtual void addLightPoint( const LightPoint * lightPoint);
+   virtual void storeLightPoint( const LightPoint * lightPoint);
    virtual void showAsTurnedOn( const own::Where & ownAddress);
    virtual void showAsTurnedOff( const own::Where & ownAddress);
    virtual void showAsUnknownState( const own::Where & ownAddress);

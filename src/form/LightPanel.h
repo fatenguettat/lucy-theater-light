@@ -36,8 +36,6 @@ signals:
    void requestSetLevel(own::LIGHT_LEVEL);
 
 private:
-   /** translate UI slider values into own levels */
-   QMap<int, own::LIGHT_LEVEL> m_sliderToLevelTable;
    QGraphicsTextItem *m_captionItem;
    Slider *m_levelSlider;
 
@@ -51,7 +49,6 @@ private slots:
    void onApplyLevelButtonClicked();
 
 private:
-   void initLevelMap();
    QSize choosePanelSize();
 };
 

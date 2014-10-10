@@ -6,6 +6,7 @@
 
 #include "PlantParser.h"
 #include "PlantInfo.h"
+#include "LightGroup.h"
 
 
 PlantParserTest::PlantParserTest()
@@ -238,6 +239,69 @@ void PlantParserTest::testLighPoint_missingArgument()
    QStringList errors = m_plantParser->getErrors();
    QCOMPARE( errors.size(), 1);
    QCOMPARE( errors.at(0), QString("line 2: Not enough arguments for light point [\"Sala 01\" 0.3 0.5]"));
+}
+
+void PlantParserTest::testGroup_valid()
+{
+   QTextStream stream("<!--LIGHT_GROUPS>\n"\
+                      "\"Tutta la sala\" 0.3 0.5 #1 31 32 33 61 62 63\n"\
+                      "<LIGHT_GROUPS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QCOMPARE( m_plantParser->getErrors().size(), 0);
+   QCOMPARE( info->getLightGroups().size(), 1);
+
+   const LightGroup *group = info->getLightGroups().at(0);
+   QCOMPARE( group->node().description(), QString("Tutta la sala"));
+   QCOMPARE( group->node().position(), QPointF( 0.3, 0.5));
+   QCOMPARE( group->getLightPointList().size(), 6);
+}
+
+void PlantParserTest::testGroup_badDescription()
+{
+   /* missing closing quote */
+   QTextStream stream("<!--LIGHT_GROUPS>\n"\
+                      "\"Tutta la sala 0.3 0.5 #1 31 32 33\n"\
+                      "<LIGHT_GROUPS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QCOMPARE( m_plantParser->getErrors().size(), 1);
+   QCOMPARE( m_plantParser->getErrors().at(0),
+             QString("line 2: Description or arguments missing [\"Tutta la sala 0.3 0.5 #1 31 32 33]"));
+}
+
+void PlantParserTest::testGroup_missingPoint()
+{
+   /* missing point coordinates */
+   QTextStream stream("<!--LIGHT_GROUPS>\n"\
+                      "\"Tutta la sala\"  #1 31 32 33\n"\
+                      "<LIGHT_GROUPS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QCOMPARE( m_plantParser->getErrors().size(), 1);
+   QCOMPARE( m_plantParser->getErrors().at(0),
+             QString("line 2: light group has invalid point [\"Tutta la sala\"  #1 31 32 33]"));
+}
+
+void PlantParserTest::testGroup_missingGroupId()
+{
+   /* group misses '#' */
+   QTextStream stream("<!--LIGHT_GROUPS>\n"\
+                      "\"Tutta la sala\" 0.3 0.5 1 31 32 33\n"\
+                      "<LIGHT_GROUPS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QCOMPARE( m_plantParser->getErrors().size(), 1);
+   QCOMPARE( m_plantParser->getErrors().at(0),
+             QString("line 2: light group should start with '#' [\"Tutta la sala\" 0.3 0.5 1 31 32 33]"));
 }
 
 void PlantParserTest::testGateway_valid()

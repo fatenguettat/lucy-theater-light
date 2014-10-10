@@ -67,7 +67,7 @@ public slots:
     *   (use \a showAsTurnedOn or \a showAsTurnedOff to change display state).
     * \param GuilightPoint defines the light to be added
     */
-   virtual void addLightPoint( const LightPoint * lightPoint) = 0;
+   virtual void storeLightPoint( const LightPoint * lightPoint) = 0;
 
 public:
    /*!

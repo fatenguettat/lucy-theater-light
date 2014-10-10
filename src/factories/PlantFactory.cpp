@@ -67,7 +67,11 @@ GuiInterface_IF *PlantFactory::buildGuiInterafce( OwnEngine *engine)
 void PlantFactory::destroyGuiInterface(GuiInterface_IF *guiIf)
 {
    guiIf->clear();
+
+   delete m_panel;
    delete guiIf;
+
+   m_panel = NULL;
 }
 
 

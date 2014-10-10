@@ -1,6 +1,6 @@
 Required for desktop release:
-- 'Group' concept and management
-
+- 'TURN OFF ALL' must be working
+- 'group' button need a separate icon
 
 Desiderata:
 - slight regulation on/off by automation

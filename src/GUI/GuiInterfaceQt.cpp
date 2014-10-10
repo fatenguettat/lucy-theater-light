@@ -6,6 +6,7 @@
 #include "LightButton.h"
 #include "LightPanel.h"
 #include "LightPoint.h"
+#include "LightGroup.h"
 #include "testableAssert.h"
 #include "OwnEngine.h"
 
@@ -27,7 +28,9 @@ GuiInterfaceQt::GuiInterfaceQt( OwnEngine &ownEngine,
 
    /* listen for events from engine */
    connect( &m_ownEngine, SIGNAL(lightPointAdded(const LightPoint*)),
-            this, SLOT(addLightPoint(const LightPoint*)) );
+            this, SLOT(storeLightPoint(const LightPoint*)) );
+   connect( &m_ownEngine, SIGNAL(lightGroupAdded(const LightGroup*)),
+            this, SLOT(storeLightGroup(const LightGroup*)) );
    connect( &m_ownEngine, SIGNAL(lightOnAcked(own::Where)),
             this, SLOT(showAsTurnedOn(own::Where)) );
    connect( &m_ownEngine, SIGNAL(lightOffAcked(own::Where)),
@@ -52,7 +55,7 @@ void GuiInterfaceQt::setPlantLabel(const QString &label)
 }
 
 
-void GuiInterfaceQt::addLightPoint(const LightPoint *lightPoint)
+void GuiInterfaceQt::storeLightPoint(const LightPoint *lightPoint)
 {
    own::Where ownAddress = lightPoint->ownAddress();
 
@@ -67,6 +70,23 @@ void GuiInterfaceQt::addLightPoint(const LightPoint *lightPoint)
                   m_scene.height() * lightPoint->position().y());
 
    m_lightButtonTable.insert( ownAddress, light);
+}
+
+void GuiInterfaceQt::storeLightGroup(const LightGroup *lightPoint)
+{
+   own::Where ownAddress = lightPoint->node().ownAddress();
+
+   LightButton *button = new LightButton( ownAddress);
+   button->setState( LightButton::LIGHT_UNKNOWN);
+
+   m_scene.addItem( button);
+
+   connect (button, SIGNAL(hit(own::Where)), this, SLOT(onLightButtonPressed(own::Where)) );
+
+   button->moveBy( m_scene.width() * lightPoint->node().position().x(),
+                   m_scene.height() * lightPoint->node().position().y());
+
+   m_groupButtonTable.insert( ownAddress, button);
 }
 
 
@@ -128,17 +148,17 @@ void GuiInterfaceQt::onLightButtonPressed( const own::Where & ownAddress)
 void GuiInterfaceQt::onGuiRequestTurnOn()
 {
    T_ASSERT( m_currentOwnAddr != QString());
-   m_ownEngine.lightPointRequestOn( m_currentOwnAddr);
+   m_ownEngine.lightRequestOn( m_currentOwnAddr);
 }
 
 void GuiInterfaceQt::onGuiRequestTurnOff()
 {
    T_ASSERT( m_currentOwnAddr != QString());
-   m_ownEngine.lightPointRequestOff( m_currentOwnAddr);
+   m_ownEngine.lightRequestOff( m_currentOwnAddr);
 }
 
 void GuiInterfaceQt::onGuiRequestSetLevel(own::LIGHT_LEVEL level)
 {
    T_ASSERT( m_currentOwnAddr != QString());
-   m_ownEngine.lightPointRequestLevel( m_currentOwnAddr, level);
+   m_ownEngine.lightRequestLevel( m_currentOwnAddr, level);
 }

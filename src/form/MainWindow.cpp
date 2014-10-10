@@ -8,6 +8,7 @@
 #include <QTranslator>
 #include <QMessageBox>
 
+#include "configuration.h"
 #include "PlantParser.h"
 #include "PlantLoader.h"
 #include "PlantView.h"
@@ -56,6 +57,7 @@ MainWindow::MainWindow(PlantParser & plantParser, PlantLoader & plantLoader,
 
 MainWindow::~MainWindow()
 {
+   m_plantFactory.destroyGuiInterface( m_guiInterface);
    delete ui;
 }
 
@@ -174,7 +176,7 @@ void MainWindow::on_action_Shut_everything_off_triggered()
 {
    if (m_ownEngine)
    {
-      m_ownEngine->lightPointRequestOff( own::GLOBAL_WHERE);
+      m_ownEngine->lightRequestOff( own::GLOBAL_WHERE);
    }
 }
 
@@ -183,7 +185,7 @@ void MainWindow::on_action_Check_light_status_triggered()
 {
    if (m_ownEngine)
    {
-      m_ownEngine->lightPointProbeStatus( own::GLOBAL_WHERE);
+      m_ownEngine->lightProbeStatus( own::GLOBAL_WHERE);
    }
 }
 
@@ -228,3 +230,12 @@ void MainWindow::onPlantLoaded(bool loadOk)
    }
 }
 
+
+void MainWindow::on_actionAbout_Lucy_triggered()
+{
+   QMessageBox message(this);
+   message.setIconPixmap(QPixmap(":/appIcon/icons/Lucy_128.png"));
+   message.setWindowTitle( tr("About Lucy"));
+   message.setText( tr(ABOUT_MESSAGE));
+   message.exec();
+}

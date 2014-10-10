@@ -43,3 +43,7 @@ Teatro Mediglia v02 (DEF)
 "Camerino Maschi"          0.07  0.355  69
 "Locale caldaia piccola"   0.512 0.34   71
 <LIGHT_POINTS-->
+
+<!--LIGHT_GROUPS>
+"Tutta la sala" 0.35 0.65 #1 41 42 43 51 52
+<LIGHT_GROUPS-->
