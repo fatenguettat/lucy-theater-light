@@ -1,9 +1,0 @@
-********* Start testing of tst_OwnLink *********
-Config: Using QtTest library 5.3.0, Qt 5.3.0
-PASS   : tst_OwnLink::initTestCase()
-PASS   : tst_OwnLink::testInit()
-PASS   : tst_OwnLink::sendTurnOn()
-PASS   : tst_OwnLink::unexpectedMessage()
-PASS   : tst_OwnLink::cleanupTestCase()
-Totals: 5 passed, 0 failed, 0 skipped
-********* Finished testing of tst_OwnLink *********
