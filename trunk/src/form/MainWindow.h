@@ -47,6 +47,8 @@ private slots:
    /** called when a plant is loaded or unloaded */
    void onPlantLoaded(bool);
 
+   void on_actionAbout_Lucy_triggered();
+
 private:
    Ui::MainWindow *ui;
    QTranslator *m_translator;

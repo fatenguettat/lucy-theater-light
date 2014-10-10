@@ -49,7 +49,8 @@ private:
 
 private:
    void loadPlantLayout(const PlantInfo& plantInfo);
-   void loadLightpoints(const PlantInfo& plantInfo);
+   void loadLightPoints(const PlantInfo& plantInfo);
+   void loadLightGroups(const PlantInfo& plantInfo);
 };
 
 #endif // PLANTLOADER_H

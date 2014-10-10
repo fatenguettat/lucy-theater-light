@@ -31,6 +31,10 @@ private Q_SLOTS:
    void testLighPoint_BadPositionHi();
    void testLighPoint_BadPositionLow();
    void testLighPoint_missingArgument();
+   void testGroup_valid();
+   void testGroup_badDescription();
+   void testGroup_missingPoint();
+   void testGroup_missingGroupId();
    void testGateway_valid();
    void testGateway_MissingClosingTag();
    void testGateway_BadIpAddress();

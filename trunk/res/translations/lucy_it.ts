@@ -4,20 +4,18 @@
 <context>
     <name>GuiInterfaceQt</name>
     <message>
-        <location filename="../../src/GUI/GuiInterfaceQt.cpp" line="123"/>
         <source>Light Point %1</source>
-        <translation>Punto Luce %1</translation>
+        <translation type="vanished">Punto Luce %1</translation>
     </message>
 </context>
 <context>
     <name>LightPanel</name>
     <message>
-        <location filename="../../src/form/LightPanel.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Pannello Luce</translation>
+        <translation type="vanished">Pannello Luce</translation>
     </message>
     <message>
-        <location filename="../../src/form/LightPanel.cpp" line="13"/>
+        <location filename="../../src/form/LightPanel.cpp" line="45"/>
         <source>Light Panel</source>
         <translation>Pannello Luce</translation>
     </message>
@@ -54,21 +52,31 @@
         <translation>&amp;Lingua</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="61"/>
+        <location filename="../../src/form/MainWindow.ui" line="56"/>
+        <source>&amp;About</source>
+        <translation>&amp;Informazioni</translation>
+    </message>
+    <message>
+        <location filename="../../src/form/MainWindow.ui" line="68"/>
         <source>&amp;open plant file ...</source>
         <translation>&amp;Apri impianto ...</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="101"/>
+        <location filename="../../src/form/MainWindow.ui" line="108"/>
         <source>&amp;Locale</source>
         <translation>&amp;Locale</translation>
+    </message>
+    <message>
+        <location filename="../../src/form/MainWindow.ui" line="113"/>
+        <source>About &amp;Lucy</source>
+        <translation>Informazioni su &amp;Lucy</translation>
     </message>
     <message>
         <source>Ctrl+O</source>
         <translation type="vanished">Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="69"/>
+        <location filename="../../src/form/MainWindow.ui" line="76"/>
         <source>&amp;re-open last plant</source>
         <translation>&amp;riapri l&apos;ultimo impianto</translation>
     </message>
@@ -77,50 +85,55 @@
         <translation type="vanished">Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="77"/>
+        <location filename="../../src/form/MainWindow.ui" line="84"/>
         <source>view &amp;log</source>
         <translation>visualizza &amp;Messaggi di sistema</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="85"/>
+        <location filename="../../src/form/MainWindow.ui" line="92"/>
         <source>&amp;Shut everything off</source>
         <translation>&amp;Spegni tutto l&apos;impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.ui" line="93"/>
+        <location filename="../../src/form/MainWindow.ui" line="100"/>
         <source>&amp;Check light status</source>
         <translation>&amp;Controlla stato luci</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="88"/>
+        <location filename="../../src/form/MainWindow.cpp" line="115"/>
         <source>can not re-open</source>
         <translation>Impossibile riaprire l&apos;impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="89"/>
+        <location filename="../../src/form/MainWindow.cpp" line="116"/>
         <source>There is no plant in history.
 Please select one.</source>
         <translation>Non ci sono impianti già utilizzati.
 Per favore selezionarne uno.</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="109"/>
+        <location filename="../../src/form/MainWindow.cpp" line="137"/>
         <source>plant file errors</source>
         <translation>errori nel file di impianto</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="110"/>
+        <location filename="../../src/form/MainWindow.cpp" line="138"/>
         <source>&lt;b&gt;The following errors have been found in file:&lt;/b&gt;&lt;br&gt; %1&lt;br&gt;&lt;br&gt;</source>
         <translation>&lt;b&gt;Il file contiene i seguenti errori:&lt;/b&gt;&lt;br&gt; %1&lt;br&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="113"/>
+        <location filename="../../src/form/MainWindow.cpp" line="141"/>
         <source>
 
 please check file and reload</source>
         <translation>
 
 Controllare il file e riaprirlo</translation>
+    </message>
+    <message>
+        <location filename="../../src/form/MainWindow.cpp" line="237"/>
+        <source>About Lucy</source>
+        <translation>Informazioni su Lucy</translation>
     </message>
 </context>
 <context>
@@ -144,7 +157,7 @@ Controllare il file e riaprirlo</translation>
         <translation>Attenzione</translation>
     </message>
     <message>
-        <location filename="../../src/form/MainWindow.cpp" line="68"/>
+        <location filename="../../src/form/MainWindow.cpp" line="87"/>
         <source>Open plant file</source>
         <translation>Apri file di impianto</translation>
     </message>

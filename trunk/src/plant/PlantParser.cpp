@@ -5,6 +5,7 @@
 #include <QFileInfo>
 
 #include "PlantInfo.h"
+#include "LightGroup.h"
 
 
 const char PlantParser::TAG_OPEN_PlantFile[] = "<!--PLANT_IMAGE>";
@@ -13,6 +14,8 @@ const char PlantParser::TAG_OPEN_PlantLabel[] = "<!--PLANT_NAME>";
 const char PlantParser::TAG_CLOSE_PlantLabel[] = "<PLANT_NAME-->";
 const char PlantParser::TAG_OPEN_LightPoints[] = "<!--LIGHT_POINTS>";
 const char PlantParser::TAG_CLOSE_LightPoints[] = "<LIGHT_POINTS-->";
+const char PlantParser::TAG_OPEN_LightGroups[] = "<!--LIGHT_GROUPS>";
+const char PlantParser::TAG_CLOSE_LightGroups[] = "<LIGHT_GROUPS-->";
 const char PlantParser::TAG_OPEN_GatewayAddress[] = "<!--MH200N_ADDRESS>";
 const char PlantParser::TAG_CLOSE_GatewayAddress[] = "<MH200N_ADDRESS-->";
 
@@ -58,6 +61,10 @@ const PlantInfo * PlantParser::parse(QTextStream & content)
       {
          readLightPoints();
       }
+      else if (line == QString(TAG_OPEN_LightGroups))
+      {
+         readLightGroups();
+      }
       else if (line == QString(TAG_OPEN_GatewayAddress))
       {
          readGatewayAddress();
@@ -92,7 +99,8 @@ void PlantParser::createInfoStructure()
       m_plantInfo = NULL;
    }
 
-   m_plantInfo = new PlantInfo( m_plantFilePath, m_plantLabel, m_lightPoints,
+   m_plantInfo = new PlantInfo( m_plantFilePath, m_plantLabel,
+                                m_lightPoints, m_lightGroups,
                                 m_gatewayIpAddress, m_gatewayPort);
 }
 
@@ -167,6 +175,7 @@ void PlantParser::readLightPoints()
    }
 }
 
+
 void PlantParser::createLightPoint(const QString &line)
 {
    try
@@ -209,9 +218,9 @@ const LightPoint * PlantParser::parseLightPoint(const QString &line)
 
    extractLightInfo( argumentList, &pos, &ownAddr);
 
-   // TODO think again when groups are introduced
    return new LightPoint( description, pos, QString("%1").arg(ownAddr));
 }
+
 
 void PlantParser::extractLightInfo(const QStringList & argumentList, QPointF *position, int *ownAddress)
 {
@@ -233,6 +242,96 @@ void PlantParser::extractLightInfo(const QStringList & argumentList, QPointF *po
    {
       throw QObject::tr("line %1: Light coordinates are not in range (0,0) - (1,1)").arg(m_currentLineNumber);
    }
+}
+
+/* this function assumes to be called just after finding the opening
+ * tag for light groups list. Following lines hold light group descriptors,
+ * one per line.
+ * Lines are read until closing tag is found.
+ */
+void PlantParser::readLightGroups()
+{
+   bool endTagFound = false;
+
+   while ((! m_content->atEnd()) && (! endTagFound))
+   {
+      QString line = readNextLine();
+
+      if (line == QString(TAG_CLOSE_LightGroups))
+      {
+         /* end of light points */
+         endTagFound = true;
+      }
+      else
+      {
+         /* this line should be a light group */
+         createLightGroup( line);
+      }
+   }
+
+   if (! endTagFound)
+   {
+      m_errorList << QObject::tr("line %1: missing closing tag for light groups").arg(m_currentLineNumber);
+   }
+}
+
+
+void PlantParser::createLightGroup( const QString & line)
+{
+   try
+   {
+      m_lightGroups << parseLightGroup(line);
+   }
+   catch(QString & error)
+   {
+      /* 'line' has wrong syntax */
+      m_errorList << QString( error + " [" + line + "]");
+   }
+}
+
+
+const LightGroup *PlantParser::parseLightGroup(const QString &line)
+{
+   QStringList lineFields, argumentList;
+   lineFields = line.split(QChar('"'), QString::SkipEmptyParts);
+
+   if (lineFields.length() < 2)
+   {
+      throw QObject::tr("line %1: Description or arguments missing").arg(m_currentLineNumber);
+   }
+
+   QString description = lineFields.at(0);
+   argumentList = lineFields.at(1).split(QChar(' '), QString::SkipEmptyParts);
+
+   if (argumentList.size() < 4)
+   {
+      /* bytes expected: x, y, #group, light1, ... */
+      throw QObject::tr("line %1: Not enough arguments for light group").arg(m_currentLineNumber);
+   }
+
+   bool conversionOk = true;
+   bool allConversionsOk = true;
+
+   double posX = argumentList.at(0).toDouble(&conversionOk);
+   allConversionsOk &= conversionOk;
+
+   double posY = argumentList.at(1).toDouble(&conversionOk);
+   allConversionsOk &= conversionOk;
+
+   if (! allConversionsOk)
+   {
+      throw  QObject::tr("line %1: light group has invalid point").arg(m_currentLineNumber);
+   }
+
+   QString groupWhere = argumentList.at(2);
+   if (! groupWhere.startsWith("#"))
+   {
+      throw QObject::tr("line %1: light group should start with '#'").arg(m_currentLineNumber);
+   }
+
+   LightPoint *base = new LightPoint( description, QPointF(posX, posY), groupWhere);
+
+   return new LightGroup( *base, argumentList.mid(3));
 }
 
 

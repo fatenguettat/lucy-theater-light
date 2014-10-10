@@ -28,6 +28,7 @@ private Q_SLOTS:
    void testPlantLayoutInvalid();
    void testPlantLabel();
    void testLightPointsToEngine();
+   void testLightGroupToEngine();
    void testReload();
    void testUnload();
    void testLoadSignal();

@@ -35,7 +35,6 @@ public:
 };
 
 
-
 LightPanel::LightPanel(QWidget *parent) :
    QDialog(parent),
    m_iconSet(new PrivatePanelIcons)
@@ -59,7 +58,7 @@ LightPanel::LightPanel(QWidget *parent) :
    QGraphicsWidget *captionBox = new QGraphicsWidget(m_root);
    m_captionItem = new QGraphicsTextItem(captionBox);
    m_captionItem->setFont(QFont("MS Sans", 15));
-   m_levelSlider = new Slider(m_root);
+   m_levelSlider = new Slider( own::LEVEL_20, 9, 1, m_root);
 
    QPixmap *exitIcon = new QPixmap(m_iconSet->exitIconPath);
    QPixmap *onIcon = new QPixmap(m_iconSet->onIconPath);
@@ -106,7 +105,6 @@ LightPanel::LightPanel(QWidget *parent) :
    connect (offButton, SIGNAL(hit()), this, SIGNAL(requestTurnOff()) );
    connect (applyLevelButton, SIGNAL(hit()), this, SLOT(onApplyLevelButtonClicked()) );
 
-   initLevelMap();
 }
 
 LightPanel::~LightPanel()
@@ -143,21 +141,7 @@ void LightPanel::onExitButtonClicked()
 
 void LightPanel::onApplyLevelButtonClicked()
 {
-   own::LIGHT_LEVEL level;
-   level = m_sliderToLevelTable.value( m_levelSlider->value(), own::LEVEL_20);
-   emit requestSetLevel( level);
+   emit requestSetLevel( (own::LIGHT_LEVEL)m_levelSlider->value());
 }
 
-void LightPanel::initLevelMap()
-{
-   m_sliderToLevelTable.insert(20, own::LEVEL_20);
-   m_sliderToLevelTable.insert(30, own::LEVEL_30);
-   m_sliderToLevelTable.insert(40, own::LEVEL_40);
-   m_sliderToLevelTable.insert(50, own::LEVEL_50);
-   m_sliderToLevelTable.insert(60, own::LEVEL_60);
-   m_sliderToLevelTable.insert(70, own::LEVEL_70);
-   m_sliderToLevelTable.insert(80, own::LEVEL_80);
-   m_sliderToLevelTable.insert(90, own::LEVEL_90);
-   m_sliderToLevelTable.insert(100, own::LEVEL_100);
-}
 

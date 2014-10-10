@@ -51,10 +51,17 @@
     </property>
     <addaction name="action_Locale"/>
    </widget>
+   <widget class="QMenu" name="menu_About">
+    <property name="title">
+     <string>&amp;About</string>
+    </property>
+    <addaction name="actionAbout_Lucy"/>
+   </widget>
    <addaction name="menu_Open"/>
    <addaction name="menu_View"/>
    <addaction name="menu_Commands"/>
    <addaction name="menu_Language"/>
+   <addaction name="menu_About"/>
   </widget>
   <action name="action_open_plant_file">
    <property name="text">
@@ -99,6 +106,11 @@
    </property>
    <property name="text">
     <string>&amp;Locale</string>
+   </property>
+  </action>
+  <action name="actionAbout_Lucy">
+   <property name="text">
+    <string>About &amp;Lucy</string>
    </property>
   </action>
  </widget>

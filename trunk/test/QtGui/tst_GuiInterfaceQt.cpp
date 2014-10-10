@@ -14,6 +14,7 @@
 #include "OwnLink.h"
 #include "OwnFormatter.h"
 #include "LightPoint.h"
+#include "LightGroup.h"
 #include "MockLightPanel.h"
 
 
@@ -32,6 +33,7 @@ private Q_SLOTS:
    void testInit();
    void testLinkEngineGui();
    void testLinkGuiEngineOn();
+   void testLinkGroup();
 
 private:
    QGraphicsScene *m_scene;
@@ -70,7 +72,7 @@ void QtGuiTest::init()
    m_formatter = new OwnFormatter();
    m_ownEngine = new OwnEngine( *m_network, *m_ownLink, *m_formatter);
 
-   m_panel = new MockLightPanel(m_view->parentWidget());
+   m_panel = new MockLightPanel(m_view);
 
    m_gui = new GuiInterfaceQt( *m_ownEngine, *m_scene, *m_view, *m_panel);
 }
@@ -131,6 +133,30 @@ void QtGuiTest::testLinkGuiEngineOn()
 
       QCOMPARE( turnOnReqSpy.size(), 1);
       QCOMPARE( turnOnReqSpy.at(0).at(0).toString(), QString("11"));
+   }
+   catch (QString &err)
+   {
+      QFAIL(err.toLatin1());
+   }
+}
+
+void QtGuiTest::testLinkGroup()
+{
+   try
+   {
+      QSignalSpy turnOnReqSpy( m_ownEngine, SIGNAL(lightOnRequestStarted(own::Where)) );
+
+      LightPoint node("group 1", QPointF(0.1,0.1), "#1");
+      LightGroup group( node, QList<own::Where>() << "11" << "12" << "13");
+
+      m_ownEngine->addLightGroup( group);
+      m_panel->mockArmAction( MockLightPanel::ACTION_PUSH_ON);
+
+      /* user presses light 11 button */
+      m_gui->onLightButtonPressed( "#1");
+
+      QCOMPARE( turnOnReqSpy.size(), 1);
+      QCOMPARE( turnOnReqSpy.at(0).at(0).toString(), QString("#1"));
    }
    catch (QString &err)
    {

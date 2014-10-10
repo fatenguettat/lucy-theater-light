@@ -36,7 +36,10 @@ SOURCES += tst_GuiInterfaceQt.cpp \
     ../OpenWebNet/mock/MockErrorNotifier.cpp \
     ../OpenWebNet/mock/MockNetworkUi.cpp \
     ../OpenWebNet/mock/MockOwnSocket.cpp \
-    mock/MockLightPanel.cpp
+    mock/MockLightPanel.cpp \
+    ../../src/GUI/Button.cpp \
+    ../../src/GUI/Slider.cpp \
+    ../../src/plant/LightGroup.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
@@ -55,7 +58,8 @@ HEADERS += \
     ../OpenWebNet/mock/MockNetworkUi.h \
     ../OpenWebNet/mock/MockOwnSocket.h \
     ../../src/GUI/NetworkUi_IF.h \
-    mock/MockLightPanel.h
+    mock/MockLightPanel.h \
+    ../../src/GUI/Button.h \
+    ../../src/GUI/Slider.h \
+    ../../src/plant/LightGroup.h
 
-FORMS += \
-    ../../src/form/LightPanel.ui

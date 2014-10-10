@@ -1,14 +1,15 @@
 #include "PlantInfo.h"
 
 
-PlantInfo::PlantInfo( const QString &plantFilePath,
+PlantInfo::PlantInfo(const QString &plantFilePath,
                       const QString &plantLabel,
-                      QList<const LightPoint *> lightPoints,
+                      QList<const LightPoint *> lightPoints, QList<const LightGroup *> lightGroups,
                       QString gatewayIpAddress,
                       int gatewayPort):
    m_plantFilePath(plantFilePath),
    m_plantLabel(plantLabel),
    m_lightPoints(lightPoints),
+   m_lightGroups(lightGroups),
    m_gatewayIpAddress(gatewayIpAddress),
    m_gatewayPort(gatewayPort)
 {
@@ -31,6 +32,11 @@ QString PlantInfo::getPlantLabel() const
 QList<const LightPoint *> PlantInfo::getLightPoints() const
 {
    return m_lightPoints;
+}
+
+QList<const LightGroup *> PlantInfo::getLightGroups() const
+{
+   return m_lightGroups;
 }
 
 QString PlantInfo::getGatewayIpAddress() const

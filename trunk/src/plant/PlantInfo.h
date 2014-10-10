@@ -5,6 +5,7 @@
 #include <QString>
 
 #include "LightPoint.h"
+class LightGroup;
 
 /**
  * @brief The PlantInfo class is a structured class that holds info about a
@@ -24,6 +25,7 @@ public:
    PlantInfo( const QString & plantFilePath,
               const QString & plantLabel,
               QList<const LightPoint *> lightPoints,
+              QList<const LightGroup *> lightGroups,
               QString gatewayIpAddress,
               int gatewayPort);
 
@@ -46,6 +48,11 @@ public:
    QList<const LightPoint *> getLightPoints() const;
 
    /**
+    * @return the list of light groups read in the last call to \a parse
+    */
+   QList<const LightGroup *> getLightGroups() const;
+
+   /**
     * @return IP address for OWN gateway read on last call to \a parse
     */
    QString getGatewayIpAddress() const;
@@ -59,6 +66,7 @@ private:
    QString m_plantFilePath;
    QString m_plantLabel;
    QList<const LightPoint *> m_lightPoints;
+   QList<const LightGroup *> m_lightGroups;
    QString m_gatewayIpAddress;
    int m_gatewayPort;
 };

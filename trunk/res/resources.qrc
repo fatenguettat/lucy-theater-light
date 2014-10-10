@@ -13,4 +13,7 @@
         <file>defaultPlant/defaultPlant.lux</file>
         <file>defaultPlant/defaultPlant.png</file>
     </qresource>
+    <qresource prefix="/appIcon">
+        <file>icons/Lucy_128.png</file>
+    </qresource>
 </RCC>
