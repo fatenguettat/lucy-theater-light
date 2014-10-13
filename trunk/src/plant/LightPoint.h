@@ -38,6 +38,5 @@ private:
    own::Where m_ownAddress;
 };
 
-Q_DECLARE_METATYPE(const LightPoint *)
 
 #endif // LIGHTPOINT_H

@@ -39,7 +39,8 @@ SOURCES += tst_PlantParser.cpp \
     ../OpenWebNet/mock/MockErrorNotifier.cpp \
     ../../src/OpenWebNet/OwnEngine.cpp \
     ../../src/OpenWebNet/OwnInputParser.cpp \
-    ../../src/plant/LightGroup.cpp
+    ../../src/plant/LightGroup.cpp \
+    ../../src/plant/Scenario.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -63,7 +64,8 @@ HEADERS += \
     ../../src/OpenWebNet/OwnInputParser.h \
     ../../src/GUI/NetworkUi_IF.h \
     ../../src/OpenWebNet/OwnSocket_IF.h \
-    ../../src/plant/LightGroup.h
+    ../../src/plant/LightGroup.h \
+    ../../src/plant/Scenario.h
 
 INCLUDEPATH += ../../src \
     ../../src/plant \

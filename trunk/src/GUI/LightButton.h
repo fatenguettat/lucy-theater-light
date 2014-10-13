@@ -12,9 +12,13 @@ class LightButton : public Button
 public:
    typedef enum
    {
-      LIGHT_UNKNOWN,
+      LIGHT_UNKNOWN = 0,
       LIGHT_ON,
-      LIGHT_OFF
+      LIGHT_OFF,
+
+      /** used for buttons that control other lights, without their own state */
+      LIGHT_IS_HANDLER
+
    } LightState;
 
 public:
@@ -34,6 +38,7 @@ private:
    static QPixmap *m_pixmapOn;
    static QPixmap *m_pixmapOff;
    static QPixmap *m_pixmapUnknown;
+   static QPixmap *m_pixmapHandler;
 
    own::Where m_where;
    LightState m_state;

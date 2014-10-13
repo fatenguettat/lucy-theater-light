@@ -9,6 +9,9 @@
 #include "MockGuiInterafce.h"
 #include "MockPlantFactory.h"
 
+Q_DECLARE_METATYPE(const LightGroup *)
+Q_DECLARE_METATYPE(const LightPoint *)
+
 
 PlantLoaderTest::PlantLoaderTest(QObject *parent) :
    QObject(parent)
@@ -48,6 +51,7 @@ void PlantLoaderTest::testPlantLayout()
    m_plantInfo = new PlantInfo( filePath, "test plant",
                                 QList<const LightPoint *>(),
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -68,6 +72,7 @@ void PlantLoaderTest::testPlantLayoutInvalid()
    m_plantInfo = new PlantInfo( filePath, "test plant",
                                 QList<const LightPoint *>(),
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -95,6 +100,7 @@ void PlantLoaderTest::testPlantLabel()
    m_plantInfo = new PlantInfo( filePath, "test plant description",
                                 QList<const LightPoint *>(),
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -117,6 +123,7 @@ void PlantLoaderTest::testLightPointsToEngine()
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -154,6 +161,7 @@ void PlantLoaderTest::testLightGroupToEngine()
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 QList<const LightPoint *>(),
                                 lightGroupSet,
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -176,6 +184,7 @@ void PlantLoaderTest::testReload()
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -203,6 +212,7 @@ void PlantLoaderTest::testUnload()
    m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
                                 lightSet,
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -228,6 +238,7 @@ void PlantLoaderTest::testLoadSignal()
    m_plantInfo = new PlantInfo( filePath, "test plant description",
                                 QList<const LightPoint *>(),
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
@@ -248,6 +259,7 @@ void PlantLoaderTest::testUnloadSignal()
    m_plantInfo = new PlantInfo( filePath, "test plant description",
                                 QList<const LightPoint *>(),
                                 QList<const LightGroup *>(),
+                                QList<const Scenario *>(),
                                 "127.0.0.1", 20000);
 
    m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);

@@ -77,7 +77,7 @@ void GuiInterfaceQt::storeLightGroup(const LightGroup *lightPoint)
    own::Where ownAddress = lightPoint->node().ownAddress();
 
    LightButton *button = new LightButton( ownAddress);
-   button->setState( LightButton::LIGHT_UNKNOWN);
+   button->setState( LightButton::LIGHT_IS_HANDLER);
 
    m_scene.addItem( button);
 

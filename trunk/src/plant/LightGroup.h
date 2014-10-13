@@ -25,6 +25,5 @@ private:
    QList<own::Where> m_lightPointList;
 };
 
-Q_DECLARE_METATYPE(const LightGroup *)
 
 #endif // LIGHTGROUP_H
