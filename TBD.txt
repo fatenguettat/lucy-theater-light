@@ -1,9 +1,12 @@
 Required for desktop release:
-- 'TURN OFF ALL' must be working
-- 'group' button need a separate icon
+
+
+Required for Andriod release:
+- bug: application frozen after some time, (memory leakage issue ?)
 
 Desiderata:
+- scenario: a set of values for light points in the same command session.
 - slight regulation on/off by automation
 - think how to show light level on GUI
 - Ask status for all lights
-- Step-Light
+

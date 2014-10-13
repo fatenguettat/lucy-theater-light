@@ -69,7 +69,8 @@ HEADERS += \
     src/form/LightPanel.h \
     src/GUI/Button.h \
     src/GUI/Slider.h \
-    src/plant/LightGroup.h
+    src/plant/LightGroup.h \
+    src/plant/Scenario.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -95,7 +96,8 @@ SOURCES += \
     src/form/LightPanel.cpp \
     src/GUI/Button.cpp \
     src/GUI/Slider.cpp \
-    src/plant/LightGroup.cpp
+    src/plant/LightGroup.cpp \
+    src/plant/Scenario.cpp
 
 OTHER_FILES += \
     TBD.txt \

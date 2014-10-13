@@ -8,6 +8,7 @@
 class PlantInfo;
 class QTextStream;
 class LightGroup;
+class Scenario;
 
 
 class PlantParser
@@ -43,6 +44,8 @@ private:
    static const char TAG_CLOSE_LightPoints[];
    static const char TAG_OPEN_LightGroups[];
    static const char TAG_CLOSE_LightGroups[];
+   static const char TAG_OPEN_Scenarios[];
+   static const char TAG_CLOSE_Scenarios[];
    static const char TAG_OPEN_GatewayAddress[];
    static const char TAG_CLOSE_GatewayAddress[];
 
@@ -62,6 +65,7 @@ private:
    QString m_plantLabel;
    QList<const LightPoint *> m_lightPoints;
    QList<const LightGroup *> m_lightGroups;
+   QList<const Scenario *> m_scenarios;
    QString m_gatewayIpAddress;
    int m_gatewayPort;
 
@@ -71,11 +75,14 @@ private:
    void readPlantLabel();
    void readLightPoints();
    void readLightGroups();
+   void readScenarios();
    void readGatewayAddress();
    void createLightPoint( const QString & line);
    void createLightGroup( const QString & line);
-   const LightPoint * parseLightPoint( const QString & line);
-   const LightGroup * parseLightGroup( const QString & line);
+   void createScenario( const QString & line);
+   const LightPoint * parseLightPointLine( const QString & line);
+   const LightGroup * parseLightGroupLine( const QString & line);
+   const Scenario * parseScenarioLine( const QString & line);
    void extractLightInfo( const QStringList & argumentList, QPointF *position, int *ownAddress);
    void createInfoStructure();
    void extractGatewayArguments(QStringList arguments);

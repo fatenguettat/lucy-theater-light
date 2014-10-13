@@ -7,6 +7,7 @@
 #include "PlantParser.h"
 #include "PlantInfo.h"
 #include "LightGroup.h"
+#include "Scenario.h"
 
 
 PlantParserTest::PlantParserTest()
@@ -302,6 +303,106 @@ void PlantParserTest::testGroup_missingGroupId()
    QCOMPARE( m_plantParser->getErrors().size(), 1);
    QCOMPARE( m_plantParser->getErrors().at(0),
              QString("line 2: light group should start with '#' [\"Tutta la sala\" 0.3 0.5 1 31 32 33]"));
+}
+
+void PlantParserTest::testScenario_valid()
+{
+   QTextStream stream("<!--SCENARIOS>\n"\
+                      "\"spettacolo\" 31,1 32,1 35,5\n"\
+                      "<SCENARIOS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 0);
+
+   QCOMPARE( info->getScenarios().size(), 1);
+   const Scenario *scenario = info->getScenarios().at(0);
+   QCOMPARE( scenario->getDescription(), QString("spettacolo"));
+   const QHash<own::Where, own::What> & table = scenario->getScenarioTable();
+   QCOMPARE( table.size(), 3);
+   QCOMPARE( table["31"], 1);
+   QCOMPARE( table["32"], 1);
+   QCOMPARE( table["35"], 5);
+}
+
+void PlantParserTest::testScenario_multiple()
+{
+   QTextStream stream("<!--SCENARIOS>\n"\
+                      "\"spettacolo\" 31,1 32,1 35,5\n"\
+                      "\"sicurezza\" 21,1 22,1 23,7\n"\
+                      "<SCENARIOS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 0);
+
+   QCOMPARE( info->getScenarios().size(), 2);
+}
+
+void PlantParserTest::testScenario_withGroup()
+{
+   /* group 1, level 50% */
+   QTextStream stream("<!--SCENARIOS>\n"\
+                      "\"spettacolo\" #1,5 \n"\
+                      "<SCENARIOS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 0);
+
+   QCOMPARE( info->getScenarios().size(), 1);
+   const Scenario *scenario = info->getScenarios().at(0);
+   const QHash<own::Where, own::What> & table = scenario->getScenarioTable();
+   QCOMPARE( table["#1"], 5);
+}
+
+void PlantParserTest::testScenario_missingClosingTag()
+{
+   QTextStream stream("<!--SCENARIOS>\n"\
+                      "\"spettacolo\" 31,1 32,1 35,5\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 1);
+   QCOMPARE( errors.at(0), QString("line 2: missing closing tag for scenarios"));
+}
+
+void PlantParserTest::testScenario_missingDescription()
+{
+   QTextStream stream("<!--SCENARIOS>\n"\
+                      "\" 31,1 32,1 35,5\n"\
+                      "<SCENARIOS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 1);
+   QCOMPARE( errors.at(0), QString("line 2: Description or arguments missing [\" 31,1 32,1 35,5]"));
+}
+
+void PlantParserTest::testScenario_badFormat()
+{
+   /* error in format */
+   QTextStream stream("<!--SCENARIOS>\n"\
+                      "\"spettacolo\" 31,one 32,1 35,5\n"\
+                      "<SCENARIOS-->\n");
+
+   const PlantInfo *info;
+   info = m_plantParser->parse( stream);
+
+   QStringList errors = m_plantParser->getErrors();
+   QCOMPARE( errors.size(), 1);
+   QCOMPARE( errors.at(0),
+             QString("line 2: pair WHERE,WHAT has bad format [\"spettacolo\" 31,one 32,1 35,5]"));
 }
 
 void PlantParserTest::testGateway_valid()

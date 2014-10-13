@@ -7,8 +7,12 @@
 #include "tst_OwnEngine.h"
 
 #include "OwnTypes.h"
+#include "LightGroup.h"
+#include "LightPoint.h"
 
 Q_DECLARE_METATYPE(own::Where)
+Q_DECLARE_METATYPE(const LightGroup *)
+Q_DECLARE_METATYPE(const LightPoint *)
 
 
 int main(int argc, char *argv[])

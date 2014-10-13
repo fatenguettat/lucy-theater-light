@@ -3,9 +3,11 @@
 #include <QStringList>
 #include <QTextStream>
 #include <QFileInfo>
+#include <QRegExp>
 
 #include "PlantInfo.h"
 #include "LightGroup.h"
+#include "Scenario.h"
 
 
 const char PlantParser::TAG_OPEN_PlantFile[] = "<!--PLANT_IMAGE>";
@@ -16,6 +18,8 @@ const char PlantParser::TAG_OPEN_LightPoints[] = "<!--LIGHT_POINTS>";
 const char PlantParser::TAG_CLOSE_LightPoints[] = "<LIGHT_POINTS-->";
 const char PlantParser::TAG_OPEN_LightGroups[] = "<!--LIGHT_GROUPS>";
 const char PlantParser::TAG_CLOSE_LightGroups[] = "<LIGHT_GROUPS-->";
+const char PlantParser::TAG_OPEN_Scenarios[] = "<!--SCENARIOS>";
+const char PlantParser::TAG_CLOSE_Scenarios[] = "<SCENARIOS-->";
 const char PlantParser::TAG_OPEN_GatewayAddress[] = "<!--MH200N_ADDRESS>";
 const char PlantParser::TAG_CLOSE_GatewayAddress[] = "<MH200N_ADDRESS-->";
 
@@ -65,6 +69,10 @@ const PlantInfo * PlantParser::parse(QTextStream & content)
       {
          readLightGroups();
       }
+      else if (line == QString(TAG_OPEN_Scenarios))
+      {
+         readScenarios();
+      }
       else if (line == QString(TAG_OPEN_GatewayAddress))
       {
          readGatewayAddress();
@@ -86,8 +94,19 @@ void PlantParser::clearParseData()
    {
       delete m_lightPoints.at(i);
    }
-
    m_lightPoints.clear();
+
+   for (int i=0; i < m_lightGroups.size(); i++)
+   {
+      delete m_lightGroups.at(i);
+   }
+   m_lightGroups.clear();
+
+   for (int i=0; i < m_scenarios.size(); i++)
+   {
+      delete m_scenarios.at(i);
+   }
+   m_scenarios.clear();
 }
 
 void PlantParser::createInfoStructure()
@@ -101,7 +120,8 @@ void PlantParser::createInfoStructure()
 
    m_plantInfo = new PlantInfo( m_plantFilePath, m_plantLabel,
                                 m_lightPoints, m_lightGroups,
-                                m_gatewayIpAddress, m_gatewayPort);
+                                m_scenarios, m_gatewayIpAddress,
+                                m_gatewayPort);
 }
 
 QStringList & PlantParser::getErrors()
@@ -180,7 +200,7 @@ void PlantParser::createLightPoint(const QString &line)
 {
    try
    {
-      m_lightPoints << parseLightPoint(line);
+      m_lightPoints << parseLightPointLine(line);
    }
    catch(QString & error)
    {
@@ -195,7 +215,7 @@ void PlantParser::createLightPoint(const QString &line)
  * Example:
  * "the name" 0.3 0.7 11
  */
-const LightPoint * PlantParser::parseLightPoint(const QString &line)
+const LightPoint * PlantParser::parseLightPointLine(const QString &line)
 {
    QStringList lineFields, argumentList;
    lineFields = line.split(QChar('"'), QString::SkipEmptyParts);
@@ -280,7 +300,7 @@ void PlantParser::createLightGroup( const QString & line)
 {
    try
    {
-      m_lightGroups << parseLightGroup(line);
+      m_lightGroups << parseLightGroupLine(line);
    }
    catch(QString & error)
    {
@@ -290,7 +310,7 @@ void PlantParser::createLightGroup( const QString & line)
 }
 
 
-const LightGroup *PlantParser::parseLightGroup(const QString &line)
+const LightGroup *PlantParser::parseLightGroupLine(const QString &line)
 {
    QStringList lineFields, argumentList;
    lineFields = line.split(QChar('"'), QString::SkipEmptyParts);
@@ -332,6 +352,83 @@ const LightGroup *PlantParser::parseLightGroup(const QString &line)
    LightPoint *base = new LightPoint( description, QPointF(posX, posY), groupWhere);
 
    return new LightGroup( *base, argumentList.mid(3));
+}
+
+
+void PlantParser::readScenarios()
+{
+   bool endTagFound = false;
+
+   while ((! m_content->atEnd()) && (! endTagFound))
+   {
+      QString line = readNextLine();
+
+      if (line == QString(TAG_CLOSE_Scenarios))
+      {
+         /* end of light points */
+         endTagFound = true;
+      }
+      else
+      {
+         /* this line should be a scenario */
+         createScenario( line);
+      }
+   }
+
+   if (! endTagFound)
+   {
+      m_errorList << QObject::tr("line %1: missing closing tag for scenarios").arg(m_currentLineNumber);
+   }
+}
+
+
+void PlantParser::createScenario(const QString &line)
+{
+   try
+   {
+      m_scenarios << parseScenarioLine(line);
+   }
+   catch(QString & error)
+   {
+      /* 'line' has wrong syntax */
+      m_errorList << QString( error + " [" + line + "]");
+   }
+}
+
+
+const Scenario *PlantParser::parseScenarioLine(const QString &line)
+{
+   QStringList lineFields, argumentList;
+   lineFields = line.split(QChar('"'), QString::SkipEmptyParts);
+
+   if (lineFields.length() < 2)
+   {
+      throw QObject::tr("line %1: Description or arguments missing").arg(m_currentLineNumber);
+   }
+
+   QString description = lineFields.at(0);
+   /* each entry of 'argumentList' is in form WW,  */
+   argumentList = lineFields.at(1).split(QChar(' '), QString::SkipEmptyParts);
+
+   Scenario *scenario = new Scenario(description);
+
+   QRegExp regExp("^(#?\\d+),(\\d+)");
+   foreach (QString item, argumentList)
+   {
+      if (regExp.indexIn( item) != -1)
+      {
+         /* item mathces WHERE,WHAT format */
+         scenario->addWhereWhatPair( regExp.cap(1), regExp.cap(2).toInt());
+      }
+      else
+      {
+         /* error in this line */
+         delete scenario;
+         throw QObject::tr("line %1: pair WHERE,WHAT has bad format").arg(m_currentLineNumber);
+      }
+   }
+
+   return scenario;
 }
 
 

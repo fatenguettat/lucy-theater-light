@@ -6,6 +6,7 @@
 
 #include "LightPoint.h"
 class LightGroup;
+class Scenario;
 
 /**
  * @brief The PlantInfo class is a structured class that holds info about a
@@ -19,6 +20,8 @@ public:
     * @brief build object with all fields
     * @param plantFilePath is the full path of layout image
     * @param lightPoints is a set of lights (with location and address)
+    * @param lightGroups is a set of lights commanded together
+    * @param scenarios is a set of scenarios, (each is a set of where-what pairs)
     * @param gatewayIpAddress refers to OpenWebNet server IP address
     * @param gatewayPort refers to OpenWebNet server IP port
     */
@@ -26,6 +29,7 @@ public:
               const QString & plantLabel,
               QList<const LightPoint *> lightPoints,
               QList<const LightGroup *> lightGroups,
+              QList<const Scenario *> scenarios,
               QString gatewayIpAddress,
               int gatewayPort);
 
@@ -53,6 +57,11 @@ public:
    QList<const LightGroup *> getLightGroups() const;
 
    /**
+    * @return the list of scenarios read in the last call to \a parse
+    */
+   QList<const Scenario *> getScenarios() const;
+
+   /**
     * @return IP address for OWN gateway read on last call to \a parse
     */
    QString getGatewayIpAddress() const;
@@ -67,6 +76,7 @@ private:
    QString m_plantLabel;
    QList<const LightPoint *> m_lightPoints;
    QList<const LightGroup *> m_lightGroups;
+   QList<const Scenario *> m_scenarios;
    QString m_gatewayIpAddress;
    int m_gatewayPort;
 };

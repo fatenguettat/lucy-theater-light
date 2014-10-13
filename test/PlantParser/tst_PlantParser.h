@@ -35,6 +35,14 @@ private Q_SLOTS:
    void testGroup_badDescription();
    void testGroup_missingPoint();
    void testGroup_missingGroupId();
+   void testScenario_valid();
+
+   void testScenario_multiple();
+   void testScenario_withGroup();
+   void testScenario_missingClosingTag();
+   void testScenario_missingDescription();
+   void testScenario_badFormat();
+
    void testGateway_valid();
    void testGateway_MissingClosingTag();
    void testGateway_BadIpAddress();

@@ -15,6 +15,8 @@
 #include "OwnFormatter.h"
 
 Q_DECLARE_METATYPE(own::LIGHT_LEVEL)
+Q_DECLARE_METATYPE(const LightGroup *)
+Q_DECLARE_METATYPE(const LightPoint *)
 
 
 tst_OwnEngine::tst_OwnEngine(QObject *parent) :

@@ -5,6 +5,7 @@
 QPixmap *LightButton::m_pixmapOn = NULL;
 QPixmap *LightButton::m_pixmapOff = NULL;
 QPixmap *LightButton::m_pixmapUnknown = NULL;
+QPixmap *LightButton::m_pixmapHandler = NULL;
 
 
 LightButton::LightButton(const own::Where &index, QGraphicsItem *parent)
@@ -35,6 +36,10 @@ const QPixmap & LightButton::getIcon()
    {
       pixmap = m_pixmapOff;
    }
+   else if (m_state == LIGHT_IS_HANDLER)
+   {
+      pixmap = m_pixmapHandler;
+   }
    else
    {
       pixmap = m_pixmapUnknown;
@@ -63,6 +68,11 @@ void LightButton::ensureIconsAreCreated()
    if (m_pixmapOff == NULL)
    {
       m_pixmapOff = new QPixmap(":/images/images/lightOff.png");
+   }
+
+   if (m_pixmapHandler == NULL)
+   {
+      m_pixmapHandler = new QPixmap(":/images/images/lightHandler.png");
    }
 
    if (m_pixmapUnknown == NULL)

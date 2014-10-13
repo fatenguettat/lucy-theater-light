@@ -4,7 +4,11 @@
 
 namespace own
 {
+/** OWN protocol 'where' field */
 typedef QString Where;
+
+/** OWN protocol 'what' field */
+typedef int What;
 
 /** constants used for dimmerable lights */
 typedef enum
