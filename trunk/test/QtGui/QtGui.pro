@@ -39,7 +39,8 @@ SOURCES += tst_GuiInterfaceQt.cpp \
     mock/MockLightPanel.cpp \
     ../../src/GUI/Button.cpp \
     ../../src/GUI/Slider.cpp \
-    ../../src/plant/LightGroup.cpp
+    ../../src/plant/LightGroup.cpp \
+    ../../src/plant/Scenario.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
@@ -61,5 +62,6 @@ HEADERS += \
     mock/MockLightPanel.h \
     ../../src/GUI/Button.h \
     ../../src/GUI/Slider.h \
-    ../../src/plant/LightGroup.h
+    ../../src/plant/LightGroup.h \
+    ../../src/plant/Scenario.h
 

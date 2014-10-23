@@ -12,6 +12,7 @@ class OwnLink;
 class OwnFormatter;
 class LightPoint;
 class LightGroup;
+class Scenario;
 
 
 class OwnEngine : public QObject
@@ -25,6 +26,7 @@ public:
 
    void addLightPoint( const LightPoint & point);
    void addLightGroup(const LightGroup & group);
+   void addScenario(const Scenario & scenario);
 
 public:
    /**
@@ -45,6 +47,12 @@ public:
     * @param level (see type definition for details)
     */
    void lightRequestLevel(const own::Where & ownAddress, own::LIGHT_LEVEL level);
+
+   /**
+    * @brief trigger a request to start a scenario.
+    * @param description identifies the scenario frm its description
+    */
+   void scenarioRequest(const QString & description);
 
    /**
     * @brief trigger a request for a light status
@@ -78,6 +86,12 @@ signals:
     */
    void lightGroupAdded(const LightGroup * group);
 
+   /**
+    * @brief notification of a new scenario loaded in plant
+    * @param scenario describes a set of light and relevant values
+    */
+   void scenarioAdded(const Scenario * scenario);
+
    /** notification that request to turn on has been triggered */
    void lightOnRequestStarted( const own::Where & ownAddress) const;
 
@@ -108,7 +122,8 @@ private:
       ACTION_NONE = 0,
       ACTION_LIGHT_ON,
       ACTION_LIGHT_OFF,
-      ACTION_SET_LEVEL
+      ACTION_SET_LEVEL,
+      ACTION_SCENARIO
    } Action;
 
 private:
@@ -118,9 +133,12 @@ private:
 
    QHash<own::Where, const LightPoint *> m_lightPointTable;
    QHash<own::Where, const LightGroup *> m_lightGroupTable;
+   /* lookup scenarios by description */
+   QHash<QString, const Scenario *> m_scenarioTable;
    Action m_pendingAction;
    own::Where m_pendingActionWhere;
    own::LIGHT_LEVEL m_pendingActionLevel;
+   const Scenario *m_pendingScenario;
 
 private:
    static const int OWN_GLOBAL_ADDRESS=0;
@@ -135,6 +153,8 @@ private:
    void onCompletedLightLevel();
    void notifyActionAcked( Action action);
    void notifyActionAckedToWhere( Action action, own::Where where);
+   void notifyScenarioAcked();
+   Action actionForWhat( const own::What what);
 };
 
 #endif // OWNENGINE_H

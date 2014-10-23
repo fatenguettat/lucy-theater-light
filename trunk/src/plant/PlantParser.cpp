@@ -9,6 +9,7 @@
 #include "LightGroup.h"
 #include "Scenario.h"
 
+// TODO this file has grown rather big. Consider subclasses.
 
 const char PlantParser::TAG_OPEN_PlantFile[] = "<!--PLANT_IMAGE>";
 const char PlantParser::TAG_CLOSE_PlantFile[] = "<PLANT_IMAGE-->";

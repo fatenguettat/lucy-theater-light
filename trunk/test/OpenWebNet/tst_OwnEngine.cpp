@@ -5,6 +5,7 @@
 
 #include "LightPoint.h"
 #include "LightGroup.h"
+#include "Scenario.h"
 #include "OwnEngine.h"
 #include "OwnConstants.h"
 #include "MockNetworkUi.h"
@@ -24,7 +25,8 @@ tst_OwnEngine::tst_OwnEngine(QObject *parent) :
 {
    qRegisterMetaType<const LightPoint *>("const LightPoint *");
    qRegisterMetaType<const LightGroup *>("const LightGroup *");
-   qRegisterMetaType<own::LIGHT_LEVEL>("own::Where");
+   qRegisterMetaType<own::Where>("own::Where");
+   qRegisterMetaType<own::LIGHT_LEVEL>("own::LIGHT_LEVEL");
 }
 
 void tst_OwnEngine::init()
@@ -246,6 +248,26 @@ void tst_OwnEngine::testTurnOffGroup()
 
    delete light;
    delete group;
+}
+
+void tst_OwnEngine::testActivateScenario()
+{
+   QSignalSpy turnOnAckedSpy( m_ownEngine, SIGNAL(lightOnAcked(own::Where)) );
+   QSignalSpy sequenceLevelAckSpy( m_ownEngine,
+                                   SIGNAL(lightLevelAcked(own::Where,own::LIGHT_LEVEL)) );
+
+   Scenario *scenario = new Scenario("Scen. 1");
+   scenario->addWhereWhatPair("30", 1);
+   scenario->addWhereWhatPair("#1", 5);
+
+   m_ownEngine->addScenario( *scenario);
+
+   m_ownEngine->scenarioRequest("Scen. 1");
+   /* suppose sequence completes well */
+   emit m_ownLink->sequenceComplete();
+
+   QCOMPARE( turnOnAckedSpy.size(), 1);
+   QCOMPARE( sequenceLevelAckSpy.size(), 1);
 }
 
 void tst_OwnEngine::testSetLevelForGroup()

@@ -40,7 +40,8 @@ SOURCES +=  main.cpp \
     ../../src/OpenWebNet/OwnEngine.cpp \
     ../PlantParser/mock/MockGuiInterafce.cpp \
     ../../src/plant/LightPoint.cpp \
-    ../../src/plant/LightGroup.cpp
+    ../../src/plant/LightGroup.cpp \
+    ../../src/plant/Scenario.cpp
 
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -66,7 +67,8 @@ HEADERS += \
     ../PlantParser/mock/MockGuiInterafce.h \
     ../../src/plant/LightPoint.h \
     ../../src/OpenWebNet/OwnTypes.h \
-    ../../src/plant/LightGroup.h
+    ../../src/plant/LightGroup.h \
+    ../../src/plant/Scenario.h
 
 
 

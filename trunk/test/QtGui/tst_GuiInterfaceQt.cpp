@@ -152,7 +152,7 @@ void QtGuiTest::testLinkGroup()
       m_ownEngine->addLightGroup( group);
       m_panel->mockArmAction( MockLightPanel::ACTION_PUSH_ON);
 
-      /* user presses light 11 button */
+      /* user presses group 1 button */
       m_gui->onLightButtonPressed( "#1");
 
       QCOMPARE( turnOnReqSpy.size(), 1);
