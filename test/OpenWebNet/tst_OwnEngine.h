@@ -36,6 +36,7 @@ private Q_SLOTS:
    void testTurnOnAllAcked();
    void testTurnOnGroup();
    void testTurnOffGroup();
+   void testActivateScenario();
    void testSetLevelForGroup();
    void testSequenceCompleteForOn();
    void testSequenceCompleteForOff();

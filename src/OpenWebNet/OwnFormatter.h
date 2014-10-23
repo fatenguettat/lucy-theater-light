@@ -43,6 +43,13 @@ public:
    QString lightLevelSlow( const own::Where & ownAddress, own::LIGHT_LEVEL level);
 
    /**
+    * @return  open web net string for WHO=light and a generic \p what and where (as \p ownAddress)
+    * @param ownAddress is in range 11-99, but group syntax and '0' are allowed
+    * @param what is not checked and is inserted in OWN string
+    */
+   QString lightGenericCommand( const own::Where & ownAddress, const own::What & what);
+
+   /**
     * @brief request the status for a light point
     * @param ownAddress is in range 11-99, or 0 for global
     * @return

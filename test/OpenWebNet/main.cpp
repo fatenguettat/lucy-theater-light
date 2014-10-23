@@ -20,8 +20,6 @@ int main(int argc, char *argv[])
    Q_UNUSED(argc);
    Q_UNUSED(argv);
 
-   qRegisterMetaType<own::Where>("own::Where");
-
    int failures = 0;
 
    tst_OwnInputParser testOwnInputParser;

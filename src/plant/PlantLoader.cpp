@@ -30,6 +30,7 @@ void PlantLoader::load(const PlantInfo & plantInfo,
    loadPlantLayout(plantInfo);
    loadLightPoints(plantInfo);
    loadLightGroups(plantInfo);
+   loadScenario(plantInfo);
 
    emit plantLoaded(true);
 }
@@ -62,7 +63,6 @@ void PlantLoader::loadPlantLayout(const PlantInfo& plantInfo)
 
 void PlantLoader::loadLightPoints(const PlantInfo& plantInfo)
 {
-   /* lights are loaded to engine only */
    foreach (const LightPoint * light, plantInfo.getLightPoints())
    {
       m_ownEngine->addLightPoint( *light);
@@ -71,10 +71,17 @@ void PlantLoader::loadLightPoints(const PlantInfo& plantInfo)
 
 void PlantLoader::loadLightGroups(const PlantInfo &plantInfo)
 {
-   /* lights are loaded to engine only */
    foreach (const LightGroup * group, plantInfo.getLightGroups())
    {
       m_ownEngine->addLightGroup( *group);
+   }
+}
+
+void PlantLoader::loadScenario(const PlantInfo &plantInfo)
+{
+   foreach (const Scenario * scenario, plantInfo.getScenarios())
+   {
+      m_ownEngine->addScenario( *scenario);
    }
 }
 

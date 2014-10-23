@@ -6,11 +6,13 @@
 #include "PlantInfo.h"
 #include "OwnEngine.h"
 #include "LightGroup.h"
+#include "Scenario.h"
 #include "MockGuiInterafce.h"
 #include "MockPlantFactory.h"
 
 Q_DECLARE_METATYPE(const LightGroup *)
 Q_DECLARE_METATYPE(const LightPoint *)
+Q_DECLARE_METATYPE(const Scenario *)
 
 
 PlantLoaderTest::PlantLoaderTest(QObject *parent) :
@@ -18,6 +20,7 @@ PlantLoaderTest::PlantLoaderTest(QObject *parent) :
 {
    qRegisterMetaType<const LightPoint *>("const LightPoint *");
    qRegisterMetaType<const LightGroup *>("const LightGroup *");
+   qRegisterMetaType<const Scenario *>("const Scenario *");
 }
 
 void PlantLoaderTest::init()
@@ -172,6 +175,31 @@ void PlantLoaderTest::testLightGroupToEngine()
    QCOMPARE( addGroupSpy.size(), 2);
    QCOMPARE( addGroupSpy.at(0).at(0).value<const LightGroup*>()->getLightPointList().size(), 2);
    QCOMPARE( addGroupSpy.at(1).at(0).value<const LightGroup*>()->getLightPointList().size(), 3);
+}
+
+void PlantLoaderTest::testScenarioToEngine()
+{
+   QList<const Scenario *> scenarioSet;
+
+   scenarioSet << new Scenario( "scenario 1");
+   scenarioSet << new Scenario( "scenario 2");
+
+   m_plantInfo = new PlantInfo( PROJECT_PATH"res/plant.png",  "test plant",
+                                QList<const LightPoint *>(),
+                                QList<const LightGroup *>(),
+                                scenarioSet,
+                                "127.0.0.1", 20000);
+
+   m_ownEngine = m_plantFactory->buildOwnEngine( *m_plantInfo);
+   QSignalSpy addScenarioSpy( m_ownEngine, SIGNAL(scenarioAdded(const Scenario*)) );
+
+   m_plantLoader->load( *m_plantInfo, m_guiInterface, m_ownEngine);
+
+   QCOMPARE( addScenarioSpy.size(), 2);
+   QCOMPARE( addScenarioSpy.at(0).at(0).
+             value<const Scenario*>()->getDescription(), QString("scenario 1"));
+   QCOMPARE( addScenarioSpy.at(1).at(0).
+             value<const Scenario*>()->getDescription(), QString("scenario 2"));
 }
 
 void PlantLoaderTest::testReload()

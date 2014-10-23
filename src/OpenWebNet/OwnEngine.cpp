@@ -7,8 +7,10 @@
 #include "OwnFormatter.h"
 #include "LightPoint.h"
 #include "LightGroup.h"
+#include "Scenario.h"
 #include "testableAssert.h"
 
+// TODO little code review
 
 
 OwnEngine::OwnEngine( NetworkUi_IF & networkInterface,
@@ -20,7 +22,8 @@ OwnEngine::OwnEngine( NetworkUi_IF & networkInterface,
    m_ownFormatter(ownformatter),
    m_pendingAction(ACTION_NONE),
    m_pendingActionWhere(""),
-   m_pendingActionLevel(own::LEVEL_100)
+   m_pendingActionLevel(own::LEVEL_100),
+   m_pendingScenario(NULL)
 {
    connect( &m_ownLink, SIGNAL(sequenceComplete()),
             this, SLOT(onSequenceComplete()));
@@ -36,6 +39,12 @@ void OwnEngine::addLightGroup(const LightGroup & group)
 {
    m_lightGroupTable.insert( group.node().ownAddress(), &group);
    emit lightGroupAdded( &group);
+}
+
+void OwnEngine::addScenario(const Scenario & scenario)
+{
+   m_scenarioTable.insert( scenario.getDescription(), &scenario);
+   emit scenarioAdded( &scenario);
 }
 
 
@@ -110,6 +119,31 @@ void OwnEngine::lightRequestLevel(const own::Where & ownAddress, own::LIGHT_LEVE
           emit lightLevelRequestStarted( iter.key());
       }
    }
+}
+
+void OwnEngine::scenarioRequest(const QString &description)
+{
+   // look up scenario
+   const Scenario *scenario = m_scenarioTable.value( description);
+   T_ASSERT( scenario != NULL);
+
+   QHash<own::Where, own::What> scenarioTable = scenario->getScenarioTable();
+
+   // build strings
+   QHash<own::Where, own::What>::iterator iterator;
+   QStringList commandSet;
+
+   for (iterator = scenarioTable.begin(); iterator != scenarioTable.end(); ++iterator)
+   {
+      commandSet << m_ownFormatter.lightGenericCommand( iterator.key(), iterator.value());
+   }
+
+   // trigger
+   m_ownLink.triggerSendMessageList( commandSet);
+
+   // set pending action
+   m_pendingAction = ACTION_SCENARIO;
+   m_pendingScenario = scenario;
 }
 
 void OwnEngine::lightProbeStatus(const own::Where & ownAddress)
@@ -192,6 +226,10 @@ void OwnEngine::onSequenceComplete()
       notifyActionAcked( ACTION_SET_LEVEL);
       break;
 
+   case ACTION_SCENARIO:
+      notifyScenarioAcked();
+      break;
+
    default:
    case ACTION_NONE:
       break;
@@ -254,4 +292,70 @@ void OwnEngine::notifyActionAckedToWhere( OwnEngine::Action action, own::Where w
    case ACTION_NONE:
       break;
    }
+}
+
+void OwnEngine::notifyScenarioAcked()
+{
+   T_ASSERT( m_pendingScenario != NULL);
+
+   /* notify to all WHERE that scenario changed */
+   QHash<own::Where, own::What>::iterator iterator;
+   QHash<own::Where, own::What> scenarioTable = m_pendingScenario->getScenarioTable();
+
+   for (iterator = scenarioTable.begin(); iterator != scenarioTable.end(); ++iterator)
+   {
+      notifyActionAckedToWhere( actionForWhat( iterator.value()), iterator.key());
+   }
+}
+
+OwnEngine::Action OwnEngine::actionForWhat(const own::What what)
+{
+   Action action = ACTION_NONE;
+
+   switch (what)
+   {
+   case 0:
+      action = ACTION_LIGHT_OFF;
+      break;
+   case 1:
+      action = ACTION_LIGHT_ON;
+      break;
+   case 2:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_20;
+      break;
+   case 3:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_30;
+      break;
+   case 4:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_40;
+      break;
+   case 5:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_50;
+      break;
+   case 6:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_60;
+      break;
+   case 7:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_70;
+      break;
+   case 8:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_80;
+      break;
+   case 9:
+      action = ACTION_SET_LEVEL;
+      m_pendingActionLevel = own::LEVEL_90;
+      break;
+
+   default:
+      break;
+   }
+
+   return action;
 }

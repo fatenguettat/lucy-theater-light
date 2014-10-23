@@ -32,6 +32,13 @@ QString OwnFormatter::lightLevelSlow(const own::Where & ownAddress, own::LIGHT_L
          arg(ownAddress);
 }
 
+QString OwnFormatter::lightGenericCommand(const own::Where &ownAddress, const own::What &what)
+{
+   return QString("*1*%1*%2##").
+         arg(what).
+         arg(ownAddress);
+}
+
 
 QString OwnFormatter::askForLightStatus( const own::Where & ownAddress)
 {
