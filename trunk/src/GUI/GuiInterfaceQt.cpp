@@ -9,6 +9,8 @@
 #include "LightGroup.h"
 #include "testableAssert.h"
 #include "OwnEngine.h"
+#include "Scenario.h"
+#include "ScenarioButton.h"
 
 
 GuiInterfaceQt::GuiInterfaceQt( OwnEngine &ownEngine,
@@ -37,6 +39,8 @@ GuiInterfaceQt::GuiInterfaceQt( OwnEngine &ownEngine,
             this, SLOT(showAsTurnedOff(own::Where)) );
    connect( &m_ownEngine, SIGNAL(lightLevelAcked(own::Where,own::LIGHT_LEVEL)),
             this, SLOT(showAsLevel(own::Where,own::LIGHT_LEVEL)) );
+   connect( &m_ownEngine, SIGNAL(scenarioAdded(const Scenario*)),
+            this, SLOT(storeScenario(const Scenario*)) );
 }
 
 
@@ -72,6 +76,7 @@ void GuiInterfaceQt::storeLightPoint(const LightPoint *lightPoint)
    m_lightButtonTable.insert( ownAddress, light);
 }
 
+
 void GuiInterfaceQt::storeLightGroup(const LightGroup *lightPoint)
 {
    own::Where ownAddress = lightPoint->node().ownAddress();
@@ -87,6 +92,26 @@ void GuiInterfaceQt::storeLightGroup(const LightGroup *lightPoint)
                    m_scene.height() * lightPoint->node().position().y());
 
    m_groupButtonTable.insert( ownAddress, button);
+}
+
+
+void GuiInterfaceQt::storeScenario(const Scenario *scenario)
+{
+   T_ASSERT( scenario != NULL);
+
+   ScenarioButton *button = new ScenarioButton( scenario);
+   m_scene.addItem( button);
+
+   connect (button, SIGNAL(hit(const Scenario *)),
+            this, SLOT(onScenarioButtonPressed(const Scenario *)) );
+
+   // TODO move by ...
+   button->moveBy( 250, 5);
+}
+
+void GuiInterfaceQt::onScenarioButtonPressed(const Scenario *scenario)
+{
+   m_ownEngine.scenarioRequest( scenario->getDescription());
 }
 
 
@@ -162,3 +187,4 @@ void GuiInterfaceQt::onGuiRequestSetLevel(own::LIGHT_LEVEL level)
    T_ASSERT( m_currentOwnAddr != QString());
    m_ownEngine.lightRequestLevel( m_currentOwnAddr, level);
 }
+

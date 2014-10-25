@@ -9,7 +9,7 @@ class Button : public QGraphicsWidget
 public:
    explicit Button(QGraphicsItem *parent = 0);
 
-   QRectF boundingRect() const;
+   virtual QRectF boundingRect() const;
    QPainterPath shape() const;
    virtual void paint(QPainter *painter,
                       const QStyleOptionGraphicsItem *option, QWidget *);

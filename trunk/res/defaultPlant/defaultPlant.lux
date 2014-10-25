@@ -30,6 +30,8 @@ Teatro Mediglia v02 (DEF)
 "Officina"                 0.749 0.327  21
 "Segnapasso"               0.35  0.85   31
 "Corridi uscita sicurezza" 0.415 0.35   32
+"laterale emergenza 1"     0.4   0.25   33
+"laterale emergenza 2"     0.3   0.25   34
 "Sala 01"                  0.496 0.50   41
 "Sala 02"                  0.496 0.58   42
 "Sala 03"                  0.496 0.66   43
@@ -49,5 +51,5 @@ Teatro Mediglia v02 (DEF)
 <LIGHT_GROUPS-->
 
 <!--SCENARIOS>
-"spettacolo" 31,1 32,1 
+"spettacolo" 31,1 32,1 17,1 12,1 13,1 14,1
 <SCENARIOS-->
