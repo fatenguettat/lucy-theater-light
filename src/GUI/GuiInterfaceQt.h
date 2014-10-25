@@ -11,6 +11,7 @@ class LightButton;
 class LightGroup;
 class LightPanel;
 class OwnEngine;
+class Scenario;
 
 
 class GuiInterfaceQt : public GuiInterface_IF
@@ -45,6 +46,8 @@ private slots:
    void onGuiRequestTurnOn();
    void onGuiRequestTurnOff();
    void onGuiRequestSetLevel(own::LIGHT_LEVEL level);
+   void storeScenario(const Scenario *scenario);
+   void onScenarioButtonPressed(const Scenario *scenario);
 
 private:
    OwnEngine & m_ownEngine;

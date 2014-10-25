@@ -70,7 +70,8 @@ HEADERS += \
     src/GUI/Button.h \
     src/GUI/Slider.h \
     src/plant/LightGroup.h \
-    src/plant/Scenario.h
+    src/plant/Scenario.h \
+    src/GUI/ScenarioButton.h
 
 SOURCES += \
     src/form/MainWindow.cpp \
@@ -97,7 +98,8 @@ SOURCES += \
     src/GUI/Button.cpp \
     src/GUI/Slider.cpp \
     src/plant/LightGroup.cpp \
-    src/plant/Scenario.cpp
+    src/plant/Scenario.cpp \
+    src/GUI/ScenarioButton.cpp
 
 OTHER_FILES += \
     TBD.txt \
