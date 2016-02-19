@@ -1,0 +1,1 @@
+This project is focused to control Lights in all facilities and in the main hall of our local theater, through Open Web Net protocol and MH200N server.
